@@ -1,7 +1,7 @@
 <%= turbo_stream_from "streaming_channel_#{Current.user.id}" %>
 <div id="chat_panel" class="fixed right-0 top-0 h-full w-full max-w-2xl bg-gray-900 text-white border-l border-gray-700 shadow-lg overflow-y-auto z-50">
   <article class="flex flex-col h-full">
-    <div class="p-4 border-b border-gray-700 font-bold text-lg fixed top-0 bg-gray-900 w-full max-w-xl">
+    <div class="p-4 border-b border-gray-700 font-bold text-lg fixed top-0 bg-gray-900 w-full max-w-2xl">
       <span class="text-yellow-500 ml-2 mr-8 flex items-center" id="toggle_chat_panel">
         <svg id="toggleSidebarIcon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
