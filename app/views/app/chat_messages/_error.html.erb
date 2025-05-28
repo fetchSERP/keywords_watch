@@ -1,0 +1,10 @@
+<!-- create a nice error message with a red background and a white text. this message must disappear after 3 seconds -->
+<div class="bg-red-500 text-white p-4 rounded-lg" id="error_message">
+  <%= error %>
+</div>
+
+<script>
+  setTimeout(() => {
+    document.getElementById("error_message").remove();
+  }, 3000);
+</script>

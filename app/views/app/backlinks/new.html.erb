@@ -1,0 +1,20 @@
+<% content_for :title, "New backlink" %>
+
+<div class="py-16">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="bg-gray-800 px-6 py-8 border border-gray-700 rounded-xl shadow-xl">
+      <div class="mb-8">
+        <h1 class="font-bold text-2xl text-gray-100">New backlink</h1>
+        <p class="text-base text-gray-400 mt-2">
+          Add a new backlink to track.
+        </p>
+      </div>
+
+      <%= render "form", backlink: @backlink %>
+
+      <div class="mt-6">
+        <%= link_to "Back to backlinks", app_backlinks_path, class: "text-gray-400 hover:text-gray-300 transition-colors" %>
+      </div>
+    </div>
+  </div>
+</div>

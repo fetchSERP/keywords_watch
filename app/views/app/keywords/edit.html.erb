@@ -1,0 +1,19 @@
+<% content_for :title, "Editing keyword" %>
+
+<div class="py-16">
+  <div class="max-w-2xl mx-auto md:w-2/3 w-full px-4">
+    <div class="bg-gray-800 px-6 py-8 border border-gray-700 rounded-xl shadow-xl">
+      <h1 class="font-bold text-2xl text-gray-100">Editing keyword</h1>
+      <p class="text-base text-gray-400 mt-2">
+        Update your keyword settings below.
+      </p>
+
+      <%= render "form", keyword: @keyword %>
+
+      <div class="mt-6 flex items-center space-x-4">
+        <%= link_to "Show this keyword", [:app, @keyword], class: "text-gray-400 hover:text-gray-300 transition-colors" %>
+        <%= link_to "Back to keywords", app_keywords_path, class: "text-gray-400 hover:text-gray-300 transition-colors" %>
+      </div>
+    </div>
+  </div>
+</div>

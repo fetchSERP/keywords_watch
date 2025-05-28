@@ -1,0 +1,45 @@
+<header class="bg-gray-900 border-b border-gray-800 fixed w-full z-50">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center space-x-8">
+        <%= link_to app_domains_path, class: "flex items-center space-x-2" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-yellow-500"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+          <span class="text-xl font-bold text-gray-100">Keywords Watch</span>
+        <% end %>
+
+        <div class="hidden md:flex items-center space-x-4">
+          <%= link_to "Domains", app_domains_path, class: "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "Keywords", app_keywords_path, class: "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "Rankings", app_rankings_path, class: "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+          <%= link_to "Backlinks", app_backlinks_path, class: "text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <% if Current.user %>
+          <div class="text-sm text-gray-400">
+            <%= Current.user.email_address %>
+          </div>
+          <%= button_to session_path, method: :delete, form: {data: {turbo_confirm: 'Are you sure you want to logout?'}}, class: "flex items-center px-4 py-2 bg-transparent border-2 border-red-500/30 rounded-md font-semibold transition-all duration-200 hover:border-red-500/60 hover:bg-red-500/10 text-white" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>
+            Logout
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Header scroll effect
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if (window.scrollY > 10) {
+      header.classList.add('bg-white', 'shadow-md');
+      header.classList.remove('bg-[#0F172A]');
+    } else {
+      header.classList.remove('bg-white', 'shadow-md');
+      header.classList.add('bg-[#0F172A]');
+    }
+  });
+</script>

@@ -1,0 +1,25 @@
+<div id="<%= dom_id keyword %>" class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h3 class="text-lg font-semibold text-gray-100"><%= keyword.name %></h3>
+      <div class="mt-2 grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <span class="text-gray-400">Monthly Searches:</span>
+          <span class="text-gray-100 ml-2"><%= keyword.avg_monthly_searches %></span>
+        </div>
+        <div>
+          <span class="text-gray-400">Competition:</span>
+          <span class="text-gray-100 ml-2"><%= keyword.competition %></span>
+        </div>
+        <div>
+          <span class="text-gray-400">Competition Index:</span>
+          <span class="text-gray-100 ml-2"><%= keyword.competition_index %></span>
+        </div>
+        <div>
+          <span class="text-gray-400">Bid Range:</span>
+          <span class="text-gray-100 ml-2">$<%= keyword.low_top_of_page_bid_micros.to_f / 1_000_000 %> - $<%= keyword.high_top_of_page_bid_micros.to_f / 1_000_000 %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

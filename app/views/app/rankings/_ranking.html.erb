@@ -1,0 +1,28 @@
+<div id="<%= dom_id ranking %>" class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <div class="flex items-center space-x-2">
+        <span class="text-lg font-semibold text-gray-100"><%= ranking.keyword.name %></span>
+        <span class="px-2 py-1 text-sm font-medium bg-yellow-500/10 text-yellow-400 rounded">Rank #<%= ranking.rank %></span>
+      </div>
+      <div class="mt-2 grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <span class="text-gray-400">Domain:</span>
+          <span class="text-gray-100 ml-2"><%= ranking.domain.name %></span>
+        </div>
+        <div>
+          <span class="text-gray-400">Search Engine:</span>
+          <span class="text-gray-100 ml-2"><%= ranking.search_engine %></span>
+        </div>
+        <div>
+          <span class="text-gray-400">Country:</span>
+          <span class="text-gray-100 ml-2"><%= ranking.country %></span>
+        </div>
+        <div>
+          <span class="text-gray-400">URL:</span>
+          <a href="<%= ranking.url %>" target="_blank" class="text-gray-100 ml-2 hover:text-yellow-400 transition-colors truncate block max-w-xs"><%= ranking.url %></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  avg_monthly_searches: 1
+  competition: MyString
+  competition_index: 1
+  low_top_of_page_bid_micros: 1
+  high_top_of_page_bid_micros: 1
+  user: one
+
+two:
+  name: MyString
+  avg_monthly_searches: 1
+  competition: MyString
+  competition_index: 1
+  low_top_of_page_bid_micros: 1
+  high_top_of_page_bid_micros: 1
+  user: two

@@ -1,0 +1,6 @@
+<div id="chat_input_form" class="p-4 sticky bottom-0 bg-gray-900 border-l border-gray-700">
+  <%= form_with model: Current.user.chat_messages.build, url: app_chat_messages_path, method: :post, id: "chat_input_form" do |f| %>
+    <%= f.text_area :body, rows: 3, class: "w-full p-2 rounded-md border border-gray-700 bg-gray-800 text-white" %>
+    <%= f.submit "Send", class: "px-6 py-3 w-full mt-6 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" %>
+  <% end %>
+</div>

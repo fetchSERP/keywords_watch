@@ -1,0 +1,50 @@
+<div id="<%= dom_id backlink %>" class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+  <div class="flex items-center justify-between">
+    <div class="space-y-4">
+      <div>
+        <div class="flex items-center space-x-2">
+          <a href="<%= backlink.source_url %>" target="_blank" class="text-lg font-semibold text-gray-100 hover:text-yellow-400 transition-colors"><%= backlink.source_domain %></a>
+          <span class="px-2 py-1 text-sm font-medium bg-yellow-500/10 text-yellow-400 rounded">
+            <%= backlink.nofollow ? "NoFollow" : "DoFollow" %>
+          </span>
+        </div>
+        <div class="mt-1 text-sm text-gray-400">
+          <%= backlink.page_title %>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <span class="text-gray-400">Target URL:</span>
+          <a href="<%= backlink.target_url %>" target="_blank" class="text-gray-100 ml-2 hover:text-yellow-400 transition-colors truncate block max-w-xs"><%= backlink.target_url %></a>
+        </div>
+        <div>
+          <span class="text-gray-400">Target Domain:</span>
+          <span class="text-gray-100 ml-2"><%= backlink.target_domain %></span>
+        </div>
+        <div>
+          <span class="text-gray-400">Anchor Text:</span>
+          <span class="text-gray-100 ml-2"><%= backlink.anchor_text %></span>
+        </div>
+        <div>
+          <span class="text-gray-400">Rel Attributes:</span>
+          <span class="text-gray-100 ml-2"><%= backlink.rel_attributes.join(", ") if backlink.rel_attributes.present? %></span>
+        </div>
+      </div>
+
+      <% if backlink.context_text.present? %>
+        <div class="mt-2">
+          <span class="text-gray-400">Context:</span>
+          <p class="mt-1 text-sm text-gray-300"><%= backlink.context_text %></p>
+        </div>
+      <% end %>
+
+      <% if backlink.meta_description.present? %>
+        <div class="mt-2">
+          <span class="text-gray-400">Meta Description:</span>
+          <p class="mt-1 text-sm text-gray-300"><%= backlink.meta_description %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

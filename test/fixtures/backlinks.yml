@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  domain: one
+  source_url: MyString
+  target_url: MyString
+  anchor_text: MyString
+  nofollow: false
+  rel_attributes: MyString
+  context_text: MyString
+  source_domain: MyString
+  target_domain: MyString
+  page_title: MyString
+  meta_description: MyString
+
+two:
+  user: two
+  domain: two
+  source_url: MyString
+  target_url: MyString
+  anchor_text: MyString
+  nofollow: false
+  rel_attributes: MyString
+  context_text: MyString
+  source_domain: MyString
+  target_domain: MyString
+  page_title: MyString
+  meta_description: MyString

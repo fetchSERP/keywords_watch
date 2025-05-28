@@ -1,0 +1,49 @@
+<%= form_with(model: [:app, ranking], class: "mt-8 space-y-6") do |form| %>
+  <% if ranking.errors.any? %>
+    <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400">
+      <h2 class="font-semibold mb-2"><%= pluralize(ranking.errors.count, "error") %> prohibited this ranking from being saved:</h2>
+
+      <ul class="list-disc list-inside space-y-1">
+        <% ranking.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-4">
+    <div>
+      <%= form.label :domain_id, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.collection_select :domain_id, Domain.all, :id, :name, { prompt: "Select a domain" }, { class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" } %>
+    </div>
+
+    <div>
+      <%= form.label :keyword_id, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.collection_select :keyword_id, Keyword.all, :id, :name, { prompt: "Select a keyword" }, { class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" } %>
+    </div>
+
+    <div>
+      <%= form.label :rank, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.number_field :rank, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+
+    <div>
+      <%= form.label :search_engine, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.select :search_engine, [%w[Google google], %w[Bing bing], %w[Yahoo yahoo], %w[DuckDuckGo duckduckgo]], { prompt: "Select a search engine" }, { class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" } %>
+    </div>
+
+    <div>
+      <%= form.label :url, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.url_field :url, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+
+    <div>
+      <%= form.label :country, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.select :country, ["US", "UK", "CA", "AU", "DE", "FR", "ES", "IT"], { prompt: "Select a country" }, { class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" } %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.submit class: "w-full flex justify-center py-3 px-4 border-2 border-yellow-500/30 rounded-md font-semibold text-white transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" %>
+  </div>
+<% end %>

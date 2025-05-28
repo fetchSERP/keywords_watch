@@ -1,0 +1,69 @@
+<%= form_with(model: [:app, backlink], class: "mt-8 space-y-6") do |form| %>
+  <% if backlink.errors.any? %>
+    <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400">
+      <h2 class="font-semibold mb-2"><%= pluralize(backlink.errors.count, "error") %> prohibited this backlink from being saved:</h2>
+
+      <ul class="list-disc list-inside space-y-1">
+        <% backlink.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-4">
+    <div>
+      <%= form.label :source_url, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.url_field :source_url, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+
+    <div>
+      <%= form.label :target_url, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.url_field :target_url, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+
+    <div>
+      <%= form.label :anchor_text, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.text_field :anchor_text, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+
+    <div class="flex items-center">
+      <%= form.check_box :nofollow, class: "h-4 w-4 rounded border-gray-700 bg-gray-800 text-yellow-500 focus:ring-yellow-500" %>
+      <%= form.label :nofollow, class: "ml-2 block text-sm text-gray-400" %>
+    </div>
+
+    <div>
+      <%= form.label :rel_attributes, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.select :rel_attributes, ["nofollow", "sponsored", "ugc", "noopener", "noreferrer"], { include_blank: true }, { multiple: true, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" } %>
+    </div>
+
+    <div>
+      <%= form.label :context_text, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.text_area :context_text, rows: 3, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+
+    <div>
+      <%= form.label :source_domain, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.text_field :source_domain, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+
+    <div>
+      <%= form.label :target_domain, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.text_field :target_domain, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+
+    <div>
+      <%= form.label :page_title, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.text_field :page_title, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+
+    <div>
+      <%= form.label :meta_description, class: "block text-sm font-medium text-gray-400" %>
+      <%= form.text_area :meta_description, rows: 3, class: "mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-gray-100 shadow-sm focus:border-yellow-500 focus:ring-yellow-500" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.submit class: "w-full flex justify-center py-3 px-4 border-2 border-yellow-500/30 rounded-md font-semibold text-white transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" %>
+  </div>
+<% end %>

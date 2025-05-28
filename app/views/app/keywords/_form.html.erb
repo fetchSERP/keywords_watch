@@ -1,0 +1,52 @@
+<%= form_with(model: [:app, keyword], class: "mt-8 space-y-6") do |form| %>
+  <% if keyword.errors.any? %>
+    <div class="mt-4 text-red-400">
+      <h2 class="font-semibold"><%= pluralize(keyword.errors.count, "error") %> prohibited this keyword from being saved:</h2>
+
+      <ul class="mt-2 list-disc list-inside">
+        <% keyword.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :domain_id, class: "block text-sm font-medium text-gray-300 mb-2" %>
+    <%= form.collection_select :domain_id, Current.user.domains, :id, :name, { prompt: "Select a domain" }, { class: "block w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" } %>
+  </div>
+
+  <div>
+    <%= form.label :name, class: "block text-sm font-medium text-gray-300 mb-2" %>
+    <%= form.text_field :name, class: "block w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" %>
+  </div>
+
+  <div>
+    <%= form.label :avg_monthly_searches, class: "block text-sm font-medium text-gray-300 mb-2" %>
+    <%= form.number_field :avg_monthly_searches, class: "block w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" %>
+  </div>
+
+  <div>
+    <%= form.label :competition, class: "block text-sm font-medium text-gray-300 mb-2" %>
+    <%= form.text_field :competition, class: "block w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" %>
+  </div>
+
+  <div>
+    <%= form.label :competition_index, class: "block text-sm font-medium text-gray-300 mb-2" %>
+    <%= form.number_field :competition_index, class: "block w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" %>
+  </div>
+
+  <div>
+    <%= form.label :low_top_of_page_bid_micros, class: "block text-sm font-medium text-gray-300 mb-2" %>
+    <%= form.number_field :low_top_of_page_bid_micros, class: "block w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" %>
+  </div>
+
+  <div>
+    <%= form.label :high_top_of_page_bid_micros, class: "block text-sm font-medium text-gray-300 mb-2" %>
+    <%= form.number_field :high_top_of_page_bid_micros, class: "block w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" %>
+  </div>
+
+  <div class="flex items-center justify-between pt-4">
+    <%= form.submit class: "px-6 py-3 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" %>
+  </div>
+<% end %>

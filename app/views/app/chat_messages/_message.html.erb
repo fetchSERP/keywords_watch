@@ -1,0 +1,14 @@
+<!-- create a nice chat message div with a user avatar and a message body and dislpay date and time of the message-->
+<div class="flex items-start mb-4 border-b border-gray-700 pb-4">
+  <div class="flex-shrink-0">
+    <%= image_tag "https://ui-avatars.com/api/?name=#{message.author}", class: "w-10 h-10 rounded-full" %>
+  </div>
+  <div class="ml-3 w-full pr-4">
+    <div class="text-sm font-medium text-gray-300 break-words whitespace-normal">
+      <%= message.body %>
+    </div>
+    <div class="text-xs text-gray-500">
+      <%= message.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+    </div>
+  </div>
+</div>
