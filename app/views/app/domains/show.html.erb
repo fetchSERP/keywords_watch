@@ -122,12 +122,25 @@
               Add keyword
             <% end %>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="keywords">
-            <% @domain.keywords.each do |keyword| %>
-              <div class="group relative">
-                <%= render "app/keywords/keyword", keyword: keyword %>
-              </div>
-            <% end %>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-700">
+              <thead>
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Keyword</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Search Intent</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Current Rank</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Last Updated</th>
+                  <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-700" id="keywords" data-controller="sort-keywords">
+                <% @domain.keywords.order(ranking: :asc).each do |keyword| %>
+                  <%= render "app/keywords/keyword", keyword: keyword %>
+                <% end %>
+              </tbody>
+            </table>
           </div>
         </div>
       <% else %>
@@ -159,13 +172,24 @@
           <% end %>
         </div>
 
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="backlinks">
-          <% @domain.backlinks.each do |backlink| %>
-            <div class="group relative">
-              <%= render "app/backlinks/backlink", backlink: backlink %>
-            </div>
-          <% end %>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-700">
+            <thead>
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Source Domain</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Target URL</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Anchor Text</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Type</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Created</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-700" id="backlinks">
+              <% @domain.backlinks.each do |backlink| %>
+                <%= render "app/backlinks/backlink", backlink: backlink %>
+              <% end %>
+            </tbody>
+          </table>
         </div>
 
       </div>

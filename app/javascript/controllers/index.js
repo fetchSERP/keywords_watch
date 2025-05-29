@@ -5,4 +5,7 @@
 import { application } from "./application"
 
 import HelloController from "./hello_controller"
+import SortKeywordsController from "./sort_keywords_controller"
+
 application.register("hello", HelloController)
+application.register("sort-keywords", SortKeywordsController)

@@ -2,7 +2,7 @@ class FetchRankJob < ApplicationJob
   queue_as :default
 
   def perform(ranking)
-    rankings = FetchSerp::ClientService.new.domain_ranking(ranking.keyword.name, ranking.domain.name, ranking.search_engine, ranking.country, 10)
+    rankings = FetchSerp::ClientService.new.domain_ranking(ranking.keyword.name, ranking.domain.name, ranking.search_engine, ranking.country, 20)
     rank = rankings["data"]["results"].first
     if rank.present?
       ranking.update!(rank: rank&.dig("ranking"), url: rank&.dig("url"))

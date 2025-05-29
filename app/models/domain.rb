@@ -20,7 +20,7 @@ class Domain < ApplicationRecord
   end
 
   def create_google_ads_keywords
-    CreateGoogleAdsKeywordsJob.perform_later(user: user, domain: self, count: 10)
+    CreateGoogleAdsKeywordsJob.perform_later(user: user, domain: self, count: 100)
   end
 
   def create_backlinks
