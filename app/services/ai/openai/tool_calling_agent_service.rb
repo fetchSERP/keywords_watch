@@ -9,7 +9,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
     response = client.chat(
       parameters: {
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: @user_prompt }],
+        messages: knowledge_base + [{ role: "user", content: @user_prompt }],
         tools: tools.map(&:schema)
       }
     )
@@ -29,8 +29,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
       client.chat(
         parameters: {
           model: "gpt-3.5-turbo",
-          messages: [
-            { role: "system", content: system_prompt },
+          messages: [{ role: "system", content: system_prompt }] + knowledge_base + [
             { role: "user", content: @user_prompt },
             { role: "assistant", tool_calls: [tool_call] },
             {
@@ -56,7 +55,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
   end
 
   def broadcast_message(message)
-    chat_message = ChatMessage.create(user_id: @user_id, body: message, author: "AI")
+    chat_message = ChatMessage.create!(user_id: @user_id, body: message, author: "AI")
     Turbo::StreamsChannel.broadcast_replace_to(
       "streaming_channel_#{@user_id}",
       target: "temp_message",
@@ -74,32 +73,78 @@ class Ai::Openai::ToolCallingAgentService < BaseService
     )
   end
 
+  def knowledge_base
+    chat_history + backlinks + keywords
+  end
+
+  def chat_history
+    ChatMessage.where(user_id: @user_id).order(created_at: :asc).map do |msg|
+      {
+        role: msg.author == "AI" ? "assistant" : "user",
+        content: msg.body
+      }
+    end
+  end
+
+  def backlinks
+    backlinks_data = Backlink.where(user_id: @user_id).order(created_at: :asc).each_with_index.map do |backlink, index|
+      "Backlink #{index + 1}: domain: #{backlink.domain.name}, source_url: #{backlink.source_url}, target_url: #{backlink.target_url}, anchor_text: #{backlink.anchor_text}, nofollow: #{backlink.nofollow}, rel_attributes: #{backlink.rel_attributes}, context_text: #{backlink.context_text}, source_domain: #{backlink.source_domain}, target_domain: #{backlink.target_domain}, page_title: #{backlink.page_title}, meta_description: #{backlink.meta_description}"
+    end.join("\n")
+  
+    [
+      {
+        role: "user",
+        content: "Here are the backlinks for the user:\n#{backlinks_data}"
+      }
+    ]
+  end
+
+  def keywords
+    keywords_data = Keyword.where(user_id: @user_id).order(created_at: :asc).each_with_index.map do |keyword, index|
+      "Keyword #{index + 1}: #{keyword.name}, domain: #{keyword.domain.name}, rank: #{keyword.rankings.last&.rank}, indexed: #{keyword.indexed}, indexed_urls: #{keyword.urls.join(", ")}, avg_monthly_searches: #{keyword.avg_monthly_searches}, competition: #{keyword.competition}, competition_index: #{keyword.competition_index}, low_top_of_page_bid_micros: #{keyword.low_top_of_page_bid_micros}, high_top_of_page_bid_micros: #{keyword.high_top_of_page_bid_micros}"
+    end.join("\n")
+
+    [
+      {
+        role: "user",
+        content: "Here are the keywords for the user:\n#{keywords_data}"
+      }
+    ]
+  end
+
   def system_prompt
     <<~PROMPT
-      You are an AI assistant with access to the FetchSERP API, which provides tools for retrieving search engine results, analyzing keywords, scraping web content, and conducting SEO audits. Your role is to interpret the user's request, select the most appropriate FetchSERP tool, and provide a response based on the tool's output. Below is a list of available tools and their descriptions:
+      You are an AI assistant helping the user with SEO tasks, keyword research, backlink analysis, and content strategies. You have already received extensive contextual data, including chat history, keyword metrics, and backlink details.
+  
+      Your role is to:
+      - First use the provided context (chat history, keywords, backlinks) to generate insightful, helpful, and actionable responses.
+      - Only call tools from the FetchSERP API **if the user request cannot be answered using the given data**.
+      - When using a tool, explain briefly why the tool was used and summarize its output clearly and concisely.
+      - If a tool is needed, select the most relevant one based on the user’s request and tool capabilities.
+      - If the user’s prompt is ambiguous, ask a clarifying question before calling a tool.
+  
+      **Available Tools (use only if necessary):**
+      1. **search_engine_results** – Structured SERP data. Params: query (required), search_engine, country, pages_number.
+      2. **search_engine_results_html** – Raw HTML of SERPs. Params: query (required), search_engine, country, pages_number.
+      3. **serp_text** – Extracted text from SERPs. Params: query (required), search_engine, country, pages_number.
+      4. **domain_ranking** – Domain rank for a keyword. Params: keyword (required), domain (required), search_engine, country, pages_number.
+      5. **scrape_web_page** – Scrape a single page (no JS). Params: url (required).
+      6. **scrape_domain** – Crawl multiple pages of a domain. Params: domain (required), max_pages.
+      7. **scrape_web_page_with_js** – Scrape page with JavaScript. Params: url (required), js_script (optional).
+      8. **keywords_search_volume** – Search volume for keywords. Params: keywords (required array), country.
+      9. **keywords_suggestions** – Generate keyword suggestions. Params: url or keywords (array), country.
+      10. **backlinks** – Retrieve backlinks. Params: domain (required), search_engine, country, pages_number.
+      11. **domain_emails** – Extract emails from a domain. Params: domain (required), search_engine, country, pages_number.
+      12. **web_page_ai_analysis** – AI analysis of a page. Params: url (required), prompt (required).
+      13. **web_page_seo_analysis** – SEO audit. Params: url (required).
+      14. **check_indexation** – Check if a page is indexed. Params: url (required).
+      15. **generate_long_tail_keywords** – Generate long tail keywords. Params: url (required).
 
-      1. **search_engine_results**: Retrieves structured search engine results for a query (e.g., site name, URL, title, description, ranking). Parameters: query (required), search_engine (default: "google"), country (default: "us"), pages_number (1-30, default: 1).
-      2. **search_engine_results_html**: Retrieves raw HTML content of search engine results pages. Parameters: query (required), search_engine (default: "google"), country (default: "us"), pages_number (1-30, default: 1).
-      3. **serp_text**: Retrieves text content extracted from search engine results pages. Parameters: query (required), search_engine (default: "google"), country (default: "us"), pages_number (1-30, default: 1).
-      4. **domain_ranking**: Gets the ranking of a domain for a specific keyword. Parameters: keyword (required), domain (required), search_engine (default: "google"), country (default: "us"), pages_number (1-30, default: 10).
-      5. **scrape_web_page**: Scrapes a web page without JavaScript. Parameters: url (required).
-      6. **scrape_domain**: Scrapes multiple pages from a domain. Parameters: domain (required), max_pages (up to 200, default: 10).
-      7. **scrape_web_page_with_js**: Scrapes a web page with custom JavaScript execution. Parameters: url (required), js_script (optional).
-      8. **keywords_search_volume**: Gets search volume data for a list of keywords. Parameters: keywords (required, array), country (default: "us").
-      9. **keywords_suggestions**: Generates keyword suggestions based on a URL or keywords. Parameters: url (optional), keywords (optional, array), country (default: "us").
-      10. **backlinks**: Retrieves backlinks for a domain. Parameters: domain (required), search_engine (default: "google"), country (default: "us"), pages_number (1-30, default: 15).
-      11. **domain_emails**: Retrieves email addresses from a domain. Parameters: domain (required), search_engine (default: "google"), country (default: "us"), pages_number (1-30, default: 1).
-      12. **web_page_ai_analysis**: Analyzes a web page using AI with a provided prompt. Parameters: url (required), prompt (required).
-      13. **web_page_seo_analysis**: Performs SEO analysis for a web page. Parameters: url (required).
-
-      **Instructions**:
-      - Analyze the user's prompt to determine their intent.
-      - Select the most relevant FetchSERP tool based on the request.
-      - Use the tool's parameters to structure the request, including required and optional parameters as needed.
-      - If the user’s request is ambiguous, ask for clarification or suggest the most likely tool.
-      - Provide a concise response summarizing the tool's output, ensuring it is relevant to the user’s request.
-      - If no tool is applicable, respond with a helpful message explaining why and suggest alternatives.
-      - If a tool expects a url, make sure to include the full url with the http:// or https:// prefix.
+  
+      **When responding:**
+      - Do not summarize the tools unless the user asks.
+      - Focus on interpreting data and helping the user make decisions or generate ideas.
+      - Use natural, helpful language and suggest specific next steps if applicable.
     PROMPT
   end
 

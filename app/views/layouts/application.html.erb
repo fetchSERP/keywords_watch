@@ -25,7 +25,9 @@
   <body>
     <%= render "shared/navbar" %>
     <section class="min-h-screen bg-gray-800 flex flex-col relative">
-      <%= yield %>
+      <div class="mt-20">
+        <%= yield %>
+      </div>
       <%= render "app/chat_messages/panel" if controller_path.include?("app") && Current.user.present? %>
     </section>
     <%= render "shared/footer" %>

@@ -42,7 +42,7 @@ document.addEventListener("turbo:load", function() {
   }
   if (document.getElementById("chat_messages")) {
     const chatMessages = document.getElementById("chat_messages");
-    [...chatMessages.querySelectorAll("div > div > div > div > div")][0].scrollIntoViewIfNeeded()
+    [...chatMessages.querySelectorAll("div > div > div > div > div")]?.at(0)?.scrollIntoViewIfNeeded()
   }
 });
 
