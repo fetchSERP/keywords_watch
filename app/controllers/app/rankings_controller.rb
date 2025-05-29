@@ -3,7 +3,7 @@ class App::RankingsController < App::ApplicationController
 
   # GET /rankings or /rankings.json
   def index
-    @rankings = Current.user.rankings
+    @rankings = Current.user.rankings.order(rank: :asc)
   end
 
   # GET /rankings/1 or /rankings/1.json

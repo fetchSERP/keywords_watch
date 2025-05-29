@@ -7,7 +7,7 @@ class CreateBacklinks < ActiveRecord::Migration[8.0]
       t.string :target_url
       t.string :anchor_text
       t.boolean :nofollow
-      t.string :rel_attributes
+      t.string :rel_attributes, array: true, default: []
       t.string :context_text
       t.string :source_domain
       t.string :target_domain

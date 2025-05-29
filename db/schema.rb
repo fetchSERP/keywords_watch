@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_28_180136) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_29_162834) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,7 +21,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_28_180136) do
     t.string "target_url"
     t.string "anchor_text"
     t.boolean "nofollow"
-    t.string "rel_attributes"
+    t.string "rel_attributes", default: [], array: true
     t.string "context_text"
     t.string "source_domain"
     t.string "target_domain"
@@ -61,6 +61,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_28_180136) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "domain_id", null: false
+    t.boolean "indexed", default: false
+    t.string "urls", default: [], array: true
     t.index ["domain_id"], name: "index_keywords_on_domain_id"
     t.index ["user_id"], name: "index_keywords_on_user_id"
   end

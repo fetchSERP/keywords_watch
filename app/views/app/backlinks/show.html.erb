@@ -1,32 +1,162 @@
 <% content_for :title, "Backlink Details" %>
 
 <div class="py-16">
-  <div class="max-w-4xl mx-auto px-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="bg-gray-800 px-6 py-8 border border-gray-700 rounded-xl shadow-xl">
       <% if notice %>
-        <div class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400">
+        <div class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
           <%= notice %>
         </div>
       <% end %>
 
-      <div class="mb-8">
-        <h1 class="font-bold text-2xl text-gray-100">Backlink Details</h1>
-        <p class="text-base text-gray-400 mt-2">
-          View and manage backlink information.
-        </p>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div>
+          <h1 class="font-bold text-2xl text-gray-100">Backlink Details</h1>
+          <p class="text-base text-gray-400 mt-2">
+            View and manage backlink information and metrics.
+          </p>
+        </div>
+        <div class="flex items-center gap-4">
+          <%= link_to edit_app_backlink_path(@backlink), class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+            </svg>
+            Edit backlink
+          <% end %>
+          <%= button_to [:app, @backlink], method: :delete, class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-red-500/30 rounded-md font-semibold transition-all duration-200 hover:border-red-500/60 hover:bg-red-500/10 text-white", data: { turbo_confirm: "Are you sure you want to delete this backlink?" } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            Delete backlink
+          <% end %>
+        </div>
       </div>
 
-      <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 mb-8">
-        <%= render @backlink %>
-      </div>
-
-      <div class="flex items-center justify-between pt-4 border-t border-gray-700">
-        <div class="flex items-center space-x-4">
-          <%= link_to "Edit backlink", edit_app_backlink_path(@backlink), class: "px-6 py-3 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" %>
-          <%= link_to "Back to backlinks", app_backlinks_path, class: "text-gray-400 hover:text-gray-300 transition-colors" %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-100 mb-4">Source Information</h3>
+          <div class="space-y-4">
+            <div class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
+              </svg>
+              <div>
+                <span class="text-sm font-medium text-gray-400">Source URL</span>
+                <a href="<%= @backlink.source_url %>" target="_blank" class="mt-1 text-gray-100 hover:text-yellow-500 transition-colors block truncate" title="<%= @backlink.source_url %>">
+                  <%= @backlink.source_url %>
+                </a>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd" />
+              </svg>
+              <div>
+                <span class="text-sm font-medium text-gray-400">Source Domain</span>
+                <p class="mt-1 text-gray-100"><%= @backlink.source_domain %></p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+              </svg>
+              <div>
+                <span class="text-sm font-medium text-gray-400">Page Title</span>
+                <p class="mt-1 text-gray-100"><%= @backlink.page_title %></p>
+              </div>
+            </div>
+            <% if @backlink.meta_description.present? %>
+              <div class="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-3 mt-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" />
+                </svg>
+                <div>
+                  <span class="text-sm font-medium text-gray-400">Meta Description</span>
+                  <p class="mt-1 text-gray-100"><%= @backlink.meta_description %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
 
-        <%= button_to "Delete backlink", [:app, @backlink], method: :delete, class: "px-6 py-3 bg-transparent border-2 border-red-500/30 rounded-md font-semibold transition-all duration-200 hover:border-red-500/60 hover:bg-red-500/10 text-white", data: { turbo_confirm: "Are you sure you want to delete this backlink?" } %>
+        <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-100 mb-4">Link Information</h3>
+          <div class="space-y-4">
+            <div class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
+              </svg>
+              <div>
+                <span class="text-sm font-medium text-gray-400">Target URL</span>
+                <a href="<%= @backlink.target_url %>" target="_blank" class="mt-1 text-gray-100 hover:text-yellow-500 transition-colors block truncate" title="<%= @backlink.target_url %>">
+                  <%= @backlink.target_url %>
+                </a>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd" />
+              </svg>
+              <div>
+                <span class="text-sm font-medium text-gray-400">Target Domain</span>
+                <p class="mt-1 text-gray-100"><%= @backlink.target_domain %></p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+              </svg>
+              <div>
+                <span class="text-sm font-medium text-gray-400">Anchor Text</span>
+                <p class="mt-1 text-gray-100"><%= @backlink.anchor_text %></p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+              </svg>
+              <div>
+                <span class="text-sm font-medium text-gray-400">Link Type</span>
+                <p class="mt-1">
+                  <span class="px-2 py-1 text-sm font-medium rounded-full <%= @backlink.nofollow ? 'bg-yellow-500/10 text-yellow-400' : 'bg-green-500/10 text-green-400' %>">
+                    <%= @backlink.nofollow ? "NoFollow" : "DoFollow" %>
+                  </span>
+                  <% if @backlink.rel_attributes.present? %>
+                    <span class="ml-2 px-2 py-1 text-sm font-medium rounded-full bg-purple-500/10 text-purple-400">
+                      <%= @backlink.rel_attributes.join(", ") %>
+                    </span>
+                  <% end %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% if @backlink.context_text.present? %>
+        <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 mb-8">
+          <h3 class="text-lg font-semibold text-gray-100 mb-4">Context</h3>
+          <div class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-3 mt-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" />
+            </svg>
+            <div class="flex-1">
+              <p class="text-gray-100"><%= @backlink.context_text %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="mt-8 pt-6 border-t border-gray-700">
+        <%= link_to app_backlinks_path, class: "inline-flex items-center text-gray-400 hover:text-gray-300 transition-colors" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+          </svg>
+          Back to backlinks
+        <% end %>
       </div>
     </div>
   </div>

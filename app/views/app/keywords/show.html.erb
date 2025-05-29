@@ -31,6 +31,24 @@
             <p class="mt-1 text-lg text-gray-100"><%= @keyword.competition %></p>
           </div>
           <div>
+            <span class="text-gray-400">Indexed:</span>
+            <span class="text-gray-100 ml-2"><%= @keyword.indexed ? "Yes" : "No" %></span>
+          </div>
+          <div>
+            <span class="text-gray-400">URLs:</span>
+            <span class="text-gray-100 ml-2"><%= @keyword.urls.join(", ") %></span>
+          </div>
+          <% if @keyword.rankings.any? && @keyword.rankings.last&.rank.present? %>
+            <div>
+              <span class="text-gray-400">Ranking :</span>
+              <span class="text-gray-100 ml-2"><%= @keyword.rankings.last&.rank %></span>
+            </div>
+            <div>
+              <span class="text-gray-400">Ranking url:</span>
+              <span class="text-gray-100 ml-2"><%= @keyword.rankings.last&.url %></span>
+            </div>
+          <% end %>
+          <div>
             <h3 class="text-sm font-medium text-gray-400">Competition Index</h3>
             <p class="mt-1 text-lg text-gray-100"><%= @keyword.competition_index %></p>
           </div>

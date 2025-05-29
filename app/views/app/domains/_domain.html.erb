@@ -1,8 +1,71 @@
-<div id="<%= dom_id domain %>" class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 mb-4">
-  <div class="flex items-center justify-between">
-    <div>
-      <h3 class="text-lg font-semibold text-gray-100"><%= domain.name %></h3>
-      <p class="text-sm text-gray-400 mt-1">Owner: <%= domain.user.email_address %></p>
+<div id="<%= dom_id domain %>" class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 hover:border-gray-600 transition-colors duration-200 h-full flex flex-col">
+  <div class="flex-1">
+    <div class="flex items-start justify-between">
+      <div class="flex-1">
+        <h3 class="text-lg font-semibold text-gray-100 group-hover:text-yellow-500 transition-colors">
+          <%= link_to domain.name, [:app, domain], class: "hover:underline" %>
+        </h3>
+        <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-gray-400">Owner:</span>
+            <span class="text-gray-100 ml-2 font-medium truncate" title="<%= domain.user.email_address %>">
+              <%= domain.user.email_address %>
+            </span>
+          </div>
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-gray-400">Created:</span>
+            <span class="text-gray-100 ml-2 font-medium">
+              <%= time_ago_in_words(domain.created_at) %> ago
+            </span>
+          </div>
+        </div>
+
+        <% if domain.keywords.any? %>
+          <div class="mt-4 pt-4 border-t border-gray-700">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.94l1-4H9.03z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-gray-400">Keywords:</span>
+                <span class="ml-2 px-2 py-1 text-sm font-medium rounded-full bg-blue-500/10 text-blue-400">
+                  <%= pluralize(domain.keywords.size, 'keyword') %>
+                </span>
+              </div>
+              <div class="flex items-center">
+                <span class="text-gray-400">Avg. Rank:</span>
+                <% avg_rank = domain.keywords.joins(:rankings).average(:rank)&.round %>
+                <span class="ml-2 px-2 py-1 text-sm font-medium rounded-full <%= avg_rank && avg_rank <= 10 ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400' %>">
+                  <%= avg_rank ? "##{avg_rank}" : "N/A" %>
+                </span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 pt-4 border-t border-gray-700 flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <% if domain.keywords.any? %>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400">
+          <%= pluralize(domain.keywords.size, 'keyword') %>
+        </span>
+      <% end %>
+    </div>
+    <div class="flex items-center space-x-2">
+      <%= link_to [:app, domain], class: "text-gray-400 hover:text-yellow-500 transition-colors" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+        </svg>
+      <% end %>
     </div>
   </div>
 </div>

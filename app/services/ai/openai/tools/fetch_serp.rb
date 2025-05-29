@@ -17,7 +17,9 @@ module Ai
             Backlinks,
             DomainEmails,
             WebPageAiAnalysis,
-            WebPageSeoAnalysis
+            WebPageSeoAnalysis,
+            CheckIndexation,
+            GenerateLongTailKeywords
           ]
         end
   
@@ -31,7 +33,7 @@ module Ai
               type: "function",
               function: {
                 name: "fetch_serp",
-                description: "Fetches search engine results for a given keyword using the FetchSerp API",
+                description: "Fetches search engine results for a given keyword using the FetchSerp API. Allows to find the top ranking domains for a given keyword. Use this tool to find the top ranking domains for a given keyword. Allows to find which domains are ranking in which position for a given keyword. use this tool to find the top ranking domains for a given keyword or to find what domain ranks in x th position for a given keyword",
                 parameters: {
                   type: "object",
                   properties: {
@@ -209,7 +211,7 @@ module Ai
               type: "function",
               function: {
                 name: "domain_ranking",
-                description: "Get domain ranking for a keyword",
+                description: "Get domain ranking for a keyword. use this tool to find the domain ranking for a given keyword. Do not use this tool if you were not provided with a domain.",
                 parameters: {
                   type: "object",
                   properties: {
@@ -668,6 +670,105 @@ module Ai
             {
               error: e.message
             }
+          end
+        end
+
+        class CheckIndexation < BaseService
+          def self.schema
+            {
+              type: "function",
+              function: {
+                name: "check_indexation",
+                description: "Checks if a domain is indexed for a specific keyword in search engines. Web pages can be indexed for a given keyword without ranking for this keyword. Use this tool to check if a domain is indexed for a specific keyword.",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    domain: {
+                      type: "string",
+                      description: "The domain to check for indexation"
+                    },
+                    keyword: {
+                      type: "string",
+                      description: "The keyword to check indexation for"
+                    }
+                  },
+                  required: ["domain", "keyword"]
+                }
+              }
+            }
+          end
+
+          def self.call(params)
+            response = ::FetchSerp::ClientService.new.check_indexation(
+              domain: params["domain"],
+              keyword: params["keyword"]
+            )
+
+            if response["error"]
+              { error: response["error"] }
+            else
+              {
+                domain: params["domain"],
+                keyword: params["keyword"],
+                indexed: response["data"]["indexation"]["indexed"],
+                urls: response["data"]["indexation"]["urls"]
+              }
+            end
+          rescue StandardError => e
+            { error: e.message }
+          end
+        end
+
+        class GenerateLongTailKeywords < BaseService
+          def self.schema
+            {
+              type: "function",
+              function: {
+                name: "generate_long_tail_keywords",
+                description: "Generates long-tail keywords from a seed keyword, optionally specifying the search intent and number of keywords to generate. Use this tool to get variations and related keywords for a given seed keyword.",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    keyword: {
+                      type: "string",
+                      description: "The seed keyword to generate long-tail keywords from"
+                    },
+                    search_intent: {
+                      type: "string",
+                      description: "The search intent to generate long-tail keywords for. Supported values: informational, commercial, transactional, navigational. Defaults to informational.",
+                      enum: %w[informational commercial transactional navigational]
+                    },
+                    count: {
+                      type: "integer",
+                      description: "The number of long-tail keywords to generate (1-500). Defaults to 10.",
+                      minimum: 1,
+                      maximum: 500
+                    }
+                  },
+                  required: ["keyword"]
+                }
+              }
+            }
+          end
+
+          def self.call(params)
+            response = ::FetchSerp::ClientService.new.generate_long_tail_keywords(
+              keyword: params["keyword"],
+              search_intent: params["search_intent"] || "informational",
+              count: params["count"]&.to_i || 10
+            )
+
+            if response["error"]
+              { error: response["error"] }
+            else
+              {
+                keyword: params["keyword"],
+                search_intent: params["search_intent"] || "informational",
+                keywords: response["data"]["long_tail_keywords"]
+              }
+            end
+          rescue StandardError => e
+            { error: e.message }
           end
         end
 

@@ -3,7 +3,7 @@ class App::KeywordsController < App::ApplicationController
 
   # GET /keywords or /keywords.json
   def index
-    @keywords = Current.user.keywords
+    @keywords = Current.user.keywords.order(indexed: :desc)
   end
 
   # GET /keywords/1 or /keywords/1.json

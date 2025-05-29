@@ -61,6 +61,14 @@ class FetchSerp::ClientService < BaseService
     get('/api/v1/web_page_seo_analysis', query: { url: url })
   end
 
+  def check_indexation(domain:, keyword:)
+    get('/api/v1/indexation', query: { domain: domain, keyword: keyword })
+  end
+
+  def generate_long_tail_keywords(keyword:, search_intent: "informational", count: 10)
+    get('/api/v1/long_tail_keywords_generator', query: { keyword: keyword, search_intent: search_intent, count: count })
+  end
+
   private
 
   def headers

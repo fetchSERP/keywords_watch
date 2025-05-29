@@ -13,7 +13,7 @@ class App::ChatMessagesController < App::ApplicationController
       ]
       ToolCallingAgentJob.perform_later(Current.user.id, @chat_message.body)
     else
-      render turbo_stream: turbo_stream.append("chat_messages", partial: "app/chat_messages/error", locals: { error: @chat_message.errors.full_messages.join(", ") })
+      render turbo_stream: turbo_stream.prepend("chat_messages", partial: "app/chat_messages/error", locals: { error: @chat_message.errors.full_messages.join(", ") })
     end
   end
 

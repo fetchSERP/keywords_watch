@@ -14,6 +14,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
       }
     )
 
+    
     message = response.dig("choices", 0, "message")
     tool_call = message.dig("tool_calls", 0)
 
@@ -44,26 +45,28 @@ class Ai::Openai::ToolCallingAgentService < BaseService
             next unless delta
             response += delta
             broadcast_chunk(delta)
+            sleep 0.05
           end
         }
       )
-      # binding.pry
-      chat_message = ChatMessage.create(user_id: @user_id, body: response, author: "AI")
-      Turbo::StreamsChannel.broadcast_replace_to(
-        "streaming_channel_#{@user_id}",
-        target: "temp_message",
-        partial: "app/chat_messages/message",
-        locals: { message: chat_message }
-      )
-      # followup.dig("choices", 0, "message", "content")
+      broadcast_message(response)
     else
-      # message["content"]
-      broadcast_chunk(message["content"])
+      broadcast_message(message["content"])
     end
   end
 
+  def broadcast_message(message)
+    chat_message = ChatMessage.create(user_id: @user_id, body: message, author: "AI")
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "streaming_channel_#{@user_id}",
+      target: "temp_message",
+      partial: "app/chat_messages/message",
+      locals: { message: chat_message }
+    )
+  end
+
   def broadcast_chunk(chunk)
-    Turbo::StreamsChannel.broadcast_prepend_to(
+    Turbo::StreamsChannel.broadcast_append_to(
       "streaming_channel_#{@user_id}",
       target: "chunks_container",
       partial: "app/chat_messages/chunk",

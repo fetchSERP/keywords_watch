@@ -1,6 +1,7 @@
 class Domain < ApplicationRecord
   after_create :create_main_keywords
   after_create :create_google_ads_keywords
+  after_create :create_backlinks
   belongs_to :user
   has_many :rankings, dependent: :destroy
   has_many :backlinks, dependent: :destroy
@@ -20,5 +21,9 @@ class Domain < ApplicationRecord
 
   def create_google_ads_keywords
     CreateGoogleAdsKeywordsJob.perform_later(user: user, domain: self, count: 10)
+  end
+
+  def create_backlinks
+    CreateBacklinksJob.perform_later(self)
   end
 end

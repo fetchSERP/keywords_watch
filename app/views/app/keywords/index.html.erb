@@ -1,34 +1,59 @@
 <% content_for :title, "Keywords" %>
 
 <div class="py-16">
-  <div class="max-w-4xl mx-auto px-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="bg-gray-800 px-6 py-8 border border-gray-700 rounded-xl shadow-xl">
-      <div class="flex items-center justify-between mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
           <h1 class="font-bold text-2xl text-gray-100">Keywords</h1>
           <p class="text-base text-gray-400 mt-2">
-            Manage your monitored keywords and their metrics.
+            Monitor and analyze your keywords' performance and metrics.
           </p>
         </div>
-        <%= link_to "New keyword", new_app_keyword_path, class: "px-6 py-3 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" %>
+        <div class="flex items-center gap-4">
+          <%= link_to new_app_keyword_path, class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            New keyword
+          <% end %>
+        </div>
       </div>
 
       <% if notice %>
-        <div class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400">
+        <div class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
           <%= notice %>
         </div>
       <% end %>
 
-      <div id="keywords" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="keywords">
         <% @keywords.each do |keyword| %>
-          <div class="group">
+          <div class="group relative">
             <%= render keyword %>
-            <div class="mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-              <%= link_to "View details", [:app, keyword], class: "text-gray-400 hover:text-gray-300 transition-colors" %>
-            </div>
           </div>
         <% end %>
       </div>
+
+      <% if @keywords.empty? %>
+        <div class="text-center py-12">
+          <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-300">No keywords</h3>
+          <p class="mt-1 text-sm text-gray-400">Get started by adding a new keyword to monitor.</p>
+          <div class="mt-6">
+            <%= link_to new_app_keyword_path, class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+              </svg>
+              Add your first keyword
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

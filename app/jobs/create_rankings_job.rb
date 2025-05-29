@@ -1,13 +1,13 @@
 class CreateRankingsJob < ApplicationJob
   queue_as :default
 
-  def perform(user:, keyword:)
+  def perform(keyword:)
     Ranking.create(
-      user: user,
+      user: keyword.user,
       domain: keyword.domain,
       keyword: keyword,
       search_engine: "google",
-      country: "US",
+      country: "us",
     )
   end
 end
