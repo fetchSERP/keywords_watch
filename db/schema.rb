@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_29_162834) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_29_210249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -63,6 +63,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_29_162834) do
     t.bigint "domain_id", null: false
     t.boolean "indexed", default: false
     t.string "urls", default: [], array: true
+    t.integer "ranking"
+    t.string "ranking_url"
     t.index ["domain_id"], name: "index_keywords_on_domain_id"
     t.index ["user_id"], name: "index_keywords_on_user_id"
   end

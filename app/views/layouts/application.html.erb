@@ -25,9 +25,11 @@
   <body>
     <%= render "shared/navbar" %>
     <section class="min-h-screen bg-gray-800 flex flex-col relative">
-      <div class="mt-20">
+      <div class="mt-16">
         <%= yield %>
       </div>
+      <%= turbo_stream_from "keywords" if Current.user.present? %>
+      <%= turbo_stream_from "backlinks" if Current.user.present? %>
       <%= render "app/chat_messages/panel" if controller_path.include?("app") && Current.user.present? %>
     </section>
     <%= render "shared/footer" %>

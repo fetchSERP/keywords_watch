@@ -17,13 +17,15 @@ document.addEventListener("turbo:load", function() {
 });
 
 window.addEventListener('scroll', () => {
-  const header = document.querySelector('header');
-  if (window.scrollY > 10) {
-    header.classList.add('bg-white', 'shadow-md');
-    header.classList.remove('bg-[#0F172A]');
-  } else {
-    header.classList.remove('bg-white', 'shadow-md');
-    header.classList.add('bg-[#0F172A]');
+  if (window.location.pathname.includes("/app")) {
+    const header = document.querySelector('header');
+    if (window.scrollY > 10) {
+      header.classList.add('bg-white', 'shadow-md');
+      header.classList.remove('bg-[#0F172A]');
+    } else {
+      header.classList.remove('bg-white', 'shadow-md');
+      header.classList.add('bg-[#0F172A]');
+    }
   }
 });
 

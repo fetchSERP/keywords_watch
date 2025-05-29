@@ -122,7 +122,7 @@
               Add keyword
             <% end %>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="keywords">
             <% @domain.keywords.each do |keyword| %>
               <div class="group relative">
                 <%= render "app/keywords/keyword", keyword: keyword %>
@@ -147,6 +147,28 @@
           </div>
         </div>
       <% end %>
+
+      <div class="mt-8">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-gray-100">Backlinks</h2>
+          <%= link_to new_app_backlink_path(domain_id: @domain.id), class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Add backlink
+          <% end %>
+        </div>
+
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="backlinks">
+          <% @domain.backlinks.each do |backlink| %>
+            <div class="group relative">
+              <%= render "app/backlinks/backlink", backlink: backlink %>
+            </div>
+          <% end %>
+        </div>
+
+      </div>
 
       <div class="mt-8 pt-6 border-t border-gray-700">
         <%= link_to app_domains_path, class: "inline-flex items-center text-gray-400 hover:text-gray-300 transition-colors" do %>

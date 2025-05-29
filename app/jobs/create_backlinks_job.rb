@@ -4,7 +4,7 @@ class CreateBacklinksJob < ApplicationJob
   def perform(domain)
     backlinks = FetchSerp::ClientService.new.backlinks(domain.name)
     backlinks["data"]["backlinks"].each do |backlink|
-      Backlink.create!(
+      backlink = Backlink.create!(
         user: domain.user,
         domain: domain,
         source_url: backlink["source_url"],

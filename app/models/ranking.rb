@@ -9,4 +9,5 @@ class Ranking < ApplicationRecord
   def fetch_rank
     FetchRankJob.perform_later(self)
   end
+
 end
