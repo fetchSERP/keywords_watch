@@ -1,0 +1,4 @@
+<span id="domain_avg_rank">
+  <% avg_rank = domain.keywords.joins(:rankings).average(:rank)&.round %>
+  <%= avg_rank ? "##{avg_rank}" : "N/A" %>
+</span>

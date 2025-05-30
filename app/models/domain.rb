@@ -1,11 +1,11 @@
 class Domain < ApplicationRecord
-  after_create :create_main_keywords
-  after_create :create_google_ads_keywords
-  after_create :create_backlinks
+  after_commit :create_google_ads_keywords, :create_main_keywords, :create_backlinks, on: :create
   belongs_to :user
   has_many :rankings, dependent: :destroy
   has_many :backlinks, dependent: :destroy
   has_many :keywords, dependent: :destroy
+  validates :name, presence: true, uniqueness: { scope: :user_id }
+  validates :country, presence: true, inclusion: { in: ISO3166::Country.all.map(&:alpha2).map(&:downcase) }
 
   private
 
@@ -20,7 +20,7 @@ class Domain < ApplicationRecord
   end
 
   def create_google_ads_keywords
-    CreateGoogleAdsKeywordsJob.perform_later(user: user, domain: self, count: 100)
+    CreateGoogleAdsKeywordsJob.perform_later(domain: self, count: 10)
   end
 
   def create_backlinks

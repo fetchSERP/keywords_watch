@@ -8,7 +8,12 @@
   </td>
   <td class="px-6 py-4 whitespace-nowrap">
     <div class="text-sm text-gray-300">
-      <%= keyword.search_intent.presence || "N/A" %>
+      <%= keyword.avg_monthly_searches.presence || "N/A" %>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-300">
+      <%= keyword.competition.presence || "N/A" %>
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap" data-keyword-rank="<%= keyword.rankings.any? ? keyword.rankings.order(created_at: :desc).first.rank : nil %>">
@@ -32,11 +37,7 @@
   </td>
   <td class="px-6 py-4 whitespace-nowrap">
     <div class="text-sm text-gray-300">
-      <% if keyword.rankings.any? %>
-        <%= time_ago_in_words(keyword.rankings.order(created_at: :desc).first.created_at) %> ago
-      <% else %>
-        Never
-      <% end %>
+      <%= time_ago_in_words(keyword.updated_at) %> ago
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

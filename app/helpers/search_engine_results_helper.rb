@@ -1,0 +1,2 @@
+module SearchEngineResultsHelper
+end

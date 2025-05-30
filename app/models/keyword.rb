@@ -2,9 +2,9 @@ class Keyword < ApplicationRecord
   belongs_to :user
   belongs_to :domain
   has_many :rankings, dependent: :destroy
-  after_create :check_indexation
-  after_create :append_to_dom
-  after_update :update_dom
+  has_many :search_engine_results, dependent: :destroy
+  after_commit :check_indexation, :create_search_engine_results, on: :create
+  after_update :append_to_dom, :update_dom
   validates :name, presence: true, uniqueness: { scope: :user_id }
 
   private
@@ -15,19 +15,47 @@ class Keyword < ApplicationRecord
 
   def update_dom
     Turbo::StreamsChannel.broadcast_replace_to(
-      "keywords",
+      "streaming_channel_#{user_id}",
       target: "keyword_#{id}",
       partial: "app/keywords/keyword",
       locals: { keyword: self }
+    )
+    Turbo::StreamsChannel.broadcast_update_to(
+      "streaming_channel_#{user_id}",
+      target: "indexed_keywords_count",
+      partial: "app/domains/indexed_keywords_count",
+      locals: { domain: domain }
+    )
+    Turbo::StreamsChannel.broadcast_update_to(
+      "streaming_channel_#{user_id}",
+      target: "ranked_keywords_count",
+      partial: "app/domains/ranked_keywords_count",
+      locals: { domain: domain }
+    )
+    Turbo::StreamsChannel.broadcast_update_to(
+      "streaming_channel_#{user_id}",
+      target: "domain_avg_rank",
+      partial: "app/domains/avg_rank",
+      locals: { domain: domain }
     )
   end
 
   def append_to_dom
     Turbo::StreamsChannel.broadcast_append_to(
-      "keywords",
+      "streaming_channel_#{user_id}",
       target: "keywords",
       partial: "app/keywords/keyword",
       locals: { keyword: self }
     )
+    Turbo::StreamsChannel.broadcast_update_to(
+      "streaming_channel_#{user_id}",
+      target: "keywords_count",
+      partial: "app/domains/keywords_count",
+      locals: { domain: domain }
+    )
+  end
+
+  def create_search_engine_results
+    # CreateSearchEngineResultsJob.perform_later(keyword: self, search_engine: "google")
   end
 end

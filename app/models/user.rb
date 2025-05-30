@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :rankings, dependent: :destroy
   has_many :backlinks, dependent: :destroy
   has_many :chat_messages, dependent: :destroy
+  has_many :search_engine_results, dependent: :destroy
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email_address, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
   validates :password_digest, presence: true

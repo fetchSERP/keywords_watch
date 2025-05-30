@@ -65,6 +65,6 @@ class App::DomainsController < App::ApplicationController
 
     # Only allow a list of trusted parameters through.
     def domain_params
-      params.expect(domain: [ :name, :user_id ])
+      params.expect(domain: [ :name, :user_id, :country ])
     end
 end

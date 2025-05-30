@@ -7,7 +7,7 @@ class CreateRankingsJob < ApplicationJob
       domain: keyword.domain,
       keyword: keyword,
       search_engine: "google",
-      country: "us",
+      country: keyword.domain.country,
     )
   end
 end

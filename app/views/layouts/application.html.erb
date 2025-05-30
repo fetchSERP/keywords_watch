@@ -28,8 +28,7 @@
       <div class="mt-16">
         <%= yield %>
       </div>
-      <%= turbo_stream_from "keywords" if Current.user.present? %>
-      <%= turbo_stream_from "backlinks" if Current.user.present? %>
+      <%= turbo_stream_from "streaming_channel_#{Current.user.id}" if Current.user.present? %>
       <%= render "app/chat_messages/panel" if controller_path.include?("app") && Current.user.present? %>
     </section>
     <%= render "shared/footer" %>

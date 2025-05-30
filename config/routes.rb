@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :keywords
     resources :rankings
     resources :backlinks
+    resources :search_engine_results
     resources :chat_messages, only: [ :index, :create ]
     root "domains#index"
   end

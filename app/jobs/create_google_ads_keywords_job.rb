@@ -1,12 +1,12 @@
 class CreateGoogleAdsKeywordsJob < ApplicationJob
   queue_as :default
 
-  def perform(user:, domain:, count: 10)
+  def perform(domain:, count: 10)
     keywords = FetchSerp::ClientService.new.keywords_suggestions(url: "https://#{domain.name}")
     keywords["data"]["keywords_suggestions"].sample(count).each do |keyword|
-      next if Keyword.exists?(user: user, name: keyword["keyword"])
+      next if Keyword.exists?(user: domain.user, name: keyword["keyword"])
       Keyword.create(
-        user: user,
+        user: domain.user,
         domain: domain,
         name: keyword["keyword"],
         avg_monthly_searches: keyword["avg_monthly_searches"],

@@ -5,7 +5,7 @@ class Backlink < ApplicationRecord
 
   def append_to_dom
     Turbo::StreamsChannel.broadcast_append_to(
-      "backlinks",
+      "streaming_channel_#{user_id}",
       target: "backlinks",
       partial: "app/backlinks/backlink",
       locals: { backlink: self }
