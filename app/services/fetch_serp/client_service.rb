@@ -45,7 +45,7 @@ class FetchSerp::ClientService < BaseService
     get('/api/v1/keywords_suggestions', query: query)
   end
 
-  def backlinks(domain, search_engine = 'google', country = 'us', pages_number = 15)
+  def backlinks(domain, search_engine = 'google', country = 'us', pages_number = 20)
     get('/api/v1/backlinks', query: { domain: domain, search_engine: search_engine, country: country, pages_number: pages_number })
   end
 

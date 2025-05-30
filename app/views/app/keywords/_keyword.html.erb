@@ -1,5 +1,5 @@
 <tr class="hover:bg-gray-800/50 transition-colors" id="keyword_<%= keyword.id %>">
-  <td class="px-6 py-4 whitespace-nowrap">
+  <td class="px-6 py-4 whitespace-nowrap" data-sorting-order="asc" data-sorting-item="<%= keyword.rankings.any? ? keyword.rankings.order(created_at: :desc).first.rank : nil %>">
     <div class="flex items-center">
       <div class="text-sm font-medium text-gray-100">
         <%= link_to keyword.name, [:app, keyword], class: "hover:text-yellow-500 transition-colors" %>
@@ -16,7 +16,7 @@
       <%= keyword.competition.presence || "N/A" %>
     </div>
   </td>
-  <td class="px-6 py-4 whitespace-nowrap" data-sorting-order="asc" data-sorting-item="<%= keyword.rankings.any? ? keyword.rankings.order(created_at: :desc).first.rank : nil %>">
+  <td class="px-6 py-4 whitespace-nowrap">
     <% if keyword.rankings.any? %>
       <% current_rank = keyword.rankings.order(created_at: :desc).first %>
       <span class="px-2 py-1 text-sm font-medium rounded-full <%= current_rank.rank && current_rank.rank <= 10 ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400' %>">

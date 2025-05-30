@@ -1,6 +1,7 @@
 class DomainCompetitor < ApplicationRecord
   belongs_to :user
   belongs_to :domain
+  has_many :search_engine_results, dependent: :destroy
 
   after_create_commit :append_to_dom
   after_update_commit :update_dom

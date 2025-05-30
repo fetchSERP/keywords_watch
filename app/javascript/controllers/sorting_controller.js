@@ -16,26 +16,26 @@ export default class extends Controller {
   }
 
   sortRows() {
-    const rows = Array.from(this.element.querySelectorAll("tr"))
-    const order = this.element.dataset.sortingOrder
-    const sortBy = this.element.dataset.sortingItem
-
-    if (order === "asc") {
-      rows.sort((a, b) => {
-        const aRank = parseInt(a.querySelector("[data-sorting-item]")?.dataset.sortingItem || "", 10)
-        const bRank = parseInt(b.querySelector("[data-sorting-item]")?.dataset.sortingItem || "", 10)
-
-        return aRank - bRank
-      })
-    } else {
-      rows.sort((a, b) => {
-        const aRank = parseInt(a.querySelector("[data-sorting-item]")?.dataset.sortingItem || "", 10)
-        const bRank = parseInt(b.querySelector("[data-sorting-item]")?.dataset.sortingItem || "", 10)
-
-        return bRank - aRank
-      })
-    }
-
-    rows.forEach(row => this.element.appendChild(row))
+    const rows = Array.from(this.element.querySelectorAll("tr"));
+    const order = this.element.querySelector("[data-sorting-order]")?.dataset.sortingOrder || "asc";
+  
+    rows.sort((a, b) => {
+      const aAttr = a.querySelector("[data-sorting-item]")?.dataset.sortingItem;
+      const bAttr = b.querySelector("[data-sorting-item]")?.dataset.sortingItem;
+  
+      const aRank = parseInt(aAttr, 10);
+      const bRank = parseInt(bAttr, 10);
+  
+      const aIsNaN = isNaN(aRank);
+      const bIsNaN = isNaN(bRank);
+  
+      if (aIsNaN && bIsNaN) return 0;
+      if (aIsNaN) return 1; // move a to end
+      if (bIsNaN) return -1; // move b to end
+  
+      return order === "asc" ? aRank - bRank : bRank - aRank;
+    });
+  
+    rows.forEach(row => this.element.appendChild(row));
   }
 }
