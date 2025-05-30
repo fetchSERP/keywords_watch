@@ -65,6 +65,6 @@ class Keyword < ApplicationRecord
   end
 
   def create_search_engine_results
-    CreateSearchEngineResultsJob.perform_later(keyword: self, search_engine: "google", count: 5)
+    CreateSearchEngineResultsJob.perform_later(keyword: self, search_engine: "google", count: 2)
   end
 end

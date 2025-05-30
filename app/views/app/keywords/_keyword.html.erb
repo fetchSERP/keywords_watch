@@ -20,7 +20,7 @@
     <% if keyword.rankings.any? %>
       <% current_rank = keyword.rankings.order(created_at: :desc).first %>
       <span class="px-2 py-1 text-sm font-medium rounded-full <%= current_rank.rank && current_rank.rank <= 10 ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400' %>">
-        <%= current_rank.rank ? "##{current_rank.rank}" : "N/A" %>
+        <%= link_to current_rank.rank ? "##{current_rank.rank}" : "N/A", current_rank.url, class: "hover:text-yellow-500 transition-colors" %>
       </span>
     <% else %>
       <span class="px-2 py-1 text-sm font-medium rounded-full bg-gray-500/10 text-gray-400">N/A</span>
