@@ -1,8 +1,8 @@
 class CreateSearchEngineResultsJob < ApplicationJob
   queue_as :default
 
-  def perform(keyword:, search_engine: "google")
-    search_engine_results = FetchSerp::ClientService.new.search_engine_results(keyword.name, search_engine, keyword.domain.country, 5)
+  def perform(keyword:, search_engine: "google", count: 10)
+    search_engine_results = FetchSerp::ClientService.new.search_engine_results(keyword.name, search_engine, keyword.domain.country, count)
     search_engine_results["data"]["results"].each do |search_engine_result|
       SearchEngineResult.create!(
         user: keyword.user,

@@ -9,6 +9,7 @@ class CreateSearchEngineResults < ActiveRecord::Migration[8.0]
       t.text :description
       t.integer :ranking
       t.string :search_engine
+      t.string :domain
 
       t.timestamps
     end

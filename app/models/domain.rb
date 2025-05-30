@@ -4,8 +4,19 @@ class Domain < ApplicationRecord
   has_many :rankings, dependent: :destroy
   has_many :backlinks, dependent: :destroy
   has_many :keywords, dependent: :destroy
+  has_many :search_engine_results, through: :keywords
+  has_many :domain_competitors, dependent: :destroy
   validates :name, presence: true, uniqueness: { scope: :user_id }
   validates :country, presence: true, inclusion: { in: ISO3166::Country.all.map(&:alpha2).map(&:downcase) }
+
+  def competitors
+    self.search_engine_results
+      .where.not(domain: nil)
+      .group(:domain)
+      .having('COUNT(*) > 1')
+      .order(Arel.sql('COUNT(*) DESC'))
+      .count
+  end
 
   private
 

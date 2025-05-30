@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_30_132635) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_30_155144) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_132635) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_chat_messages_on_user_id"
+  end
+
+  create_table "domain_competitors", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "domain_id", null: false
+    t.string "competitor_domain"
+    t.integer "serp_appearances_count", default: 0
+    t.string "keyword_ids", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["domain_id"], name: "index_domain_competitors_on_domain_id"
+    t.index ["user_id"], name: "index_domain_competitors_on_user_id"
   end
 
   create_table "domains", force: :cascade do |t|
@@ -95,6 +107,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_132635) do
     t.text "description"
     t.integer "ranking"
     t.string "search_engine"
+    t.string "domain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["keyword_id"], name: "index_search_engine_results_on_keyword_id"
@@ -122,6 +135,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_132635) do
   add_foreign_key "backlinks", "domains"
   add_foreign_key "backlinks", "users"
   add_foreign_key "chat_messages", "users"
+  add_foreign_key "domain_competitors", "domains"
+  add_foreign_key "domain_competitors", "users"
   add_foreign_key "domains", "users"
   add_foreign_key "keywords", "domains"
   add_foreign_key "keywords", "users"

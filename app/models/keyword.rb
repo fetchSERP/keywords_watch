@@ -3,9 +3,18 @@ class Keyword < ApplicationRecord
   belongs_to :domain
   has_many :rankings, dependent: :destroy
   has_many :search_engine_results, dependent: :destroy
-  after_commit :check_indexation, :create_search_engine_results, on: :create
-  after_update :append_to_dom, :update_dom
+  after_commit :check_indexation, :create_search_engine_results, :append_to_dom, on: :create
+  after_update :update_dom
   validates :name, presence: true, uniqueness: { scope: :user_id }
+
+  def competitors
+    self.search_engine_results
+      .where.not(domain: nil)
+      .group(:domain)
+      .having('COUNT(*) > 1')
+      .order(Arel.sql('COUNT(*) DESC'))
+      .count
+  end
 
   private
 
@@ -56,6 +65,6 @@ class Keyword < ApplicationRecord
   end
 
   def create_search_engine_results
-    # CreateSearchEngineResultsJob.perform_later(keyword: self, search_engine: "google")
+    CreateSearchEngineResultsJob.perform_later(keyword: self, search_engine: "google", count: 20)
   end
 end
