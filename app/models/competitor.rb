@@ -1,4 +1,4 @@
-class DomainCompetitor < ApplicationRecord
+class Competitor < ApplicationRecord
   belongs_to :user
   belongs_to :domain
   has_many :search_engine_results, dependent: :destroy
@@ -9,18 +9,18 @@ class DomainCompetitor < ApplicationRecord
   def append_to_dom
     Turbo::StreamsChannel.broadcast_append_to(
       "streaming_channel_#{user_id}",
-      target: "domain_competitors",
+      target: "competitors",
       partial: "app/domains/competitor",
-      locals: { domain_competitor: self }
+      locals: { competitor: self }
     )
   end
 
   def update_dom
     Turbo::StreamsChannel.broadcast_replace_to(
       "streaming_channel_#{user_id}",
-      target: "domain_competitor_#{id}",
+      target: "competitor_#{id}",
       partial: "app/domains/competitor",
-      locals: { domain_competitor: self }
+      locals: { competitor: self }
     )
   end
 end

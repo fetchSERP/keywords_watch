@@ -42,15 +42,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_192723) do
     t.index ["user_id"], name: "index_chat_messages_on_user_id"
   end
 
-  create_table "domain_competitors", force: :cascade do |t|
+  create_table "competitors", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "domain_id", null: false
-    t.string "competitor_domain"
+    t.string "domain_name"
     t.integer "serp_appearances_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["domain_id"], name: "index_domain_competitors_on_domain_id"
-    t.index ["user_id"], name: "index_domain_competitors_on_user_id"
+    t.index ["domain_id"], name: "index_competitors_on_domain_id"
+    t.index ["user_id"], name: "index_competitors_on_user_id"
   end
 
   create_table "domains", force: :cascade do |t|
@@ -108,8 +108,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_192723) do
     t.string "search_engine"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "domain_competitor_id", null: false
-    t.index ["domain_competitor_id"], name: "index_search_engine_results_on_domain_competitor_id"
+    t.bigint "competitor_id", null: false
+    t.index ["competitor_id"], name: "index_search_engine_results_on_competitor_id"
     t.index ["keyword_id"], name: "index_search_engine_results_on_keyword_id"
     t.index ["user_id"], name: "index_search_engine_results_on_user_id"
   end
@@ -135,15 +135,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_30_192723) do
   add_foreign_key "backlinks", "domains"
   add_foreign_key "backlinks", "users"
   add_foreign_key "chat_messages", "users"
-  add_foreign_key "domain_competitors", "domains"
-  add_foreign_key "domain_competitors", "users"
+  add_foreign_key "competitors", "domains"
+  add_foreign_key "competitors", "users"
   add_foreign_key "domains", "users"
   add_foreign_key "keywords", "domains"
   add_foreign_key "keywords", "users"
   add_foreign_key "rankings", "domains"
   add_foreign_key "rankings", "keywords"
   add_foreign_key "rankings", "users"
-  add_foreign_key "search_engine_results", "domain_competitors"
+  add_foreign_key "search_engine_results", "competitors"
   add_foreign_key "search_engine_results", "keywords"
   add_foreign_key "search_engine_results", "users"
   add_foreign_key "sessions", "users"

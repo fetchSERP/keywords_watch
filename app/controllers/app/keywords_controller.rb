@@ -25,7 +25,7 @@ class App::KeywordsController < App::ApplicationController
 
     respond_to do |format|
       if @keyword.save
-        format.html { redirect_to [:app, @keyword], notice: "Keyword was successfully created." }
+        format.html { redirect_to [:app, @keyword.domain], notice: "Keyword was successfully created." }
         format.json { render :show, status: :created, location: @keyword }
       else
         format.html { render :new, status: :unprocessable_entity }

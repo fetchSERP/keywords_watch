@@ -74,7 +74,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
   end
 
   def knowledge_base
-    chat_history + backlinks + keywords
+    chat_history + backlinks + keywords + competitors
   end
 
   def chat_history
@@ -112,12 +112,25 @@ class Ai::Openai::ToolCallingAgentService < BaseService
     ]
   end
 
+  def competitors
+    competitors_data = Competitor.where(user_id: @user_id).order(created_at: :asc).each_with_index.map do |competitor, index|
+      "Competitor #{index + 1}: domain: #{competitor.domain.name}, competitor_domain: #{competitor.domain_name}, serp_appearances_count: #{competitor.serp_appearances_count}"
+    end.join("\n")
+    
+    [
+      {
+        role: "user",
+        content: "Here are the competitors for the user:\n#{competitors_data}"
+      }
+    ]
+  end
+
   def system_prompt
     <<~PROMPT
-      You are an AI assistant helping the user with SEO tasks, keyword research, backlink analysis, and content strategies. You have already received extensive contextual data, including chat history, keyword metrics, and backlink details.
+      You are an AI assistant helping the user with SEO tasks, keyword research, backlink analysis, and content strategies. You have already received extensive contextual data, including chat history, keyword metrics, backlink details, and competitors.
   
       Your role is to:
-      - First use the provided context (chat history, keywords, backlinks) to generate insightful, helpful, and actionable responses.
+      - First use the provided context (chat history, keywords, backlinks, competitors) to generate insightful, helpful, and actionable responses.
       - Only call tools from the FetchSERP API **if the user request cannot be answered using the given data**.
       - When using a tool, explain briefly why the tool was used and summarize its output clearly and concisely.
       - If a tool is needed, select the most relevant one based on the user’s request and tool capabilities.
