@@ -4,7 +4,7 @@ class CheckKeywordIndexationJob < ApplicationJob
   def perform(keyword)
     begin
       encoded_keyword = URI.encode_www_form_component(keyword.name)
-      response = FetchSerp::ClientService.new.check_indexation(domain: keyword.domain.name, keyword: encoded_keyword)
+      response = FetchSerp::ClientService.new(user: keyword.user).check_indexation(domain: keyword.domain.name, keyword: encoded_keyword)
       indexation = response["data"]["indexation"]
       if indexation["indexed"]
         keyword.update!(indexed: true, urls: indexation["urls"])

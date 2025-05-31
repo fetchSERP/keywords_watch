@@ -16,13 +16,14 @@ class Domain < ApplicationRecord
       Keyword.create(
         user: user,
         domain: self,
-        name: keyword
+        name: keyword,
+        is_tracked: true
       )  
     end
   end
 
   def create_google_ads_keywords
-    CreateGoogleAdsKeywordsJob.perform_later(domain: self, count: 10)
+    CreateGoogleAdsKeywordsJob.perform_later(domain: self)
   end
 
   def create_backlinks

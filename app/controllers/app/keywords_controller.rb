@@ -38,6 +38,7 @@ class App::KeywordsController < App::ApplicationController
   def update
     respond_to do |format|
       if @keyword.update(keyword_params)
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("keyword_#{@keyword.id}", partial: "app/keywords/keyword", locals: { keyword: @keyword }) }
         format.html { redirect_to [:app, @keyword], notice: "Keyword was successfully updated." }
         format.json { render :show, status: :ok, location: @keyword }
       else
@@ -65,6 +66,6 @@ class App::KeywordsController < App::ApplicationController
 
     # Only allow a list of trusted parameters through.
     def keyword_params
-      params.expect(keyword: [ :name, :avg_monthly_searches, :competition, :competition_index, :low_top_of_page_bid_micros, :high_top_of_page_bid_micros, :domain_id ])
+      params.expect(keyword: [ :name, :avg_monthly_searches, :competition, :competition_index, :low_top_of_page_bid_micros, :high_top_of_page_bid_micros, :domain_id, :is_tracked ])
     end
 end

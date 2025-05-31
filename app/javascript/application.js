@@ -72,3 +72,14 @@ if (window.location.pathname === "/") {
     }
   });
 }
+
+
+// make #notice disappear after 3 seconds
+document.addEventListener("turbo:load", function() {
+  const notice = document.getElementById("notice");
+  if (notice) {
+    setTimeout(() => {
+      notice.style.display = "none";
+    }, 3000);
+  }
+});

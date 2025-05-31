@@ -6,14 +6,14 @@ class Ai::Openai::ToolCallingAgentService < BaseService
 
   def call
     tools = Ai::Openai::Tools::FetchSerp.tools
+
     response = client.chat(
       parameters: {
         model: "gpt-3.5-turbo",
-        messages: knowledge_base + [{ role: "user", content: @user_prompt }],
+        messages: [{ role: "system", content: system_prompt }] + knowledge_base + [{ role: "user", content: @user_prompt }],
         tools: tools.map(&:schema)
       }
     )
-
     
     message = response.dig("choices", 0, "message")
     tool_call = message.dig("tool_calls", 0)
@@ -23,7 +23,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
       args = JSON.parse(tool_call.dig("function", "arguments"))
 
       tool = tools.find { |t| t.schema[:function][:name] == tool_name }
-      tool_result = tool.call(args)
+      tool_result = tool.call(args.merge("user_id" => @user_id))
 
       response = ""
       client.chat(
@@ -55,7 +55,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
   end
 
   def broadcast_message(message)
-    chat_message = ChatMessage.create!(user_id: @user_id, body: message, author: "AI")
+    chat_message = ChatMessage.create!(user_id: @user_id, body: message, author: "assistant")
     Turbo::StreamsChannel.broadcast_replace_to(
       "streaming_channel_#{@user_id}",
       target: "temp_message",
@@ -80,7 +80,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
   def chat_history
     ChatMessage.where(user_id: @user_id).order(created_at: :asc).map do |msg|
       {
-        role: msg.author == "AI" ? "assistant" : "user",
+        role: msg.author,
         content: msg.body
       }
     end

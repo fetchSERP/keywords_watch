@@ -1,7 +1,8 @@
 class FetchSerp::ClientService < BaseService
   BASE_URL = 'https://www.fetchserp.com'
 
-  def initialize
+  def initialize(user:)
+    @user = user
     @bearer_token = Rails.application.credentials.fetch_serp_api_key
     @http_client = Scraper::HttpClientService.new
   end
@@ -80,13 +81,17 @@ class FetchSerp::ClientService < BaseService
     uri.query = URI.encode_www_form(query)
     
     response = @http_client.get(uri.to_s, headers: headers)
-    handle_response(response)
+    json = handle_response(response)
+    CreditService.new(user: @user).call(path: path, params: query)
+    json
   end
 
   def post(path, body: {})
     uri = URI.join(BASE_URL, path)
     response = @http_client.post(uri.to_s, body: body, headers: headers)
-    handle_response(response)
+    json = handle_response(response)
+    CreditService.new(user: @user).call(path: path, params: body)
+    json
   end
 
   def handle_response(response)

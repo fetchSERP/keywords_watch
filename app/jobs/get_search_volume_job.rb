@@ -2,7 +2,7 @@ class GetSearchVolumeJob < ApplicationJob
   queue_as :default
 
   def perform(keyword:)
-    search_volume = FetchSerp::ClientService.new.keywords_search_volume([keyword.name], keyword.domain.country)
+    search_volume = FetchSerp::ClientService.new(user: keyword.user).keywords_search_volume([keyword.name], keyword.domain.country)
     search_volume = search_volume["data"]["search_volume"].first
     if search_volume
       keyword.update(

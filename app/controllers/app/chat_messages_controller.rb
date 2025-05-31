@@ -4,7 +4,7 @@ class App::ChatMessagesController < App::ApplicationController
   end
 
   def create
-    @chat_message = Current.user.chat_messages.build(chat_message_params.merge(author: Current.user.email_address))
+    @chat_message = Current.user.chat_messages.build(chat_message_params.merge(author: "user"))
     if @chat_message.save
       render turbo_stream: [
         turbo_stream.prepend("chat_messages", partial: "app/chat_messages/message", locals: { message: @chat_message }),

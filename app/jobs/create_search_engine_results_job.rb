@@ -1,8 +1,8 @@
 class CreateSearchEngineResultsJob < ApplicationJob
   queue_as :default
 
-  def perform(keyword:, search_engine: "google", count: 10)
-    search_engine_results = FetchSerp::ClientService.new.search_engine_results(keyword.name, search_engine, keyword.domain.country, count)
+  def perform(keyword:, search_engine: "google", pages_number: 10)
+    search_engine_results = FetchSerp::ClientService.new(user: keyword.user).search_engine_results(keyword.name, search_engine, keyword.domain.country, pages_number)
     search_engine_results["data"]["results"].each do |search_engine_result|
       competitor = Competitor.find_or_initialize_by(user: keyword.user, domain: keyword.domain, domain_name: URI.parse(search_engine_result["url"]).host)
       competitor.increment(:serp_appearances_count).save!

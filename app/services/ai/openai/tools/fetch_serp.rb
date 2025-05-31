@@ -67,7 +67,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.search_engine_results(
               params["query"],
               params["search_engine"] || "google",
@@ -125,7 +125,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.search_engine_results_html(
               params["query"],
               params["search_engine"] || "google",
@@ -182,7 +182,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.search_engine_results_text(
               params["query"],
               params["search_engine"] || "google",
@@ -246,7 +246,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.domain_ranking(
               params["keyword"],
               params["domain"],
@@ -289,7 +289,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.scrape_web_page(params["url"])
 
             {
@@ -331,7 +331,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.scrape_domain(
               params["domain"],
               params["max_pages"] || 10
@@ -374,7 +374,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.scrape_web_page_with_js(
               params["url"],
               params["js_script"]
@@ -418,7 +418,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.keywords_search_volume(
               params["keywords"],
               params["country"] || "us"
@@ -466,7 +466,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.keywords_suggestions(
               url: params["url"],
               keywords: params["keywords"],
@@ -520,7 +520,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.backlinks(
               params["domain"],
               params["search_engine"] || "google",
@@ -576,7 +576,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.domain_emails(
               params["domain"],
               params["search_engine"] || "google",
@@ -621,7 +621,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             results = client.web_page_ai_analysis(
               params["url"],
               params["prompt"]
@@ -659,7 +659,7 @@ module Ai
           end
 
           def self.call(params)
-            client = ::FetchSerp::ClientService.new
+            client = ::FetchSerp::ClientService.new(user: User.find(params["user_id"]))
             params["url"] = "https://#{params["url"]}" unless params["url"].start_with?("http")
             results = client.web_page_seo_analysis(params["url"])
 
@@ -699,7 +699,7 @@ module Ai
           end
 
           def self.call(params)
-            response = ::FetchSerp::ClientService.new.check_indexation(
+            response = ::FetchSerp::ClientService.new(user: User.find(params["user_id"])).check_indexation(
               domain: params["domain"],
               keyword: params["keyword"]
             )
@@ -752,7 +752,7 @@ module Ai
           end
 
           def self.call(params)
-            response = ::FetchSerp::ClientService.new.generate_long_tail_keywords(
+            response = ::FetchSerp::ClientService.new(user: User.find(params["user_id"])).generate_long_tail_keywords(
               keyword: params["keyword"],
               search_intent: params["search_intent"] || "informational",
               count: params["count"]&.to_i || 10

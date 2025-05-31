@@ -2,7 +2,7 @@ class CreateBacklinksJob < ApplicationJob
   queue_as :default
 
   def perform(domain)
-    backlinks = FetchSerp::ClientService.new.backlinks(domain.name)
+    backlinks = FetchSerp::ClientService.new(user: domain.user).backlinks(domain.name)
     backlinks["data"]["backlinks"].each do |backlink|
       backlink = Backlink.create!(
         user: domain.user,
