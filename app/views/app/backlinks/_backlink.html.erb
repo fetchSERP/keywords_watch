@@ -1,5 +1,14 @@
 <tr class="hover:bg-gray-800/50 transition-colors">
   <td class="px-6 py-4 whitespace-nowrap">
+    <div class="flex items-center space-x-2">
+      <% if backlink.rel_attributes.include?("nofollow") %>
+        <span class="px-2 py-1 text-sm font-medium rounded-full bg-yellow-500/10 text-yellow-400">NoFollow</span>
+      <% else %>
+        <span class="px-2 py-1 text-sm font-medium rounded-full bg-green-500/10 text-green-400">DoFollow</span>
+      <% end %>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
     <div class="flex items-center">
       <div class="text-sm font-medium text-gray-100">
         <%= link_to backlink.source_domain, backlink.source_url, target: "_blank", class: "hover:text-yellow-500 transition-colors" %>
@@ -14,15 +23,6 @@
   <td class="px-6 py-4 whitespace-nowrap">
     <div class="text-sm text-gray-300">
       <%= backlink.anchor_text.presence || "N/A" %>
-    </div>
-  </td>
-  <td class="px-6 py-4 whitespace-nowrap">
-    <div class="flex items-center space-x-2">
-      <% if backlink.rel_attributes.include?("nofollow") %>
-        <span class="px-2 py-1 text-sm font-medium rounded-full bg-yellow-500/10 text-yellow-400">NoFollow</span>
-      <% else %>
-        <span class="px-2 py-1 text-sm font-medium rounded-full bg-green-500/10 text-green-400">DoFollow</span>
-      <% end %>
     </div>
   </td>
 

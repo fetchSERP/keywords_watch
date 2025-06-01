@@ -4,18 +4,43 @@ class CreateSearchEngineResultsJob < ApplicationJob
   def perform(keyword:, search_engine: "google", pages_number: 10)
     search_engine_results = FetchSerp::ClientService.new(user: keyword.user).search_engine_results(keyword.name, search_engine, keyword.domain.country, pages_number)
     search_engine_results["data"]["results"].each do |search_engine_result|
-      competitor = Competitor.find_or_initialize_by(user: keyword.user, domain: keyword.domain, domain_name: URI.parse(search_engine_result["url"]).host)
-      competitor.increment(:serp_appearances_count).save!
-      competitor.search_engine_results.create!(
-        user: keyword.user,
-        keyword: keyword,
-        site_name: search_engine_result["site_name"],
-        url: search_engine_result["url"],
-        title: search_engine_result["title"],
-        description: search_engine_result["description"],
-        ranking: search_engine_result["ranking"],
-        search_engine: search_engine
-      )
+      if competitor = Competitor.find_by(user: keyword.user, domain: keyword.domain, domain_name: URI.parse(search_engine_result["url"]).host)
+        competitor.increment(:serp_appearances_count).save!
+        create_search_engine_result(search_engine_result, competitor, keyword, search_engine)
+        Turbo::StreamsChannel.broadcast_append_to(
+          "streaming_channel_#{keyword.user_id}",
+          target: "competitors",
+          partial: "app/domains/competitor",
+          locals: { competitor: competitor }
+        )
+      else
+        competitor = Competitor.create!(
+          user: keyword.user,
+          domain: keyword.domain,
+          domain_name: URI.parse(search_engine_result["url"]).host,
+          serp_appearances_count: 1
+        )
+        create_search_engine_result(search_engine_result, competitor, keyword, search_engine)
+        Turbo::StreamsChannel.broadcast_replace_to(
+          "streaming_channel_#{keyword.user_id}",
+          target: "competitor_#{competitor.id}",
+          partial: "app/domains/competitor",
+          locals: { competitor: competitor }
+        )
+      end
     end
+  end
+
+  def create_search_engine_result(search_engine_result, competitor, keyword, search_engine)
+    competitor.search_engine_results.create!(
+      user: keyword.user,
+      keyword: keyword,
+      site_name: search_engine_result["site_name"],
+      url: search_engine_result["url"],
+      title: search_engine_result["title"],
+      description: search_engine_result["description"],
+      ranking: search_engine_result["ranking"],
+      search_engine: search_engine
+    )
   end
 end

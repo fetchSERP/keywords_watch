@@ -2,7 +2,7 @@ class CreateBacklinksJob < ApplicationJob
   queue_as :default
 
   def perform(domain)
-    backlinks = FetchSerp::ClientService.new(user: domain.user).backlinks(domain.name)
+    backlinks = FetchSerp::ClientService.new(user: domain.user).backlinks(domain.name, "google", domain.country, 20)
     backlinks["data"]["backlinks"].each do |backlink|
       backlink = Backlink.create!(
         user: domain.user,
@@ -23,6 +23,12 @@ class CreateBacklinksJob < ApplicationJob
         target: "backlinks",
         partial: "app/backlinks/backlink",
         locals: { backlink: backlink }
+      )
+      Turbo::StreamsChannel.broadcast_update_to(
+        "streaming_channel_#{domain.user_id}",
+        target: "backlinks_count",
+        partial: "app/domains/backlinks_count",
+        locals: { domain: domain }
       )
     end
   end
