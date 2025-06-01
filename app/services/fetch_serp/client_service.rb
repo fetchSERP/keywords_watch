@@ -63,7 +63,7 @@ class FetchSerp::ClientService < BaseService
   end
 
   def check_indexation(domain:, keyword:)
-    get('/api/v1/indexation', query: { domain: domain, keyword: keyword })
+    get('/api/v1/page_indexation', query: { domain: domain, keyword: keyword })
   end
 
   def generate_long_tail_keywords(keyword:, search_intent: "informational", count: 10)

@@ -1,13 +1,12 @@
-<% technical_seo_report = web_page.technical_seo_report %>
-<%# Technical SEO Report Table Row %>
-<tr class="bg-gray-800/50 border-b border-gray-700 hover:bg-gray-700/50">
+
+<tr class="bg-gray-800/50 border-b border-gray-700 hover:bg-gray-700/50" id="technical_seo_report_<%= technical_seo_report.id %>">
   <%# Meta Information %>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
     <div class="space-y-1">
       <div class="flex items-center space-x-2">
         <span class="text-gray-400">Title:</span>
-        <span title="<%= technical_seo_report.analysis['title'] %>" class="truncate max-w-xs"><%= technical_seo_report.analysis['title'] %></span>
-        <span class="text-xs text-gray-500">(<%= technical_seo_report.analysis['title_length'] %> chars)</span>
+        <span title="<%= technical_seo_report&.analysis&.dig('title') %>" class="truncate max-w-xs"><%= technical_seo_report&.analysis&.dig('title') %></span>
+        <span class="text-xs text-gray-500">(<%= technical_seo_report&.analysis&.dig('title_length') %> chars)</span>
       </div>
       <div class="flex items-center space-x-2">
         <span class="text-gray-400">Meta:</span>

@@ -44,7 +44,7 @@ class CreditService < BaseService
       params[:pages_number].present? ? params[:pages_number].to_i * 2 : 2
     when "/api/v1/web_page_ai_analysis"
       return 10
-    when "/api/v1/indexation"
+    when "/api/v1/page_indexation"
       return 1
     when "/api/v1/long_tail_keywords_generator"
       return 10

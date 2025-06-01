@@ -26,8 +26,8 @@
       <h2 class="text-xl font-bold text-gray-100 mb-4">Keywords Rankings in Search Engines Results</h2>
 
       <div class="text-gray-300 flex-grow flex flex-col">
-        <div class="flex-grow">
-          <%= keywords_performance_chart(domain) %>
+        <div class="flex-grow h-full">
+          <%= render "app/domains/keywords_chart", domain: domain %>
         </div>
       </div>
     </div>

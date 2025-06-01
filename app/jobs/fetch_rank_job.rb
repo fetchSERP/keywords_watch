@@ -25,6 +25,12 @@ class FetchRankJob < ApplicationJob
         partial: "app/domains/avg_rank",
         locals: { domain: ranking.domain }
       )
+      Turbo::StreamsChannel.broadcast_update_to(
+        "streaming_channel_#{ranking.user_id}",
+        target: "keywords_chart",
+        partial: "app/domains/keywords_chart",
+        locals: { domain: ranking.domain }
+      )
     end
   end
 end

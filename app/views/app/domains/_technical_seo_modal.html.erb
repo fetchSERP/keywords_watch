@@ -38,9 +38,9 @@
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Summary</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="technical_seo_reports">
               <% domain.web_pages.includes(:technical_seo_report).each do |web_page| %>
-                <%= render "app/domains/technical_seo_report", web_page: web_page %>
+                <%= render "app/domains/technical_seo_report", technical_seo_report: web_page.technical_seo_report if web_page.technical_seo_report.present? %>
               <% end %>
             </tbody>
           </table>
