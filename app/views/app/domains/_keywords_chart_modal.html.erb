@@ -27,21 +27,7 @@
 
       <div class="text-gray-300 flex-grow flex flex-col">
         <div class="flex-grow">
-          <%= line_chart(
-                domain.keywords.where(is_tracked: true).includes(:rankings).map { |k| 
-                  { name: k.name, data: k.rankings.group_by { |r| r.created_at.to_date.to_s }
-                    .transform_values { |rs| rs.first.rank } } 
-                }, 
-                height: "100%",  # make chart fill container height
-                id: "performance-chart",
-                library: {
-                  plugins: {
-                    legend: {
-                      position: 'bottom'  # <-- This moves legend to the bottom
-                    }
-                  }
-                }
-              ) %>
+          <%= keywords_performance_chart(domain) %>
         </div>
       </div>
     </div>

@@ -1,0 +1,169 @@
+<% technical_seo_report = web_page.technical_seo_report %>
+<%# Technical SEO Report Table Row %>
+<tr class="bg-gray-800/50 border-b border-gray-700 hover:bg-gray-700/50">
+  <%# Meta Information %>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+    <div class="space-y-1">
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Title:</span>
+        <span title="<%= technical_seo_report.analysis['title'] %>" class="truncate max-w-xs"><%= technical_seo_report.analysis['title'] %></span>
+        <span class="text-xs text-gray-500">(<%= technical_seo_report.analysis['title_length'] %> chars)</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Meta:</span>
+        <span title="<%= technical_seo_report.analysis['meta_description'] %>" class="truncate max-w-xs"><%= technical_seo_report.analysis['meta_description'] %></span>
+        <span class="text-xs text-gray-500">(<%= technical_seo_report.analysis['meta_description_length'] %> chars)</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Canonical:</span>
+        <span title="<%= technical_seo_report.analysis['canonical_url'] %>" class="truncate max-w-xs"><%= technical_seo_report.analysis['canonical_url'] %></span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Robots:</span>
+        <span><%= technical_seo_report.analysis['robots_meta'] %></span>
+        <% if technical_seo_report.analysis['noindex_detected'] %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-500/10 text-red-400">Noindex</span>
+        <% end %>
+        <% if technical_seo_report.analysis['nofollow_detected'] %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-500/10 text-yellow-400">Nofollow</span>
+        <% end %>
+      </div>
+    </div>
+  </td>
+
+  <%# Headings & Content %>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+    <div class="space-y-1">
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">H1:</span>
+        <span title="<%= technical_seo_report.analysis.dig('headings', 'h1') %>" class="truncate max-w-xs"><%= technical_seo_report.analysis.dig('headings', 'h1') %></span>
+        <span class="text-xs text-gray-500">(<%= technical_seo_report.analysis.dig('headings', 'h1_count') %>)</span>
+        <% if technical_seo_report.analysis.dig('headings', 'h1_contains_keyword') %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400">Has Keyword</span>
+        <% end %>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Structure:</span>
+        <span class="text-xs">
+          H1:<%= technical_seo_report.analysis.dig('headings', 'structure', 'h1') %>,
+          H2:<%= technical_seo_report.analysis.dig('headings', 'structure', 'h2') %>,
+          H3:<%= technical_seo_report.analysis.dig('headings', 'structure', 'h3') %>,
+          H4:<%= technical_seo_report.analysis.dig('headings', 'structure', 'h4') %>
+        </span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Content:</span>
+        <span><%= technical_seo_report.analysis.dig('content', 'word_count') %> words</span>
+        <span class="text-xs text-gray-500">(<%= technical_seo_report.analysis.dig('content', 'keyword_density', 'keyword') %>% density)</span>
+        <% if technical_seo_report.analysis.dig('content', 'duplicate_content') %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-500/10 text-red-400">Duplicate</span>
+        <% end %>
+        <% if technical_seo_report.analysis.dig('content', 'thin_content') %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-500/10 text-red-400">Thin</span>
+        <% end %>
+      </div>
+      <% if technical_seo_report.analysis.dig('content', 'content_topics').present? %>
+        <div class="flex flex-wrap gap-1 mt-1">
+          <% Array(technical_seo_report.analysis.dig('content', 'content_topics')).each do |topic| %>
+            <span class="inline-block bg-blue-500/10 text-blue-400 rounded px-2 py-0.5 text-xs"><%= topic %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </td>
+
+  <%# Links & Images %>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+    <div class="space-y-1">
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Links:</span>
+        <span>Internal: <%= technical_seo_report.analysis.dig('links', 'internal_links_count') %></span>
+        <span>External: <%= technical_seo_report.analysis.dig('links', 'external_links_count') %></span>
+        <span>Nofollow: <%= technical_seo_report.analysis.dig('links', 'nofollow_links_count') %></span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Images:</span>
+        <span><%= technical_seo_report.analysis.dig('images', 'total_images') %> total</span>
+        <span class="text-xs text-gray-500">(<%= technical_seo_report.analysis.dig('images', 'image_alt_coverage') %>% alt coverage)</span>
+      </div>
+
+    </div>
+  </td>
+
+  <%# Technical %>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+    <div class="space-y-1">
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Technical:</span>
+        <% if technical_seo_report.analysis.dig('technical', 'https') %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400">HTTPS</span>
+        <% end %>
+        <% if technical_seo_report.analysis.dig('technical', 'mobile_friendly') %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400">Mobile</span>
+        <% end %>
+        <% if technical_seo_report.analysis.dig('technical', 'viewport_tag_present') %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400">Viewport</span>
+        <% end %>
+        <% if technical_seo_report.analysis.dig('technical', 'aria_roles_present') %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400">ARIA</span>
+        <% end %>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Core Vitals:</span>
+        <span class="text-xs">
+          LCP:<%= technical_seo_report.analysis.dig('technical', 'core_web_vitals', 'lcp') %>,
+          FID:<%= technical_seo_report.analysis.dig('technical', 'core_web_vitals', 'fid') %>,
+          CLS:<%= technical_seo_report.analysis.dig('technical', 'core_web_vitals', 'cls') %>
+        </span>
+      </div>
+      <% if technical_seo_report.analysis.dig('technical', 'semantic_tags_used').present? %>
+        <div class="flex flex-wrap gap-1 mt-1">
+          <% Array(technical_seo_report.analysis.dig('technical', 'semantic_tags_used')).each do |tag| %>
+            <span class="inline-block bg-blue-500/10 text-blue-400 rounded px-2 py-0.5 text-xs"><%= tag %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </td>
+
+  <%# Social & Indexability %>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+    <div class="space-y-1">
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Social:</span>
+        <% if technical_seo_report.analysis.dig('social_meta', 'social_meta_complete') %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400">Complete</span>
+        <% end %>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400">Indexability:</span>
+        <% if technical_seo_report.analysis.dig('indexability', 'indexable') %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400">Indexable</span>
+        <% else %>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-500/10 text-red-400">Not Indexable</span>
+        <% end %>
+        <span class="text-xs text-gray-500">(Depth: <%= technical_seo_report.analysis.dig('indexability', 'crawl_depth') %>)</span>
+      </div>
+    </div>
+  </td>
+
+  <%# Summary %>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+    <div class="space-y-1">
+      <% if technical_seo_report.analysis.dig('summary', 'issues').present? %>
+        <div class="flex flex-wrap gap-1">
+          <% Array(technical_seo_report.analysis.dig('summary', 'issues')).each do |issue| %>
+            <span class="inline-block bg-red-500/10 text-red-400 rounded px-2 py-0.5 text-xs"><%= issue %></span>
+          <% end %>
+        </div>
+      <% end %>
+      <% if technical_seo_report.analysis.dig('summary', 'recommendations').present? %>
+        <div class="flex flex-wrap gap-1 mt-1">
+          <% Array(technical_seo_report.analysis.dig('summary', 'recommendations')).each do |rec| %>
+            <span class="inline-block bg-green-500/10 text-green-400 rounded px-2 py-0.5 text-xs"><%= rec %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </td>
+</tr>

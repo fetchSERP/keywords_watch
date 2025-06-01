@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  analysis: 
+  user: one
+  web_page: one
+  url: MyString
+
+two:
+  analysis: 
+  user: two
+  web_page: two
+  url: MyString

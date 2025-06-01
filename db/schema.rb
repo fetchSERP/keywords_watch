@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_31_214442) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_01_143402) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -125,6 +125,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_31_214442) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "technical_seo_reports", force: :cascade do |t|
+    t.jsonb "analysis"
+    t.bigint "user_id", null: false
+    t.bigint "web_page_id", null: false
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_technical_seo_reports_on_user_id"
+    t.index ["web_page_id"], name: "index_technical_seo_reports_on_web_page_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "password_digest", null: false
@@ -175,6 +186,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_31_214442) do
   add_foreign_key "search_engine_results", "keywords"
   add_foreign_key "search_engine_results", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "technical_seo_reports", "users"
+  add_foreign_key "technical_seo_reports", "web_pages"
   add_foreign_key "web_pages", "domains"
   add_foreign_key "web_pages", "users"
 end

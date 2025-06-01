@@ -42,5 +42,6 @@ class CreateWebPagesJob < ApplicationJob
     end
 
     KeywordsAiScoreJob.perform_later(domain: domain, count: 10)
+    TechnicalSeoReportJob.perform_later(domain: domain)
   end
 end
