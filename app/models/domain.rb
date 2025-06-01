@@ -1,5 +1,5 @@
 class Domain < ApplicationRecord
-  after_commit :create_google_ads_keywords, :create_main_keywords, :create_backlinks, on: :create
+  after_commit :create_google_ads_keywords, :create_main_keywords, :create_backlinks, :create_domain_infos, on: :create
   belongs_to :user
   has_many :rankings, dependent: :destroy
   has_many :backlinks, dependent: :destroy
@@ -29,6 +29,10 @@ class Domain < ApplicationRecord
 
   def create_backlinks
     CreateBacklinksJob.perform_later(self)
+  end
+
+  def create_domain_infos
+    CreateDomainInfosJob.perform_later(self)
   end
 
 end

@@ -19,7 +19,8 @@ module Ai
             WebPageAiAnalysis,
             WebPageSeoAnalysis,
             CheckIndexation,
-            GenerateLongTailKeywords
+            GenerateLongTailKeywords,
+            DomainInfos
           ]
         end
   
@@ -765,6 +766,43 @@ module Ai
                 keyword: params["keyword"],
                 search_intent: params["search_intent"] || "informational",
                 keywords: response["data"]["long_tail_keywords"]
+              }
+            end
+          rescue StandardError => e
+            { error: e.message }
+          end
+        end
+
+        class DomainInfos < BaseService
+          def self.schema
+            {
+              type: "function",
+              function: {
+                name: "domain_infos",
+                description: "Get domain infos. Use this tool to get domain infos for a given domain. includes dns, ssl, whois, etc.",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    domain: {
+                      type: "string",
+                      description: "The domain to get infos for"
+                    }
+                  },
+                  required: ["domain"]
+                }
+              }
+            }
+          end
+
+          def self.call(params)
+            response = ::FetchSerp::ClientService.new(user: User.find(params["user_id"])).domain_infos(params["domain"])
+
+            if response["error"]
+              { error: response["error"] }
+            else
+              {
+                domain: params["domain"],
+                infos: response["data"]["domain_info"]
               }
             end
           rescue StandardError => e

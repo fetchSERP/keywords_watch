@@ -70,6 +70,10 @@ class FetchSerp::ClientService < BaseService
     get('/api/v1/long_tail_keywords_generator', query: { keyword: keyword, search_intent: search_intent, count: count })
   end
 
+  def domain_infos(domain)
+    get('/api/v1/domain_infos', query: { domain: domain })
+  end
+
   private
 
   def headers
@@ -79,11 +83,20 @@ class FetchSerp::ClientService < BaseService
   def get(path, query: {})
     uri = URI.join(BASE_URL, path)
     uri.query = URI.encode_www_form(query)
-    
-    response = @http_client.get(uri.to_s, headers: headers)
-    json = handle_response(response)
-    CreditService.new(user: @user).call(path: path, params: query)
-    json
+    i = 0
+    begin
+      response = @http_client.get(uri.to_s, headers: headers)
+      json = handle_response(response)
+      CreditService.new(user: @user).call(path: path, params: query)
+      json
+    rescue => e
+      i += 1
+      if i < 3
+        retry
+      else
+        raise e
+      end
+    end
   end
 
   def post(path, body: {})

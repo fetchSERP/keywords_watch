@@ -10,6 +10,7 @@ import KeywordsSortingController from "./keywords_sorting_controller"
 import SubmitOnChangeController from "./submit_on_change_controller"
 import KeywordsChartModalController from "./keywords_chart_modal_controller"
 import TechnicalSeoModalController from "./technical_seo_modal_controller"
+import DomainInfosModalController from "./domain_infos_modal_controller"
 
 application.register("hello", HelloController)
 application.register("sorting", SortingController)
@@ -17,3 +18,4 @@ application.register("keywords-sorting", KeywordsSortingController)
 application.register("submit-on-change", SubmitOnChangeController)
 application.register("keywords-chart-modal", KeywordsChartModalController)
 application.register("technical-seo-modal", TechnicalSeoModalController)
+application.register("domain-infos-modal", DomainInfosModalController)

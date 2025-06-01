@@ -25,6 +25,14 @@ class Ai::Openai::ToolCallingAgentService < BaseService
       tool = tools.find { |t| t.schema[:function][:name] == tool_name }
       tool_result = tool.call(args.merge("user_id" => @user_id))
 
+      user = User.find(@user_id)
+      Turbo::StreamsChannel.broadcast_replace_to(
+        "streaming_channel_#{@user_id}",
+        target: "user_credit",
+        partial: "shared/user_credit",
+        locals: { user: user }
+      )
+
       response = ""
       client.chat(
         parameters: {
@@ -152,6 +160,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
       13. **web_page_seo_analysis** – SEO audit. Params: url (required).
       14. **check_indexation** – Check if a page is indexed. Params: url (required).
       15. **generate_long_tail_keywords** – Generate long tail keywords. Params: url (required).
+      16. **domain_infos** – Get domain infos (dns, ssl, whois, etc). Params: domain (required).
 
   
       **When responding:**

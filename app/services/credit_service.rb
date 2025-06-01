@@ -48,6 +48,8 @@ class CreditService < BaseService
       return 1
     when "/api/v1/long_tail_keywords_generator"
       return 10
+    when "/api/v1/domain_infos"
+      return 5
     else
       return 0
     end
