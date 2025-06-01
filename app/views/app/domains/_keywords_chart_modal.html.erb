@@ -1,5 +1,5 @@
-<article data-controller="modal">
-  <p data-action="click->modal#open" class="hover:cursor-pointer flex items-center gap-2 border-2 border-yellow-500/30 rounded-md p-2 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white font-semibold">
+<article data-controller="keywords-chart-modal">
+  <p data-action="click->keywords-chart-modal#open" class="hover:cursor-pointer flex items-center gap-2 border-2 border-yellow-500/30 rounded-md p-2 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white font-semibold">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-1 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10v-4M5 3v18h14" />
     </svg>
@@ -7,15 +7,15 @@
   </p>
 
   <div 
-    id="chart-modal" 
+    id="keywords-chart-modal" 
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 hidden"
-    data-modal-target="modal"
+    data-keywords-chart-modal-target="modal"
   >
     <div class="bg-gray-900 rounded-xl shadow-2xl flex flex-col h-full w-full relative p-8">
       <button 
         type="button" 
-        class="absolute top-4 right-4 text-gray-400 hover:text-red-400 transition"
-        data-action="click->modal#close"
+        class="absolute top-4 right-4 text-gray-400 hover:text-red-400 transition hover:cursor-pointer"
+        data-action="click->keywords-chart-modal#close"
         aria-label="Close"
       >
         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,7 +23,7 @@
         </svg>
       </button>
       
-      <h2 class="text-xl font-bold text-gray-100 mb-4">Keyword Performance Chart</h2>
+      <h2 class="text-xl font-bold text-gray-100 mb-4">Keywords Rankings in Search Engines Results</h2>
 
       <div class="text-gray-300 flex-grow flex flex-col">
         <div class="flex-grow">
