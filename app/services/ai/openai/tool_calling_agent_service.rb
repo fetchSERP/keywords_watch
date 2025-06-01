@@ -87,7 +87,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
   end
 
   def backlinks
-    backlinks_data = Backlink.where(user_id: @user_id).order(created_at: :asc).each_with_index.map do |backlink, index|
+    backlinks_data = Backlink.where(user_id: @user_id).order(created_at: :asc).take(50).each_with_index.map do |backlink, index|
       "Backlink #{index + 1}: domain: #{backlink.domain.name}, source_url: #{backlink.source_url}, target_url: #{backlink.target_url}, anchor_text: #{backlink.anchor_text}, nofollow: #{backlink.nofollow}, rel_attributes: #{backlink.rel_attributes}, context_text: #{backlink.context_text}, source_domain: #{backlink.source_domain}, target_domain: #{backlink.target_domain}, page_title: #{backlink.page_title}, meta_description: #{backlink.meta_description}"
     end.join("\n")
   
@@ -100,8 +100,8 @@ class Ai::Openai::ToolCallingAgentService < BaseService
   end
 
   def keywords
-    keywords_data = Keyword.where(user_id: @user_id).order(created_at: :asc).each_with_index.map do |keyword, index|
-      "Keyword #{index + 1}: #{keyword.name}, domain: #{keyword.domain.name}, rank: #{keyword.rankings.last&.rank}, indexed: #{keyword.indexed}, indexed_urls: #{keyword.urls.join(", ")}, avg_monthly_searches: #{keyword.avg_monthly_searches}, competition: #{keyword.competition}, competition_index: #{keyword.competition_index}, low_top_of_page_bid_micros: #{keyword.low_top_of_page_bid_micros}, high_top_of_page_bid_micros: #{keyword.high_top_of_page_bid_micros}"
+    keywords_data = Keyword.where(user_id: @user_id, is_tracked: true).order(created_at: :asc).take(10).each_with_index.map do |keyword, index|
+      "Keyword #{index + 1}: #{keyword.name}, domain: #{keyword.domain.name}, rank: #{keyword.rankings.last&.rank}, indexed: #{keyword.indexed}, indexed_urls: #{keyword.urls.take(5).join(", ")}, avg_monthly_searches: #{keyword.avg_monthly_searches}, competition: #{keyword.competition}, competition_index: #{keyword.competition_index}, low_top_of_page_bid_micros: #{keyword.low_top_of_page_bid_micros}, high_top_of_page_bid_micros: #{keyword.high_top_of_page_bid_micros}"
     end.join("\n")
 
     [
@@ -113,7 +113,7 @@ class Ai::Openai::ToolCallingAgentService < BaseService
   end
 
   def competitors
-    competitors_data = Competitor.where(user_id: @user_id).order(created_at: :asc).each_with_index.map do |competitor, index|
+    competitors_data = Competitor.where(user_id: @user_id).order(serp_appearances_count: :desc).take(10).each_with_index.map do |competitor, index|
       "Competitor #{index + 1}: domain: #{competitor.domain.name}, competitor_domain: #{competitor.domain_name}, serp_appearances_count: #{competitor.serp_appearances_count}"
     end.join("\n")
     
