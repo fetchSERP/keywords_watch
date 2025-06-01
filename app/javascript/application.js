@@ -1,6 +1,7 @@
 // Entry point for the build script in your package.json
 import "@hotwired/turbo-rails"
 import { createIcons, icons } from 'lucide';
+import "chartkick/chart.js"
 import "./controllers"
 import "./channels"
 // Chat panel toggle
