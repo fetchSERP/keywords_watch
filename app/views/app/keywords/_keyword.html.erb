@@ -1,5 +1,5 @@
 <tr class="hover:bg-gray-800/50 transition-colors" id="keyword_<%= keyword.id %>">
-  <td class="px-6 py-4 whitespace-nowrap" data-sorting-order="asc" data-sorting-item="<%= keyword.rankings.any? ? keyword.rankings.order(created_at: :desc).first.rank : nil %>">
+  <td class="px-6 py-4 whitespace-nowrap" data-sorting-field-one="<%= keyword.is_tracked ? 1 : 0 %>" data-sorting-field-two="<%= keyword.rankings.any? ? keyword.rankings.order(created_at: :desc).first.rank : nil %>" data-sorting-order="asc" data-sorting-field-three="<%= keyword.ai_score %>">
     <div class="flex items-center">
       <div class="text-sm font-medium text-gray-100">
         <%= link_to keyword.name, [:app, keyword], class: "hover:text-yellow-500 transition-colors" %>
@@ -36,9 +36,14 @@
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-300">
+      <%= keyword.ai_score.presence || "N/A" %>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap" data-controller="submit-on-change">
     <%= form_with model: keyword, url: [:app, keyword], method: :put, class: "flex items-center space-x-2" do |f| %>
-      <%= f.check_box :is_tracked, class: "form-checkbox h-5 w-5 text-yellow-500 border-gray-300 rounded auto-submit-checkbox" %>
-      <%#= f.submit keyword.is_tracked ? "Untrack" : "Track", class: "text-sm text-gray-400 hover:text-yellow-500 transition-colors", data: { turbo_method: :put } %>
+      <%= f.check_box :is_tracked, class: "form-checkbox h-5 w-5 text-yellow-500 border-gray-300 rounded", id: "is_tracked_#{keyword.id}", data: { submit_on_change_target: "checkbox", action: "change->submit-on-change#submitOnChange" } %>
+      <%#= f.submit "Update", class: "text-sm text-gray-400 hover:text-yellow-500 transition-colors hover:cursor-pointer", data: { turbo_method: :put } %>
     <% end %>
   </td>
 </tr>

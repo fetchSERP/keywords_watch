@@ -6,6 +6,7 @@ class Domain < ApplicationRecord
   has_many :keywords, dependent: :destroy
   has_many :search_engine_results, through: :keywords
   has_many :competitors, dependent: :destroy
+  has_many :web_pages, dependent: :destroy
   validates :name, presence: true, uniqueness: { scope: :user_id }
   validates :country, presence: true, inclusion: { in: ISO3166::Country.all.map(&:alpha2).map(&:downcase) }
 
@@ -16,7 +17,7 @@ class Domain < ApplicationRecord
       Keyword.create(
         user: user,
         domain: self,
-        name: keyword,
+        name: keyword.downcase,
         is_tracked: true
       )  
     end
@@ -29,4 +30,5 @@ class Domain < ApplicationRecord
   def create_backlinks
     CreateBacklinksJob.perform_later(self)
   end
+
 end

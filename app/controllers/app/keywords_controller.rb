@@ -38,7 +38,12 @@ class App::KeywordsController < App::ApplicationController
   def update
     respond_to do |format|
       if @keyword.update(keyword_params)
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("keyword_#{@keyword.id}", partial: "app/keywords/keyword", locals: { keyword: @keyword }) }
+        format.turbo_stream {
+          render turbo_stream: [
+            turbo_stream.replace("keyword_#{@keyword.id}", partial: "app/keywords/keyword", locals: { keyword: @keyword }),
+            turbo_stream.replace("tracked_keywords_count", partial: "app/domains/tracked_keywords_count", locals: { domain: @keyword.domain })
+          ]
+        }
         format.html { redirect_to [:app, @keyword], notice: "Keyword was successfully updated." }
         format.json { render :show, status: :ok, location: @keyword }
       else

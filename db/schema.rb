@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_31_150709) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_31_214442) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -79,6 +79,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_31_150709) do
     t.string "ranking_url"
     t.integer "search_intent"
     t.boolean "is_tracked", default: false
+    t.integer "ai_score"
     t.index ["domain_id"], name: "index_keywords_on_domain_id"
     t.index ["user_id"], name: "index_keywords_on_user_id"
   end
@@ -134,6 +135,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_31_150709) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  create_table "web_pages", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "domain_id", null: false
+    t.string "url"
+    t.string "title"
+    t.string "meta_description"
+    t.string "meta_keywords", default: [], array: true
+    t.text "h1", default: [], array: true
+    t.text "h2", default: [], array: true
+    t.text "h3", default: [], array: true
+    t.text "h4", default: [], array: true
+    t.text "h5", default: [], array: true
+    t.text "body"
+    t.integer "word_count"
+    t.string "internal_links", default: [], array: true
+    t.string "external_links", default: [], array: true
+    t.string "canonical_url"
+    t.boolean "indexed"
+    t.text "html"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["domain_id"], name: "index_web_pages_on_domain_id"
+    t.index ["user_id"], name: "index_web_pages_on_user_id"
+  end
+
   add_foreign_key "backlinks", "domains"
   add_foreign_key "backlinks", "users"
   add_foreign_key "chat_messages", "users"
@@ -149,4 +175,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_31_150709) do
   add_foreign_key "search_engine_results", "keywords"
   add_foreign_key "search_engine_results", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "web_pages", "domains"
+  add_foreign_key "web_pages", "users"
 end

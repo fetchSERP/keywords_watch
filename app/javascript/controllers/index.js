@@ -6,6 +6,10 @@ import { application } from "./application"
 
 import HelloController from "./hello_controller"
 import SortingController from "./sorting_controller"
+import KeywordsSortingController from "./keywords_sorting_controller"
+import SubmitOnChangeController from "./submit_on_change_controller"
 
 application.register("hello", HelloController)
 application.register("sorting", SortingController)
+application.register("keywords-sorting", KeywordsSortingController)
+application.register("submit-on-change", SubmitOnChangeController)

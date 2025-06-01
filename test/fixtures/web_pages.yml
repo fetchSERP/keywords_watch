@@ -1,0 +1,41 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  domain: one
+  url: MyString
+  title: MyString
+  meta_description: MyString
+  meta_keywords: MyString
+  h1: MyText
+  h1: MyText
+  h3: MyText
+  h4: MyText
+  h5: MyText
+  html: MyText
+  body: MyText
+  word_count: 1
+  internal_link: MyString
+  external_links: MyString
+  canonical_url: MyString
+  indexed: false
+
+two:
+  user: two
+  domain: two
+  url: MyString
+  title: MyString
+  meta_description: MyString
+  meta_keywords: MyString
+  h1: MyText
+  h1: MyText
+  h3: MyText
+  h4: MyText
+  h5: MyText
+  html: MyText
+  body: MyText
+  word_count: 1
+  internal_link: MyString
+  external_links: MyString
+  canonical_url: MyString
+  indexed: false

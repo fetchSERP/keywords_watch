@@ -5,17 +5,30 @@ class CreateGoogleAdsKeywordsJob < ApplicationJob
     keywords = FetchSerp::ClientService.new(user: domain.user).keywords_suggestions(url: "https://#{domain.name}")
     keywords["data"]["keywords_suggestions"].each do |keyword|
       next if Keyword.exists?(user: domain.user, name: keyword["keyword"])
-      Keyword.create(
+      keyword = Keyword.create(
         user: domain.user,
         domain: domain,
-        name: keyword["keyword"],
+        name: keyword["keyword"].downcase,
         avg_monthly_searches: keyword["avg_monthly_searches"],
         competition: keyword["competition"],
         competition_index: keyword["competition_index"],
         low_top_of_page_bid_micros: keyword["low_top_of_page_bid_micros"],
         high_top_of_page_bid_micros: keyword["high_top_of_page_bid_micros"]
       )
+      Turbo::StreamsChannel.broadcast_append_to(
+        "streaming_channel_#{domain.user_id}",
+        target: "keywords",
+        partial: "app/keywords/keyword",
+        locals: { keyword: keyword }
+      )
+      Turbo::StreamsChannel.broadcast_update_to(
+        "streaming_channel_#{domain.user_id}",
+        target: "keywords_count",
+        partial: "app/domains/keywords_count",
+        locals: { domain: domain }
+      )
     end
-    KeywordsTrackerJob.perform_later(domain: domain)
+    CreateWebPagesJob.perform_later(domain: domain, count: 10)
   end
+
 end

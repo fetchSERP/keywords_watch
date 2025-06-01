@@ -18,6 +18,12 @@ class CreateBacklinksJob < ApplicationJob
         page_title: backlink["page_title"],
         meta_description: backlink["meta_description"]
       )
+      Turbo::StreamsChannel.broadcast_append_to(
+        "streaming_channel_#{domain.user_id}",
+        target: "backlinks",
+        partial: "app/backlinks/backlink",
+        locals: { backlink: backlink }
+      )
     end
   end
 end

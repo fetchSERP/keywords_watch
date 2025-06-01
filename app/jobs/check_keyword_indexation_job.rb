@@ -8,6 +8,18 @@ class CheckKeywordIndexationJob < ApplicationJob
       indexation = response["data"]["indexation"]
       if indexation["indexed"]
         keyword.update!(indexed: true, urls: indexation["urls"])
+        Turbo::StreamsChannel.broadcast_replace_to(
+          "streaming_channel_#{keyword.user_id}",
+          target: "keyword_#{keyword.id}",
+          partial: "app/keywords/keyword",
+          locals: { keyword: keyword }
+        )
+        Turbo::StreamsChannel.broadcast_update_to(
+          "streaming_channel_#{keyword.user_id}",
+          target: "indexed_keywords_count",
+          partial: "app/domains/indexed_keywords_count",
+          locals: { domain: keyword.domain }
+        )
         CreateRankingsJob.perform_later(keyword: keyword)
       end
     rescue => e

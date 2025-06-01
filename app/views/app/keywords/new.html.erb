@@ -11,7 +11,7 @@
       <%= render "form", keyword: @keyword %>
 
       <div class="mt-6">
-        <%= link_to "Back to keywords", app_keywords_path, class: "text-gray-400 hover:text-gray-300 transition-colors" %>
+        <%= link_to "Back to Domain", app_domain_path(Domain.find(params[:domain_id])), class: "text-gray-400 hover:text-gray-300 transition-colors" %>
       </div>
     </div>
   </div>

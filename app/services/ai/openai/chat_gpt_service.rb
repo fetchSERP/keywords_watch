@@ -1,9 +1,13 @@
 class Ai::Openai::ChatGptService < BaseService
+  def initialize(model: "gpt-4.1-nano")
+    @model = model
+  end
+
 	def call(user_prompt:, system_prompt:, response_schema:)
 		client = OpenAI::Client.new(access_token: Rails.application.credentials.openai_api_key, uri_base: "https://api.openai.com/v1")
 		response = client.chat(
 			parameters: {
-				model: "gpt-4.1-nano",
+				model: @model,
 				response_format: {
 					type: "json_schema",
 					json_schema: response_schema
@@ -18,4 +22,3 @@ class Ai::Openai::ChatGptService < BaseService
 		JSON.parse(response["choices"][0]["message"]["content"].match(/{.*}/m).to_s) rescue nil
 	end
 end
-  
