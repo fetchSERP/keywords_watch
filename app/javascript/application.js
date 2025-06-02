@@ -97,7 +97,6 @@ document.addEventListener("turbo:load", function() {
     const competitorsTableContent = document.getElementById("competitors_table_content");
     const backlinksTableHeader = document.getElementById("backlinks_table_header");
     const backlinksTableContent = document.getElementById("backlinks_table_content");
-    // reverse lucide chevron up when clicking on the header
 
     keywordsTableHeader.addEventListener("click", function() {
       keywordsTableContent.classList.toggle("hidden");
@@ -106,10 +105,17 @@ document.addEventListener("turbo:load", function() {
       keywordsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
       competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
       backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
-      window.scrollTo({
-        top: 80,
-        behavior: "smooth"
-      })
+      if (keywordsTableContent.classList.contains("hidden")) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        })
+      } else {
+        window.scrollTo({
+          top: 55,
+          behavior: "smooth"
+        })
+      }
     });
 
     competitorsTableHeader.addEventListener("click", function() {
@@ -119,10 +125,17 @@ document.addEventListener("turbo:load", function() {
       competitorsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
       keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
       backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
-      window.scrollTo({
-        top: 185,
-        behavior: "smooth"
-      })
+      if (competitorsTableContent.classList.contains("hidden")) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        })
+      } else {
+        window.scrollTo({
+          top: 160,
+          behavior: "smooth"
+        })
+      }
     });
 
     backlinksTableHeader.addEventListener("click", function() {
@@ -132,10 +145,17 @@ document.addEventListener("turbo:load", function() {
       backlinksTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
       keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
       competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
-      window.scrollTo({
-        top: 285,
-        behavior: "smooth"
-      })
+      if (backlinksTableContent.classList.contains("hidden")) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        })
+      } else {
+        window.scrollTo({
+          top: 260,
+          behavior: "smooth"
+        })
+      }
     });
   }
 });

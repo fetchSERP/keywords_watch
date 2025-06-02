@@ -1,6 +1,6 @@
 <% content_for :title, @domain.name %>
 
-<div class="py-6">
+<div class="py-3">
   <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
     <div class="">
       <% if notice %>
@@ -39,7 +39,7 @@
 
     </div>
 
-      <section class="flex flex-col gap-6 mt-6">
+      <section class="flex flex-col gap-6 mt-3">
 
         <article class="bg-gray-800 border border-gray-700 rounded-lg">
           <div class="p-2 flex justify-between items-center hover:bg-gray-700 cursor-pointer rounded-t-lg" id="keywords_table_header">
@@ -137,10 +137,10 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up "><path d="m18 15-6-6-6 6"></path></svg>
             </div>
           </div>
-          <div class="" id="keywords_table_content">
+          <div class="" id="keywords_table_content" data-controller="keywords-filter">
             <% if @domain.keywords.any? %>
-              <div class="px-8 py-4 max-h-[500px] overflow-y-auto" data-controller="keywords-filter">
-                <div class="mb-4">
+              <div>
+                <div class="px-8 py-2">
                   <div class="relative">
                     <input
                       type="text"
@@ -159,7 +159,8 @@
                     </button>
                   </div>
                 </div>
-
+              </div>
+              <div class="px-8 max-h-[470px] overflow-y-auto">
                 <div class="overflow-x-auto">
                   <table class="min-w-full divide-y divide-gray-700">
                     <thead>
@@ -228,8 +229,8 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up rotate-180"><path d="m18 15-6-6-6 6"></path></svg>
             </div>
           </div>
-          <div class="px-8 py-4 max-h-[500px] overflow-y-auto hidden" id="competitors_table_content" data-controller="competitors-filter">
-            <div class="mb-4">
+          <div class="hidden" id="competitors_table_content" data-controller="competitors-filter">
+            <div class="px-8 py-2">
               <div class="relative">
                 <input
                   type="text"
@@ -247,21 +248,23 @@
                   </svg>
                 </button>
               </div>
-            </div> 
-            <table class="min-w-full divide-y divide-gray-700">
-              <thead>
-                <tr>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Domain</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">SERP Appearances</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Keywords</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-700" id="competitors" data-controller="sorting">
-                <% @domain.competitors.order(serp_appearances_count: :desc).each do |competitor| %>
-                  <%= render "app/domains/competitor", competitor: competitor %>
-                <% end %>
-              </tbody>
-            </table>
+            </div>
+            <div class="px-8 max-h-[500px] overflow-y-auto">
+              <table class="min-w-full divide-y divide-gray-700">
+                <thead>
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Domain</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">SERP Appearances</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Keywords</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700" id="competitors" data-controller="sorting">
+                  <% @domain.competitors.order(serp_appearances_count: :desc).each do |competitor| %>
+                    <%= render "app/domains/competitor", competitor: competitor %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </article>
 
@@ -294,8 +297,8 @@
             </div>
           </div>
 
-          <div class="px-8 py-4 max-h-[500px] overflow-y-auto hidden" id="backlinks_table_content" data-controller="backlinks-filter">
-            <div class="mb-4">
+          <div class="hidden" id="backlinks_table_content" data-controller="backlinks-filter">
+            <div class="px-8 py-2">
               <div class="relative">
                 <input
                   type="text"
@@ -314,22 +317,23 @@
                 </button>
               </div>
             </div>
-
-            <table class="min-w-full divide-y divide-gray-700">
-              <thead>
-                <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Type</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Source Domain</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Target URL</th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Anchor Text</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-700" id="backlinks">
-                <% @domain.backlinks.each do |backlink| %>
-                  <%= render "app/backlinks/backlink", backlink: backlink %>
-                <% end %>
-              </tbody>
-            </table>
+            <div class="px-8 max-h-[500px] overflow-y-auto">
+              <table class="min-w-full divide-y divide-gray-700">
+                <thead>
+                  <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Type</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Source Domain</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Target URL</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Anchor Text</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700" id="backlinks">
+                  <% @domain.backlinks.each do |backlink| %>
+                    <%= render "app/backlinks/backlink", backlink: backlink %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </article>
 
