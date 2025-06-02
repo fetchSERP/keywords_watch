@@ -60,17 +60,21 @@ if (window.location.pathname === "/") {
     }
     
     // FAQ toggle
-    function toggleFAQ(button) {
-      const content = button.nextElementSibling;
-      const icon = button.querySelector('i');
-      
-      content.classList.toggle('hidden');
-      icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-      
-      // Update border color
-      const container = button.parentElement;
-      container.classList.toggle('border-red-500/50');
-    }
+    const faqButtons = document.querySelectorAll('.toggle-faq');
+    faqButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const content = this.nextElementSibling;
+        const icon = this.querySelector('i');
+        
+        content.classList.toggle('hidden');
+        icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        
+        // Update border color
+        const container = this.parentElement;
+        container.classList.toggle('border-red-500/50');
+      });
+    });
+
   });
 }
 
@@ -86,50 +90,52 @@ document.addEventListener("turbo:load", function() {
 });
 
 document.addEventListener("turbo:load", function() {
-  const keywordsTableHeader = document.getElementById("keywords_table_header");
-  const keywordsTableContent = document.getElementById("keywords_table_content");
-  const competitorsTableHeader = document.getElementById("competitors_table_header");
-  const competitorsTableContent = document.getElementById("competitors_table_content");
-  const backlinksTableHeader = document.getElementById("backlinks_table_header");
-  const backlinksTableContent = document.getElementById("backlinks_table_content");
-   // reverse lucide chevron up when clicking on the header
+  if (window.location.pathname.includes("/app")) {
+    const keywordsTableHeader = document.getElementById("keywords_table_header");
+    const keywordsTableContent = document.getElementById("keywords_table_content");
+    const competitorsTableHeader = document.getElementById("competitors_table_header");
+    const competitorsTableContent = document.getElementById("competitors_table_content");
+    const backlinksTableHeader = document.getElementById("backlinks_table_header");
+    const backlinksTableContent = document.getElementById("backlinks_table_content");
+    // reverse lucide chevron up when clicking on the header
 
-  keywordsTableHeader.addEventListener("click", function() {
-    keywordsTableContent.classList.toggle("hidden");
-    competitorsTableContent.classList.add("hidden");
-    backlinksTableContent.classList.add("hidden");
-    keywordsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
-    competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
-    backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
-    window.scrollTo({
-      top: 80,
-      behavior: "smooth"
-    })
-  });
+    keywordsTableHeader.addEventListener("click", function() {
+      keywordsTableContent.classList.toggle("hidden");
+      competitorsTableContent.classList.add("hidden");
+      backlinksTableContent.classList.add("hidden");
+      keywordsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
+      competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+      backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+      window.scrollTo({
+        top: 80,
+        behavior: "smooth"
+      })
+    });
 
-  competitorsTableHeader.addEventListener("click", function() {
-    competitorsTableContent.classList.toggle("hidden");
-    keywordsTableContent.classList.add("hidden");
-    backlinksTableContent.classList.add("hidden");
-    competitorsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
-    keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
-    backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
-    window.scrollTo({
-      top: 185,
-      behavior: "smooth"
-    })
-  });
+    competitorsTableHeader.addEventListener("click", function() {
+      competitorsTableContent.classList.toggle("hidden");
+      keywordsTableContent.classList.add("hidden");
+      backlinksTableContent.classList.add("hidden");
+      competitorsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
+      keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+      backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+      window.scrollTo({
+        top: 185,
+        behavior: "smooth"
+      })
+    });
 
-  backlinksTableHeader.addEventListener("click", function() {
-    backlinksTableContent.classList.toggle("hidden");
-    competitorsTableContent.classList.add("hidden");
-    keywordsTableContent.classList.add("hidden");
-    backlinksTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
-    keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
-    competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
-    window.scrollTo({
-      top: 285,
-      behavior: "smooth"
-    })
-  });
+    backlinksTableHeader.addEventListener("click", function() {
+      backlinksTableContent.classList.toggle("hidden");
+      competitorsTableContent.classList.add("hidden");
+      keywordsTableContent.classList.add("hidden");
+      backlinksTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
+      keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+      competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+      window.scrollTo({
+        top: 285,
+        behavior: "smooth"
+      })
+    });
+  }
 });
