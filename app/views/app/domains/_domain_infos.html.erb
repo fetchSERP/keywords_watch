@@ -68,11 +68,11 @@
         </div>
         <div class="flex justify-between items-center">
           <span class="text-gray-400">Valid From:</span>
-          <span class="text-gray-100"><%= Time.parse(domain.infos.dig('ssl', 'valid_from')).strftime("%Y-%m-%d") %></span>
+          <span class="text-gray-100"><%= Time.parse(domain.infos.dig('ssl', 'valid_from')).strftime("%Y-%m-%d") rescue "N/A" %></span>
         </div>
         <div class="flex justify-between items-center">
           <span class="text-gray-400">Valid Until:</span>
-          <span class="text-gray-100"><%= Time.parse(domain.infos.dig('ssl', 'valid_until')).strftime("%Y-%m-%d") %></span>
+          <span class="text-gray-100"><%= Time.parse(domain.infos.dig('ssl', 'valid_until')).strftime("%Y-%m-%d") rescue "N/A" %></span>
         </div>
       </div>
       <div class="space-y-2">
@@ -116,11 +116,11 @@
         </div>
         <div class="flex justify-between items-center">
           <span class="text-gray-400">Created On:</span>
-          <span class="text-gray-100"><%= Time.parse(domain.infos.dig('whois', 'created_on')).strftime("%Y-%m-%d") %></span>
+          <span class="text-gray-100"><%= Time.parse(domain.infos.dig('whois', 'created_on')).strftime("%Y-%m-%d") rescue "N/A" %></span>
         </div>
         <div class="flex justify-between items-center">
           <span class="text-gray-400">Expires On:</span>
-          <span class="text-gray-100"><%= Time.parse(domain.infos.dig('whois', 'expires_on')).strftime("%Y-%m-%d") %></span>
+          <span class="text-gray-100"><%= Time.parse(domain.infos.dig('whois', 'expires_on')).strftime("%Y-%m-%d") rescue "N/A" %></span>
         </div>
       </div>
       <div class="space-y-2">

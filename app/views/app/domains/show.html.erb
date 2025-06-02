@@ -1,8 +1,8 @@
 <% content_for :title, @domain.name %>
 
-<div class="py-16">
+<div class="py-6">
   <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="bg-gray-800 px-6 py-8 border border-gray-700 rounded-xl shadow-xl">
+    <div class="">
       <% if notice %>
         <div class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 flex items-center" id="notice">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -12,14 +12,18 @@
         </div>
       <% end %>
 
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 class="font-bold text-2xl text-gray-100"><%= @domain.name %></h1>
-          <p class="text-base text-gray-400 mt-2">
-            Domain details and monitoring settings.
-          </p>
         </div>
         <div class="flex items-center gap-4">
+          <%= link_to new_app_keyword_path(domain_id: @domain.id), class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Add keyword
+          <% end %>
+          <%= render "app/domains/keywords_chart_modal", domain: @domain %>
           <%= render "app/domains/domain_infos_modal", domain: @domain %>
           <%= render "app/domains/technical_seo_modal", domain: @domain %>
           <div class="flex items-center gap-4">
@@ -33,181 +37,218 @@
         </div>
       </div>
 
-        <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
-          <h3 class="text-lg font-semibold text-gray-100 mb-6">Performance Overview</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <div class="p-2 bg-blue-500/10 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.94l1-4H9.03z" clip-rule="evenodd" />
-                    </svg>
+    </div>
+
+      <section class="flex flex-col gap-6 mt-6">
+
+        <article class="bg-gray-800 border border-gray-700 rounded-lg">
+          <div class="p-2 flex justify-between items-center hover:bg-gray-700 cursor-pointer rounded-t-lg" id="keywords_table_header">
+            <div class="flex items-center gap-2">
+              <h2 class="font-bold text-gray-100 text-lg px-4">Keywords</h2>
+              <div class="flex items-center gap-2 ml-6">
+                <div class="rounded-lg p-2">
+                  <div class="flex items-center justify-between">
+                    <div class="p-2 bg-blue-500/10 rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M9 17v-6m4 6V7m4 10v-4" />
+                      </svg>
+                    </div>
+                    <span class="mx-2">
+                      <span class="text-sm font-medium text-gray-400">Average Rank</span>
+                      <div class="">
+                        <span class="text-gray-100">
+                          <%= render "app/domains/avg_rank", domain: @domain %>
+                        </span>
+                      </div>
+                    </span>
                   </div>
-                  <span class="ml-3 text-sm font-medium text-gray-400">Total Keywords</span>
+                </div>
+
+                <div class="rounded-lg p-2">
+                  <div class="flex items-center justify-between">
+                    <div class="p-2 bg-blue-500/10 rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M3 11l7.586-7.586a2 2 0 012.828 0L21 11.586a2 2 0 010 2.828l-7.586 7.586a2 2 0 01-2.828 0L3 13.828a2 2 0 010-2.828z" />
+                      </svg>
+                    </div>
+                    <span class="mx-2">
+                      <span class="text-sm font-medium text-gray-400">Total Keywords</span>
+                      <div class="">
+                        <span class="text-gray-100">
+                          <%= render "app/domains/keywords_count", domain: @domain %>
+                        </span>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="rounded-lg p-2">
+                  <div class="flex items-center justify-between">
+                    <div class="p-2 bg-blue-500/10 rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5s-3 1.343-3 3 1.343 3 3 3zm0 0v6m0 6s6-4.686 6-10a6 6 0 00-12 0c0 5.314 6 10 6 10z"/>
+                      </svg>
+                    </div>
+                    <span class="mx-2">
+                      <span class="text-sm font-medium text-gray-400">Tracked Keywords</span>
+                      <div class="">
+                        <span class="text-gray-100">
+                          <%= render "app/domains/tracked_keywords_count", domain: @domain %>
+                        </span>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="rounded-lg p-2">
+                  <div class="flex items-center justify-between">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17 2H7a1 1 0 0 0-1 1v2H4a1 1 0 0 0-1 1v2a5 5 0 0 0 4 4.9A7.002 7.002 0 0 0 11 20v2H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-2a7.002 7.002 0 0 0 4-6.1 5 5 0 0 0 4-4.9V6a1 1 0 0 0-1-1h-2V3a1 1 0 0 0-1-1ZM5 7h1v1a3 3 0 0 0 2.5 2.96A5.023 5.023 0 0 1 5 9V7Zm14 2a5.023 5.023 0 0 1-3.5 1.96A3 3 0 0 0 18 8V7h1v2Z"/>
+                    </svg>
+                    <span class="mx-2">
+                      <span class="text-sm font-medium text-gray-400">Ranked Keywords</span>
+                      <div class="">
+                        <span class="text-gray-100">
+                          <%= render "app/domains/ranked_keywords_count", domain: @domain %>
+                        </span>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="rounded-lg p-2">
+                  <div class="flex items-center justify-between">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m-5-7h6a2 2 0 012 2v16l-7-3-7 3V5a2 2 0 012-2z"/>
+                    </svg>
+                    <span class="mx-2">
+                      <span class="text-sm font-medium text-gray-400">Indexed Keywords</span>
+                      <div class="">
+                        <span class="text-gray-100">
+                          <%= render "app/domains/indexed_keywords_count", domain: @domain %>
+                        </span>
+                      </div>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div class="mt-4">
-                <span class="text-2xl font-semibold text-gray-100">
-                  <%= render "app/domains/keywords_count", domain: @domain %>
-                </span>
-              </div>
             </div>
-
-            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <div class="p-2 bg-green-500/10 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                  <span class="ml-3 text-sm font-medium text-gray-400">Tracked Keywords</span>
-                </div>
-              </div>
-              <div class="mt-4">
-                <span class="text-2xl font-semibold text-gray-100">
-                  <%= render "app/domains/tracked_keywords_count", domain: @domain %>
-                </span>
-              </div>
-            </div>
-
-            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <div class="p-2 bg-yellow-500/10 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                  <span class="ml-3 text-sm font-medium text-gray-400">Ranked Keywords</span>
-                </div>
-              </div>
-              <div class="mt-4">
-                <span class="text-2xl font-semibold text-gray-100">
-                  <%= render "app/domains/ranked_keywords_count", domain: @domain %>
-                </span>
-              </div>
-            </div>
-
-            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <div class="p-2 bg-green-500/10 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                  <span class="ml-3 text-sm font-medium text-gray-400">Average Rank</span>
-                </div>
-              </div>
-              <div class="mt-4">
-                <span class="text-2xl font-semibold text-gray-100">
-                  <%= render "app/domains/avg_rank", domain: @domain %>
-                </span>
-              </div>
-            </div>
-
-            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <div class="p-2 bg-green-500/10 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                  <span class="ml-3 text-sm font-medium text-gray-400">Indexed Keywords</span>
-                </div>
-              </div>
-              <div class="mt-4">
-                <span class="text-2xl font-semibold text-gray-100">
-                  <%= render "app/domains/indexed_keywords_count", domain: @domain %>
-                </span>
-              </div>
-            </div>
-
-            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <div class="p-2 bg-green-500/10 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                  <span class="ml-3 text-sm font-medium text-gray-400">Backlinks Count</span>
-                </div>
-              </div>
-              <div class="mt-4">
-                <span class="text-2xl font-semibold text-gray-100">
-                  <%= render "app/domains/backlinks_count", domain: @domain %>
-                </span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-      <section class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <% if @domain.keywords.any? %>
-          <div class="mt-12">
-            <div class="flex items-center justify-between mb-2">
-              <h2 class="text-xl font-semibold text-gray-100">Monitored Keywords</h2>
-              <div class="flex items-center gap-2">
-                <%= render "app/domains/keywords_chart_modal", domain: @domain %>
-                <%= link_to new_app_keyword_path(domain_id: @domain.id), class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                  </svg>
-                  Add keyword
-                <% end %>
-              </div>
-            </div>
-
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-700">
-                <thead>
-                  <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Keyword</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Avg Monthly Searches</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Competition</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Current Rank</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">AI Score</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Tracking</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-700" id="keywords" data-controller="keywords-sorting">
-                  <% @domain.keywords.order(ranking: :asc).each do |keyword| %>
-                    <%= render "app/keywords/keyword", keyword: keyword %>
-                  <% end %>
-                </tbody>
-              </table>
+            <div class="flex items-center text-gray-100 mr-6">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up "><path d="m18 15-6-6-6 6"></path></svg>
             </div>
           </div>
-        <% else %>
-          <div class="text-center py-12 bg-gray-800/50 border border-gray-700 rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-300">No keywords</h3>
-            <p class="mt-1 text-sm text-gray-400">Get started by adding keywords to monitor for this domain.</p>
-            <div class="mt-6">
-              <%= link_to new_app_keyword_path(domain_id: @domain.id), class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+          <div class="" id="keywords_table_content">
+            <% if @domain.keywords.any? %>
+              <div class="px-8 py-4 max-h-[500px] overflow-y-auto" data-controller="keywords-filter">
+                <div class="mb-4">
+                  <div class="relative">
+                    <input
+                      type="text"
+                      data-keywords-filter-target="input"
+                      data-action="input->keywords-filter#filter"
+                      placeholder="Search keywords..."
+                      class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                    <button
+                      data-action="click->keywords-filter#clear"
+                      class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-700">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Keyword</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Current Rank</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Avg Monthly Searches</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Competition</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">AI Score</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Tracking</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700" id="keywords" data-controller="keywords-sorting">
+                      <% @domain.keywords.order(ranking: :asc).each do |keyword| %>
+                        <%= render "app/keywords/keyword", keyword: keyword, data: { keywords_filter_target: "row" } %>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            <% else %>
+              <div class="text-center py-12 bg-gray-800/50 border border-gray-700 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                Add your first keyword
-              <% end %>
+                <h3 class="mt-2 text-sm font-medium text-gray-300">No keywords</h3>
+                <p class="mt-1 text-sm text-gray-400">Get started by adding keywords to monitor for this domain.</p>
+                <div class="mt-6">
+                  <%= link_to new_app_keyword_path(domain_id: @domain.id), class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    Add your first keyword
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </article>
+
+        <article class="bg-gray-800 border border-gray-700 rounded-lg">
+          <div class="p-2 flex justify-between items-center hover:bg-gray-700 cursor-pointer rounded-t-lg" id="competitors_table_header">
+            <div class="flex items-center gap-2">
+              <h2 class="font-bold text-gray-100 text-lg px-4">Competitors</h2>
+              <div class="flex items-center gap-2">
+                <div class="rounded-lg p-2">
+                  <div class="flex items-center justify-between">
+                    <div class="p-2 bg-blue-500/10 rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m5-1.13a4 4 0 100-8 4 4 0 000 8zm6 0a4 4 0 100-8 4 4 0 000 8zM3 7a4 4 0 118 0 4 4 0 01-8 0z"/>
+                      </svg>
+                    </div>
+                    <span class="mx-2">
+                      <span class="text-sm font-medium text-gray-400">Total Competitors</span>
+                      <div class="">
+                        <span class="text-gray-100">
+                          <%= render "app/domains/competitors_count", domain: @domain %>
+                        </span>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center text-gray-100 mr-6">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up rotate-180"><path d="m18 15-6-6-6 6"></path></svg>
             </div>
           </div>
-        <% end %>
-
-        <div class="mt-12">
-          <div class="flex items-center justify-between mb-2">
-            <h2 class="text-xl font-semibold text-gray-100">Competitors</h2>
-          </div>
-
-          <div class="overflow-x-auto">
+          <div class="px-8 py-4 max-h-[500px] overflow-y-auto hidden" id="competitors_table_content" data-controller="competitors-filter">
+            <div class="mb-4">
+              <div class="relative">
+                <input
+                  type="text"
+                  data-competitors-filter-target="input"
+                  data-action="input->competitors-filter#filter"
+                  placeholder="Search by domain or keyword..."
+                  class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                <button
+                  data-action="click->competitors-filter#clear"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div> 
             <table class="min-w-full divide-y divide-gray-700">
               <thead>
                 <tr>
@@ -223,15 +264,58 @@
               </tbody>
             </table>
           </div>
-        </div>
+        </article>
 
-        <div class="mt-12">
-
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-semibold text-gray-100">Backlinks</h2>
+        <article class="bg-gray-800 border border-gray-700 rounded-lg">
+          <div class="p-2 flex justify-between items-center hover:bg-gray-700 cursor-pointer rounded-t-lg" id="backlinks_table_header">
+            <div class="flex items-center gap-2">
+              <h2 class="font-bold text-gray-100 text-lg px-4">Backlinks</h2>
+              <div class="flex items-center gap-2 ml-6">
+                <div class="rounded-lg p-2">
+                  <div class="flex items-center justify-between">
+                    <div class="p-2 bg-blue-500/10 rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 010 5.656l-1.414 1.414a4 4 0 01-5.656-5.656l1.414-1.414M10.172 13.828a4 4 0 015.656 0l1.414 1.414a4 4 0 01-5.656 5.656l-1.414-1.414" />
+                      </svg>
+                    </div>
+                    <span class="mx-2">
+                      <span class="text-sm font-medium text-gray-400">Total Backlinks</span>
+                      <div class="">
+                        <span class="text-gray-100">
+                          <%= render "app/domains/backlinks_count", domain: @domain %>
+                        </span>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center text-gray-100 mr-6">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-up rotate-180"><path d="m18 15-6-6-6 6"></path></svg>
+            </div>
           </div>
 
-          <div class="overflow-x-auto">
+          <div class="px-8 py-4 max-h-[500px] overflow-y-auto hidden" id="backlinks_table_content" data-controller="backlinks-filter">
+            <div class="mb-4">
+              <div class="relative">
+                <input
+                  type="text"
+                  data-backlinks-filter-target="input"
+                  data-action="input->backlinks-filter#filter"
+                  placeholder="Search by source domain or target URL..."
+                  class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                <button
+                  data-action="click->backlinks-filter#clear"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
             <table class="min-w-full divide-y divide-gray-700">
               <thead>
                 <tr>
@@ -248,7 +332,7 @@
               </tbody>
             </table>
           </div>
-        </div>
+        </article>
 
         
 

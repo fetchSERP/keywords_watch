@@ -27,6 +27,12 @@ class CreateSearchEngineResultsJob < ApplicationJob
           partial: "app/domains/competitor",
           locals: { competitor: competitor }
         )
+        Turbo::StreamsChannel.broadcast_replace_to(
+          "streaming_channel_#{keyword.user_id}",
+          target: "competitors_count",
+          partial: "app/domains/competitors_count",
+          locals: { domain: keyword.domain }
+        )
       end
     end
   end

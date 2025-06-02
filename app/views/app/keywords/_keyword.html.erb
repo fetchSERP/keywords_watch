@@ -1,19 +1,9 @@
-<tr class="hover:bg-gray-800/50 transition-colors" id="keyword_<%= keyword.id %>">
+<tr class="hover:bg-gray-800/50 transition-colors" id="keyword_<%= keyword.id %>" data-keywords-filter-target="row">
   <td class="px-6 py-4 whitespace-nowrap" data-sorting-field-one="<%= keyword.is_tracked ? 1 : 0 %>" data-sorting-field-two="<%= keyword.rankings.any? ? keyword.rankings.order(created_at: :desc).first.rank : nil %>" data-sorting-order="asc" data-sorting-field-three="<%= keyword.ai_score %>">
     <div class="flex items-center">
-      <div class="text-sm font-medium text-gray-100">
+      <div class="text-sm font-medium text-gray-100" data-keyword-text="<%= keyword.name %>">
         <%= link_to keyword.name, [:app, keyword], class: "hover:text-yellow-500 transition-colors" %>
       </div>
-    </div>
-  </td>
-  <td class="px-6 py-4 whitespace-nowrap">
-    <div class="text-sm text-gray-300">
-      <%= keyword.avg_monthly_searches.presence || "N/A" %>
-    </div>
-  </td>
-  <td class="px-6 py-4 whitespace-nowrap">
-    <div class="text-sm text-gray-300">
-      <%= keyword.competition.presence || "N/A" %>
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap">
@@ -25,6 +15,16 @@
     <% else %>
       <span class="px-2 py-1 text-sm font-medium rounded-full bg-gray-500/10 text-gray-400">N/A</span>
     <% end %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-300">
+      <%= keyword.avg_monthly_searches.presence || "N/A" %>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-300">
+      <%= keyword.competition.presence || "N/A" %>
+    </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap">
     <div class="flex items-center space-x-2">

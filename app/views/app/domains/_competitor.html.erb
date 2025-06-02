@@ -1,10 +1,10 @@
-<tr id="competitor_<%= competitor.id %>">
-  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300" data-sorting-order="desc" data-sorting-item="<%= competitor.serp_appearances_count %>"><%= competitor.domain_name %></td>
+<tr id="competitor_<%= competitor.id %>" data-competitors-filter-target="row">
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300" data-sorting-order="desc" data-sorting-item="<%= competitor.serp_appearances_count %>" data-competitor-domain="<%= competitor.domain_name %>"><%= competitor.domain_name %></td>
   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300"><%= competitor.serp_appearances_count %></td>
   <td class="px-6 py-4 text-sm text-gray-300">
     <% competitor.search_engine_results.each do |search_engine_result| %>
       <% keyword = search_engine_result.keyword %>
-      <span class="inline-block p-2 mb-2 text-sm font-medium rounded-full <%= search_engine_result.ranking && search_engine_result.ranking <= 10 ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400' %>">
+      <span class="inline-block p-2 mb-2 text-sm font-medium rounded-full <%= search_engine_result.ranking && search_engine_result.ranking <= 10 ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400' %>" data-competitor-keyword="<%= keyword.name %>">
         <%= link_to "##{search_engine_result.ranking} - #{keyword.name}", search_engine_result.url, class: (search_engine_result.ranking && search_engine_result.ranking <= 10 ? 'text-green-400 hover:text-green-500' : 'text-yellow-400 hover:text-yellow-500') %>
       </span>
     <% end %>

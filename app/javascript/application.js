@@ -84,3 +84,40 @@ document.addEventListener("turbo:load", function() {
     }, 3000);
   }
 });
+
+document.addEventListener("turbo:load", function() {
+  const keywordsTableHeader = document.getElementById("keywords_table_header");
+  const keywordsTableContent = document.getElementById("keywords_table_content");
+  const competitorsTableHeader = document.getElementById("competitors_table_header");
+  const competitorsTableContent = document.getElementById("competitors_table_content");
+  const backlinksTableHeader = document.getElementById("backlinks_table_header");
+  const backlinksTableContent = document.getElementById("backlinks_table_content");
+   // reverse lucide chevron up when clicking on the header
+
+  keywordsTableHeader.addEventListener("click", function() {
+    keywordsTableContent.classList.toggle("hidden");
+    competitorsTableContent.classList.add("hidden");
+    backlinksTableContent.classList.add("hidden");
+    keywordsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
+    competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+    backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+  });
+
+  competitorsTableHeader.addEventListener("click", function() {
+    competitorsTableContent.classList.toggle("hidden");
+    keywordsTableContent.classList.add("hidden");
+    backlinksTableContent.classList.add("hidden");
+    competitorsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
+    keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+    backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+  });
+
+  backlinksTableHeader.addEventListener("click", function() {
+    backlinksTableContent.classList.toggle("hidden");
+    competitorsTableContent.classList.add("hidden");
+    keywordsTableContent.classList.add("hidden");
+    backlinksTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
+    keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+    competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+  });
+});

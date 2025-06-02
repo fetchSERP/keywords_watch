@@ -11,6 +11,9 @@ import SubmitOnChangeController from "./submit_on_change_controller"
 import KeywordsChartModalController from "./keywords_chart_modal_controller"
 import TechnicalSeoModalController from "./technical_seo_modal_controller"
 import DomainInfosModalController from "./domain_infos_modal_controller"
+import KeywordsFilterController from "./keywords_filter_controller"
+import CompetitorsFilterController from "./competitors_filter_controller"
+import BacklinksFilterController from "./backlinks_filter_controller"
 
 application.register("hello", HelloController)
 application.register("sorting", SortingController)
@@ -19,3 +22,6 @@ application.register("submit-on-change", SubmitOnChangeController)
 application.register("keywords-chart-modal", KeywordsChartModalController)
 application.register("technical-seo-modal", TechnicalSeoModalController)
 application.register("domain-infos-modal", DomainInfosModalController)
+application.register("keywords-filter", KeywordsFilterController)
+application.register("competitors-filter", CompetitorsFilterController)
+application.register("backlinks-filter", BacklinksFilterController)

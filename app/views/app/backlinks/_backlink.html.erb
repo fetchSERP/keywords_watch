@@ -1,4 +1,4 @@
-<tr class="hover:bg-gray-800/50 transition-colors">
+<tr class="hover:bg-gray-800/50 transition-colors" data-backlinks-filter-target="row">
   <td class="px-6 py-4 whitespace-nowrap">
     <div class="flex items-center space-x-2">
       <% if backlink.rel_attributes.include?("nofollow") %>
@@ -10,13 +10,13 @@
   </td>
   <td class="px-6 py-4 whitespace-nowrap">
     <div class="flex items-center">
-      <div class="text-sm font-medium text-gray-100">
+      <div class="text-sm font-medium text-gray-100" data-backlink-source-domain="<%= backlink.source_domain %>">
         <%= link_to backlink.source_domain, backlink.source_url, target: "_blank", class: "hover:text-yellow-500 transition-colors" %>
       </div>
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap">
-    <div class="text-sm text-gray-300">
+    <div class="text-sm text-gray-300" data-backlink-target-url="<%= backlink.target_url %>">
       <%= link_to backlink.target_url, backlink.target_url, target: "_blank", class: "hover:text-yellow-500 transition-colors truncate block max-w-xs" %>
     </div>
   </td>
@@ -25,5 +25,4 @@
       <%= backlink.anchor_text.presence || "N/A" %>
     </div>
   </td>
-
 </tr>
