@@ -101,6 +101,10 @@ document.addEventListener("turbo:load", function() {
     keywordsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
     competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
     backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+    window.scrollTo({
+      top: 80,
+      behavior: "smooth"
+    })
   });
 
   competitorsTableHeader.addEventListener("click", function() {
@@ -110,6 +114,10 @@ document.addEventListener("turbo:load", function() {
     competitorsTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
     keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
     backlinksTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+    window.scrollTo({
+      top: 185,
+      behavior: "smooth"
+    })
   });
 
   backlinksTableHeader.addEventListener("click", function() {
@@ -119,5 +127,9 @@ document.addEventListener("turbo:load", function() {
     backlinksTableHeader.querySelector(".lucide-chevron-up").classList.toggle("rotate-180");
     keywordsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
     competitorsTableHeader.querySelector(".lucide-chevron-up").classList.add("rotate-180");
+    window.scrollTo({
+      top: 285,
+      behavior: "smooth"
+    })
   });
 });

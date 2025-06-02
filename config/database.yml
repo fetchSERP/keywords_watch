@@ -18,6 +18,8 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DB_HOST") { "127.0.0.1" } %>
+  port: <%= Rails.env.production? ? 5437 : 5432 %>
 
 
 development:
@@ -83,7 +85,7 @@ production:
     <<: *default
     database: keywords_watch_production
     username: keywords_watch
-    password: <%= ENV["KEYWORDS_WATCH_DATABASE_PASSWORD"] %>
+    password: <%= ENV["POSTGRES_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: keywords_watch_production_cache
