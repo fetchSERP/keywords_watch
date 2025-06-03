@@ -6,12 +6,18 @@ class CreateSearchEngineResultsJob < ApplicationJob
     search_engine_results["data"]["results"].each do |search_engine_result|
       if competitor = Competitor.find_by(user: keyword.user, domain: keyword.domain, domain_name: URI.parse(search_engine_result["url"]).host)
         competitor.increment(:serp_appearances_count).save!
-        create_search_engine_result(search_engine_result, competitor, keyword, search_engine)
+        search_engine_result = create_search_engine_result(search_engine_result, competitor, keyword, search_engine)
         Turbo::StreamsChannel.broadcast_append_to(
           "streaming_channel_#{keyword.user_id}",
           target: "competitors",
           partial: "app/domains/competitor",
           locals: { competitor: competitor }
+        )
+        Turbo::StreamsChannel.broadcast_update_to(
+          "streaming_channel_#{keyword.user_id}",
+          target: "search_engine_results_#{keyword.id}",
+          partial: "app/domains/keyword_search_engine_results",
+          locals: { keyword: keyword }
         )
       else
         competitor = Competitor.create!(
@@ -20,7 +26,7 @@ class CreateSearchEngineResultsJob < ApplicationJob
           domain_name: URI.parse(search_engine_result["url"]).host,
           serp_appearances_count: 1
         )
-        create_search_engine_result(search_engine_result, competitor, keyword, search_engine)
+        search_engine_result = create_search_engine_result(search_engine_result, competitor, keyword, search_engine)
         Turbo::StreamsChannel.broadcast_update_to(
           "streaming_channel_#{keyword.user_id}",
           target: "competitor_#{competitor.id}",
@@ -32,6 +38,12 @@ class CreateSearchEngineResultsJob < ApplicationJob
           target: "competitors_count",
           partial: "app/domains/competitors_count",
           locals: { domain: keyword.domain }
+        )
+        Turbo::StreamsChannel.broadcast_update_to(
+          "streaming_channel_#{keyword.user_id}",
+          target: "search_engine_results_#{keyword.id}",
+          partial: "app/domains/keyword_search_engine_results",
+          locals: { keyword: keyword }
         )
       end
     end

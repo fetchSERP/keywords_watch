@@ -41,6 +41,16 @@ class CreateWebPagesJob < ApplicationJob
       end
     end
 
+    domain.with_lock do
+      domain.update!(analysis_status: domain.analysis_status.merge("scrape_domain" => true))
+    end
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "streaming_channel_#{domain.user_id}",
+      target: "domain_analysis_status",
+      partial: "app/domains/domain_analysis_status",
+      locals: { domain: domain }
+    )
+
     KeywordsAiScoreJob.perform_later(domain: domain, count: 10)
     TechnicalSeoReportJob.perform_later(domain: domain)
   end

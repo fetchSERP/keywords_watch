@@ -31,5 +31,14 @@ class CreateBacklinksJob < ApplicationJob
         locals: { domain: domain }
       )
     end
+    domain.with_lock do
+      domain.update!(analysis_status: domain.analysis_status.merge("fetch_backlinks" => true))
+    end
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "streaming_channel_#{domain.user_id}",
+      target: "domain_analysis_status",
+      partial: "app/domains/domain_analysis_status",
+      locals: { domain: domain }
+    )
   end
 end

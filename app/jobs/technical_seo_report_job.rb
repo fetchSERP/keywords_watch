@@ -12,5 +12,14 @@ class TechnicalSeoReportJob < ApplicationJob
         locals: { technical_seo_report: technical_seo_report }
       )
     end
+    domain.with_lock do
+      domain.update!(analysis_status: domain.analysis_status.merge("technical_seo_report" => true))
+    end
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "streaming_channel_#{domain.user_id}",
+      target: "domain_analysis_status",
+      partial: "app/domains/domain_analysis_status",
+      locals: { domain: domain }
+    )
   end
 end

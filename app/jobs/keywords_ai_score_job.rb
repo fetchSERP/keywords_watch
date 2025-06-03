@@ -32,6 +32,15 @@ class KeywordsAiScoreJob < ApplicationJob
         locals: { keyword: keyword }
       )
     end
+    domain.with_lock do
+      domain.update!(analysis_status: domain.analysis_status.merge("fetch_ai_score" => true))
+    end
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "streaming_channel_#{domain.user_id}",
+      target: "domain_analysis_status",
+      partial: "app/domains/domain_analysis_status",
+      locals: { domain: domain }
+    )
     KeywordsTrackerJob.perform_later(domain: domain, count: count)
   end
 
