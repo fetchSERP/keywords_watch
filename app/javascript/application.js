@@ -115,7 +115,7 @@ document.addEventListener("turbo:load", function() {
         })
       } else {
         window.scrollTo({
-          top: 80,
+          top: 85,
           behavior: "smooth"
         })
       }
