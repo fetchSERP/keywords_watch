@@ -15,3 +15,6 @@ production:
   linkedin:
     command: LinkedinPublisherJob.perform_later
     schedule: every 60 minutes
+  tweet:
+    command: XPublisherJob.perform_later
+    schedule: every 90 minutes

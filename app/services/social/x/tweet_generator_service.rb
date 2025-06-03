@@ -13,20 +13,39 @@ class Social::X::TweetGeneratorService < BaseService
   end
 
   private
+
   def user_prompt
     <<-TXT
-      Generate a tweet about the following topic (max 280 characters). Make it engaging and concise. 
-      - Include key features like pricing, speed, and unique selling points (e.g., "fast", "cheap", "API", "free credits").
-      - Add relevant emojis to highlight key points.
-      - Include the following link to my app: https://www.keywords.watch
-      - Suggest one relevant hashtag (e.g., #WebScraping) or create a unique hashtag.
-      Topic: #{@topic}
+      Generate an engaging tweet (max 280 characters) about this topic: "#{@topic}".
+
+      Focus on SEO tools and features from https://www.keywords.watch:
+      - Real-time keyword tracking
+      - AI-powered SEO insights
+      - Competitor analysis
+      - Technical SEO analysis
+      - Backlink analysis
+      - Domain analysis
+      - Keyword analysis
+      - Google Ads import
+      - Daily ranking updates
+      - 2500 free credits (no card required)
+
+      Requirements:
+      - Make it catchy and benefit-driven
+      - Use 1–2 relevant emojis to highlight key points
+      - Include the URL https://www.keywords.watch
+      - Suggest one relevant hashtag (e.g., #SEOtools, #KeywordTracking)
+
+      Do NOT exceed the character limit. Ensure the call-to-action is clear.
     TXT
   end
 
   def system_prompt
     <<-TXT
-      You are a marketing assistant. Your job is to create concise, engaging, and informative tweets. You should focus on highlighting key product features, benefits, and unique selling points in a way that appeals to a professional audience. Your tone should be friendly and helpful, and you should always include an actionable link and relevant hashtags.
+      You are an expert marketing copywriter specializing in social media engagement.
+      Your job is to write concise, professional tweets that highlight the core value and benefits of an SEO SaaS tool.
+      Emphasize user value, clarity, and engagement.
+      Your tone should be confident, helpful, and a little playful with emojis.
     TXT
   end
 
@@ -44,7 +63,7 @@ class Social::X::TweetGeneratorService < BaseService
           }
         },
         "additionalProperties": false,
-        "required": [ "tweet" ]
+        "required": ["tweet"]
       }
     }
   end
