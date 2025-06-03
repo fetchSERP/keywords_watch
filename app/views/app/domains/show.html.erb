@@ -139,67 +139,50 @@
             </div>
           </div>
           <div class="" id="keywords_table_content" data-controller="keywords-filter">
-            <% if @domain.keywords.any? %>
-              <div>
-                <div class="px-8 py-2">
-                  <div class="relative">
-                    <input
-                      type="text"
-                      data-keywords-filter-target="input"
-                      data-action="input->keywords-filter#filter"
-                      placeholder="Search keywords..."
-                      class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                    <button
-                      data-action="click->keywords-filter#clear"
-                      class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
-                    >
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="px-8 h-[calc(100vh-390px)] overflow-y-auto relative">
-                <div>
-                  <table class="min-w-full divide-y divide-gray-700">
-                    <thead class="sticky top-0 z-10 bg-gray-800">
-                      <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Keyword</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Current Rank</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Top 5 Competitors</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Avg Monthly Searches</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Competition</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">AI Score</th>
-                      </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-700" id="keywords" data-controller="keywords-sorting">
-                      <% @domain.keywords.order(ranking: :asc).each do |keyword| %>
-                        <%= render "app/keywords/keyword", keyword: keyword, data: { keywords_filter_target: "row" } %>
-                      <% end %>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            <% else %>
-              <div class="text-center py-12 bg-gray-800/50 border border-gray-700 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <h3 class="mt-2 text-sm font-medium text-gray-300">No keywords</h3>
-                <p class="mt-1 text-sm text-gray-400">Get started by adding keywords to monitor for this domain.</p>
-                <div class="mt-6">
-                  <%= link_to new_app_keyword_path(domain_id: @domain.id), class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            <div>
+              <div class="px-8 py-2">
+                <div class="relative">
+                  <input
+                    type="text"
+                    data-keywords-filter-target="input"
+                    data-action="input->keywords-filter#filter"
+                    placeholder="Search keywords..."
+                    class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                  <button
+                    data-action="click->keywords-filter#clear"
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                  >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
-                    Add your first keyword
-                  <% end %>
+                  </button>
                 </div>
               </div>
-            <% end %>
+            </div>
+            <div class="px-8 h-[calc(100vh-390px)] overflow-y-auto relative">
+              <div>
+                <table class="min-w-full divide-y divide-gray-700">
+                  <thead class="sticky top-0 z-10 bg-gray-800">
+                    <tr>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Keyword</th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Current Rank</th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Top 5 Competitors</th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Avg Monthly Searches</th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Competition</th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">AI Score</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-700" id="keywords" data-controller="keywords-sorting">
+                    <% @domain.keywords.order(ranking: :asc).each do |keyword| %>
+                      <%= render "app/keywords/keyword", keyword: keyword, data: { keywords_filter_target: "row" } %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
           </div>
         </article>
 
