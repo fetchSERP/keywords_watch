@@ -18,7 +18,7 @@ class Social::X::TweetGeneratorService < BaseService
       Generate a tweet about the following topic (max 280 characters). Make it engaging and concise. 
       - Include key features like pricing, speed, and unique selling points (e.g., "fast", "cheap", "API", "free credits").
       - Add relevant emojis to highlight key points.
-      - Include the following link to my app: https://www.fetchserp.com
+      - Include the following link to my app: https://www.keywords.watch
       - Suggest one relevant hashtag (e.g., #WebScraping) or create a unique hashtag.
       Topic: #{@topic}
     TXT

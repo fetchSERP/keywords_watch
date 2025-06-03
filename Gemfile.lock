@@ -143,6 +143,8 @@ GEM
     jsbundling-rails (1.3.1)
       railties (>= 6.0.0)
     json (2.12.2)
+    jwt (2.10.1)
+      base64
     kamal (2.6.1)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -179,6 +181,9 @@ GEM
     mini_mime (1.1.5)
     minitest (5.25.5)
     msgpack (1.8.0)
+    multi_json (1.15.0)
+    multi_xml (0.7.2)
+      bigdecimal (~> 3.1)
     multipart-post (2.4.1)
     net-http (0.6.0)
       uri
@@ -213,6 +218,12 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
+    oauth2 (1.4.11)
+      faraday (>= 0.17.3, < 3.0)
+      jwt (>= 1.0, < 3.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
     ostruct (0.6.1)
     parallel (1.27.0)
     parser (3.3.8.0)
@@ -411,6 +422,7 @@ DEPENDENCIES
   jsbundling-rails
   kamal
   mailgun-ruby
+  oauth2 (~> 1.4.0)
   pg (~> 1.1)
   propshaft
   pry

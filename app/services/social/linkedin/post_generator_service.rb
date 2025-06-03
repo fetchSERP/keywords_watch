@@ -13,39 +13,59 @@ class Social::Linkedin::PostGeneratorService < BaseService
   end
 
   private
+
   def user_prompt
-    <<-TXT
-      Generate a professional post about the following topic (max 1300 characters). Make it informative, engaging, and concise.
-      - Highlight key features such as pricing, speed, and unique selling points (e.g., "fast", "affordable", "API integration", "free credits").
-      - Include relevant emojis to draw attention to key points.
-      - Add a clear and actionable call to action, encouraging engagement (e.g., "Let's connect," "Contact us for a demo").
-      - Include the following link to my app: https://www.fetchserp.com
-      - Use one relevant business or industry hashtag (e.g., #WebScraping, #DataInsights) or create a custom hashtag that fits the context.
-      Topic: #{@topic}
+    <<~TXT
+      Write a professional LinkedIn post (max 1300 characters) about this topic: "#{@topic}".
+      Your audience: SEO professionals, digital marketers, and SaaS founders.
+
+      Requirements:
+      - Make the post informative, compelling, and concise.
+      - Highlight key features of https://www.keywords.watch:
+        * Keyword Rank Tracking
+        * Keyword Intelligence
+        * Google Ads Import
+        * Competitor Insights
+        * Technical SEO Analysis
+        * Index Coverage
+        * Backlink Analysis
+        * Competitor Analysis
+        * AI-Powered SEO Agent with access to https://www.fetchserp.com API
+        * Credit-based pricing with 2,500 free credits to start
+      - Emphasize benefits like:
+        * Daily ranking updates 
+        * Fast & accurate data 
+        * No credit card needed 
+      - Include 1-2 relevant emojis per paragraph to improve readability.
+      - Add a clear and actionable call to action (e.g. "Try it free", "See your rankings today", "Start your SEO journey").
+      - Include this link: https://www.keywords.watch
+      - Include one relevant hashtag (e.g., #SEO, #KeywordTracking, or #KeywordsWatch).
+
+      Avoid sounding overly promotional or generic — instead, show how this tool solves real SEO tracking problems.
     TXT
   end
 
   def system_prompt
-    <<-TXT
-      You are a marketing assistant specializing in creating professional LinkedIn posts. Your goal is to create engaging, concise, and informative posts that highlight the key features, benefits, and unique selling points of a product. Your tone should be professional, approachable, and friendly. Focus on providing value to a business-oriented audience, ensuring that every post includes an actionable link and relevant, industry-specific hashtags. Aim to encourage discussion, connection, and further interaction with the product.
+    <<~TXT
+      You are a professional content marketing assistant. Your role is to write high-performing LinkedIn posts for B2B SaaS companies. Use a confident, value-driven, and friendly tone that speaks directly to professionals in marketing, SEO, and analytics roles. Be concise and clear, and always include practical benefits, a call to action, and one relevant industry hashtag. Use light emoji emphasis to break text blocks and guide the reader's eye.
     TXT
   end
 
   def response_schema
     {
-      "strict": true,
-      "name": "post_Generator",
-      "description": "Generate a post",
-      "schema": {
-        "type": "object",
-        "properties": {
-          "post": {
-            "type": "string",
-            "description": "post content"
+      strict: true,
+      name: "post_Generator",
+      description: "Generate a professional LinkedIn post for Keywords.watch",
+      schema: {
+        type: "object",
+        properties: {
+          post: {
+            type: "string",
+            description: "The complete LinkedIn post content"
           }
         },
-        "additionalProperties": false,
-        "required": [ "post" ]
+        additionalProperties: false,
+        required: ["post"]
       }
     }
   end

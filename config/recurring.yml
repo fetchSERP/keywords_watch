@@ -12,3 +12,6 @@ production:
   daily_ranking:
     class: DailyRankingJob
     schedule: at 5am every day
+  linkedin:
+    command: LinkedinPublisherJob.perform_later
+    schedule: every 60 minutes
