@@ -3,7 +3,7 @@ class Keyword < ApplicationRecord
   belongs_to :domain
   has_many :rankings, dependent: :destroy
   has_many :search_engine_results, dependent: :destroy
-  validates :name, presence: true, uniqueness: { scope: :user_id }
+  validates :name, presence: true, uniqueness: { scope: :domain_id }
   after_commit :track, on: :create, if: -> { is_tracked? }
   after_update :track, if: -> { saved_change_to_is_tracked? && is_tracked? }
 

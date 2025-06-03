@@ -98,7 +98,7 @@ document.addEventListener("turbo:load", function() {
     const backlinksTableHeader = document.getElementById("backlinks_table_header");
     const backlinksTableContent = document.getElementById("backlinks_table_content");
 
-    keywordsTableHeader.addEventListener("click", function() {
+    keywordsTableHeader?.addEventListener("click", function() {
       keywordsTableContent.classList.toggle("hidden");
       competitorsTableContent.classList.add("hidden");
       backlinksTableContent.classList.add("hidden");
@@ -118,7 +118,7 @@ document.addEventListener("turbo:load", function() {
       }
     });
 
-    competitorsTableHeader.addEventListener("click", function() {
+    competitorsTableHeader?.addEventListener("click", function() {
       competitorsTableContent.classList.toggle("hidden");
       keywordsTableContent.classList.add("hidden");
       backlinksTableContent.classList.add("hidden");
@@ -138,7 +138,7 @@ document.addEventListener("turbo:load", function() {
       }
     });
 
-    backlinksTableHeader.addEventListener("click", function() {
+    backlinksTableHeader?.addEventListener("click", function() {
       backlinksTableContent.classList.toggle("hidden");
       competitorsTableContent.classList.add("hidden");
       keywordsTableContent.classList.add("hidden");

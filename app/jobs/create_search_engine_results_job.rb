@@ -21,13 +21,13 @@ class CreateSearchEngineResultsJob < ApplicationJob
           serp_appearances_count: 1
         )
         create_search_engine_result(search_engine_result, competitor, keyword, search_engine)
-        Turbo::StreamsChannel.broadcast_replace_to(
+        Turbo::StreamsChannel.broadcast_update_to(
           "streaming_channel_#{keyword.user_id}",
           target: "competitor_#{competitor.id}",
           partial: "app/domains/competitor",
           locals: { competitor: competitor }
         )
-        Turbo::StreamsChannel.broadcast_replace_to(
+        Turbo::StreamsChannel.broadcast_update_to(
           "streaming_channel_#{keyword.user_id}",
           target: "competitors_count",
           partial: "app/domains/competitors_count",
