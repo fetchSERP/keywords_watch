@@ -114,10 +114,10 @@ document.addEventListener("turbo:load", function() {
           behavior: "smooth"
         })
       } else {
-        window.scrollTo({
-          top: 85,
-          behavior: "smooth"
-        })
+        // window.scrollTo({
+        //   top: 85,
+        //   behavior: "smooth"
+        // })
       }
     });
 
