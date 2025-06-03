@@ -112,7 +112,7 @@ document.addEventListener("turbo:load", function() {
         })
       } else {
         window.scrollTo({
-          top: 55,
+          top: 80,
           behavior: "smooth"
         })
       }
@@ -132,7 +132,7 @@ document.addEventListener("turbo:load", function() {
         })
       } else {
         window.scrollTo({
-          top: 160,
+          top: 180,
           behavior: "smooth"
         })
       }
@@ -152,7 +152,7 @@ document.addEventListener("turbo:load", function() {
         })
       } else {
         window.scrollTo({
-          top: 260,
+          top: 270,
           behavior: "smooth"
         })
       }
