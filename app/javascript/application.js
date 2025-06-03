@@ -49,9 +49,12 @@ document.addEventListener("turbo:load", function() {
   }
 });
 
+document.addEventListener("turbo:load", function() {
+  createIcons({icons});
+});
+
 if (window.location.pathname === "/") {
   document.addEventListener("turbo:load", function() {
-    createIcons({icons});
 
     // Mobile menu toggle
     function toggleMobileMenu() {
