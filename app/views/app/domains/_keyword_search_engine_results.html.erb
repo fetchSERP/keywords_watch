@@ -1,6 +1,6 @@
 <div class="text-sm text-gray-300" id="search_engine_results_<%= keyword.id %>">
-  <% keyword.search_engine_results.order(ranking: :asc).first(5).each do |search_engine_result| %>
-    <div id="search_engine_result_<%= search_engine_result.id %>">
+  <% keyword.search_engine_results.order(ranking: :asc).first(2).each do |search_engine_result| %>
+    <div id="search_engine_result_<%= search_engine_result.id %>" class="whitespace-nowrap inline-block">
       <% competitor = search_engine_result.competitor %>
       <span class="inline-block p-2 mb-2 text-sm font-medium rounded-full <%= search_engine_result.ranking && search_engine_result.ranking <= 10 ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400' %>" data-competitor-keyword="<%= competitor.domain_name %>">
         <%= link_to "##{search_engine_result.ranking} - #{competitor.domain_name}", search_engine_result.url, class: (search_engine_result.ranking && search_engine_result.ranking <= 10 ? 'text-green-400 hover:text-green-500' : 'text-yellow-400 hover:text-yellow-500') %>
