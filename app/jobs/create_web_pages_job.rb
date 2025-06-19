@@ -1,7 +1,7 @@
 class CreateWebPagesJob < ApplicationJob
   queue_as :default
 
-  def perform(domain:, count: 10)
+  def perform(domain:, count: 5)
     web_pages = FetchSerp::ClientService.new(user: domain.user).scrape_domain(domain.name, count)
     pages = web_pages.dig("data", "web_pages") || []
 
@@ -51,7 +51,7 @@ class CreateWebPagesJob < ApplicationJob
       locals: { domain: domain }
     )
 
-    KeywordsAiScoreJob.perform_later(domain: domain, count: 10)
+    KeywordsAiScoreJob.perform_later(domain: domain, count: 3)
     TechnicalSeoReportJob.perform_later(domain: domain)
   end
 end

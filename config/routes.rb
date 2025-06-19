@@ -3,9 +3,6 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resource :registrations, only: [ :new, :create ]
 
-  namespace :public do
-    get "landing_page/index"
-  end
   namespace :app do
     resources :domains
     resources :keywords
@@ -24,6 +21,12 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+
+  namespace :public, path: "/" do
+    get "landing_page/index"
+    get "pages", to: "seo_pages#index"
+    resources :seo_pages, only: [ :show ], path: "/"
+  end
 
   # Defines the root path route ("/")
   root "public/landing_page#index"

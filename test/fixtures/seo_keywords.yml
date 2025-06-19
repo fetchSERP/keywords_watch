@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  is_long_tail: false
+  seo_keyword: one
+  search_intent: 1
+  competition: MyString
+  search_volume: MyString
+  avg_monthly_searches: MyString
+
+two:
+  name: MyString
+  is_long_tail: false
+  seo_keyword: two
+  search_intent: 1
+  competition: MyString
+  search_volume: MyString
+  avg_monthly_searches: MyString

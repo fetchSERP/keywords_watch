@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_03_135601) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_04_154309) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -118,6 +118,36 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_03_135601) do
     t.index ["user_id"], name: "index_search_engine_results_on_user_id"
   end
 
+  create_table "seo_keywords", force: :cascade do |t|
+    t.string "name"
+    t.boolean "is_long_tail", default: false
+    t.bigint "seo_keyword_id"
+    t.integer "search_intent", default: 0
+    t.string "competition"
+    t.string "search_volume"
+    t.string "avg_monthly_searches"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_seo_keywords_on_name", unique: true
+    t.index ["seo_keyword_id"], name: "index_seo_keywords_on_seo_keyword_id"
+  end
+
+  create_table "seo_pages", force: :cascade do |t|
+    t.bigint "seo_keyword_id", null: false
+    t.string "slug"
+    t.string "title"
+    t.text "meta_description"
+    t.text "headline"
+    t.text "subheading"
+    t.text "content"
+    t.bigint "seo_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["seo_keyword_id"], name: "index_seo_pages_on_seo_keyword_id"
+    t.index ["seo_page_id"], name: "index_seo_pages_on_seo_page_id"
+    t.index ["slug"], name: "index_seo_pages_on_slug", unique: true
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "ip_address"
@@ -187,6 +217,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_03_135601) do
   add_foreign_key "search_engine_results", "competitors"
   add_foreign_key "search_engine_results", "keywords"
   add_foreign_key "search_engine_results", "users"
+  add_foreign_key "seo_keywords", "seo_keywords"
+  add_foreign_key "seo_pages", "seo_keywords"
+  add_foreign_key "seo_pages", "seo_pages"
   add_foreign_key "sessions", "users"
   add_foreign_key "technical_seo_reports", "users"
   add_foreign_key "technical_seo_reports", "web_pages"

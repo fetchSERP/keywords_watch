@@ -1,18 +1,18 @@
 class Ai::Seo::PageService < BaseService
 
-  def call(keyword, pillar = nil)
+  def call(seo_keyword)
     Ai::Openai::ChatGptService.new.call(
-      user_prompt: user_prompt(keyword, pillar),
+      user_prompt: user_prompt(seo_keyword),
       system_prompt: system_prompt,
       response_schema: response_schema
     )
   end
 
   # User prompt describing the task for ChatGPT to generate an SEO page
-  def user_prompt(keyword, pillar = nil)
+  def user_prompt(seo_keyword)
     <<~PROMPT
-      Create a well-optimized SEO page targeting the keyword "#{keyword}". 
-      The page should be designed for an audience seeking information about this keyword.
+      Create a well-optimized SEO page targeting the keyword "#{seo_keyword.name}". 
+      The page should be tailored to users with a #{seo_keyword.search_intent} search intent.
       The following requirements must be met:
       - The meta title should be concise, under 60 characters, and include the keyword.
       - The meta description should be clear, under 160 characters, and include the keyword.
@@ -29,13 +29,13 @@ class Ai::Seo::PageService < BaseService
       - The html must be styled with Tailwind CSS.
       - The html must be responsive and mobile-friendly.
       - The html must not contain h1 tags and the content title should be different from the headline or subheading.
-      - Space out the content with paragraphs and use a friendly, professional tone suitable for an audience interested in learning about "#{keyword}".
-      - Use a friendly, professional tone suitable for an audience interested in learning about "#{keyword}".
+      - Space out the content with paragraphs and use a friendly, professional tone suitable for an audience interested in learning about "#{seo_keyword.name}".
+      - Use a friendly, professional tone suitable for an audience interested in learning about "#{seo_keyword.name}".
       - Use text-gray-300 text color on bg-[#0F172A] background for text and background
       - Use text-gray-100 for titles and subtitles
       - use font-sans font family
-      #{pillar && "- The html must include a link to https://www.fetchserp.com/#{pillar.parameterize}"}
-      #{!pillar && "- The html must include a link to https://www.fetchserp.com"}
+      #{seo_keyword.pillar.present? && "- The html must include a link to https://www.keywords.watch/#{seo_keyword.pillar.name.parameterize}"}
+      #{!seo_keyword.pillar.present? && "- The html must include a link to https://www.keywords.watch"}
     PROMPT
   end
 
@@ -56,7 +56,7 @@ class Ai::Seo::PageService < BaseService
       "schema": {
         "type": "object",
         "properties": {
-          "meta_title": {
+          "title": {
             "type": "string",
             "description": "The meta title tag, under 60 characters, including the keyword"
           },
@@ -78,7 +78,7 @@ class Ai::Seo::PageService < BaseService
           }
         },
         "additionalProperties": false,
-        "required": ["meta_title", "meta_description", "headline", "subheading", "content"]
+        "required": ["title", "meta_description", "headline", "subheading", "content"]
       }
     }
   end

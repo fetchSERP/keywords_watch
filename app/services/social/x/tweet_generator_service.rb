@@ -28,7 +28,7 @@ class Social::X::TweetGeneratorService < BaseService
       - Keyword analysis
       - Google Ads import
       - Daily ranking updates
-      - 2500 free credits (no card required)
+      - 250 free credits (no card required)
 
       Requirements:
       - Make it catchy and benefit-driven

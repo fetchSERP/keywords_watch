@@ -1,17 +1,22 @@
 class Ai::Seo::LongTailKeywordsService < BaseService
-  def call(keyword)
+  def initialize(seed_keyword:, count: 5)
+    @seed_keyword = seed_keyword
+    @count = count
+  end
+
+  def call
     Ai::Openai::ChatGptService.new.call(
-      user_prompt: user_prompt(keyword),
+      user_prompt: user_prompt(@seed_keyword.name, @count),
       system_prompt: system_prompt,
-      response_schema: response_schema
+      response_schema: response_schema(@count)
     )
   end
 
-  def response_schema
+  def response_schema(count)
     {
       "strict": true,
       "name": "SEO_keywords_generator",
-      "description": "Generate 5 long tail keywords for each of the four search intents: informational, navigational, commercial, and transactional.",
+      "description": "Generate #{count} long tail keywords for each of the four search intents: informational, navigational, commercial, and transactional.",
       "schema": {
         "type": "object",
         "properties": {
@@ -21,26 +26,26 @@ class Ai::Seo::LongTailKeywordsService < BaseService
               "informational": {
                 "type": "array",
                 "items": keyword_schema,
-                "minItems": 5,
-                "maxItems": 5
+                "minItems": count,
+                "maxItems": count
               },
               "navigational": {
                 "type": "array",
                 "items": keyword_schema,
-                "minItems": 5,
-                "maxItems": 5
+                "minItems": count,
+                "maxItems": count
               },
               "commercial": {
                 "type": "array",
                 "items": keyword_schema,
-                "minItems": 5,
-                "maxItems": 5
+                "minItems": count,
+                "maxItems": count
               },
               "transactional": {
                 "type": "array",
                 "items": keyword_schema,
-                "minItems": 5,
-                "maxItems": 5
+                "minItems": count,
+                "maxItems": count
               }
             },
             "required": ["informational", "navigational", "commercial", "transactional"],
@@ -79,9 +84,9 @@ class Ai::Seo::LongTailKeywordsService < BaseService
     }
   end
 
-  def user_prompt(keyword)
+  def user_prompt(seed_keyword_name, count)
     <<~PROMPT
-      Generate 5 long tail keywords for: "#{keyword}"
+      Generate #{count} long tail keywords for: "#{seed_keyword_name}"
 
       Requirements:
       1. Include a mix of different search intents (informational, navigational, commercial, transactional)
@@ -101,7 +106,7 @@ class Ai::Seo::LongTailKeywordsService < BaseService
       - Estimated difficulty
       - Estimated search volume range
 
-      Group the results by search intent and generate exactly 5 keywords for each intent.
+      Group the results by search intent and generate exactly #{count} keywords for each intent.
 
       Prioritize keywords with the highest estimated search volume where possible.
 

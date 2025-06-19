@@ -99,7 +99,7 @@ class Ai::Seo::OptimizedPageService < BaseService
       - /api/v1/rankings to get domain rankings for a given keyword
       - /api/v1/serp_html to get the web page content of the search engine results
       Fetchserp pricing is $1 = 1000 tokens (google cost 3 credits, bing and duckduckgo cost 1 credit, yahoo cost 2 credits)
-      Fetchserp offers 2500 credits to new users.
+      Fetchserp offers 250 credits to new users.
       credits never expire.
   
       Focus:

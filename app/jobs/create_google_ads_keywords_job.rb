@@ -37,7 +37,7 @@ class CreateGoogleAdsKeywordsJob < ApplicationJob
       partial: "app/domains/domain_analysis_status",
       locals: { domain: domain }
     )
-    CreateWebPagesJob.perform_later(domain: domain, count: 10)
+    CreateWebPagesJob.perform_later(domain: domain, count: 5)
   end
 
 end

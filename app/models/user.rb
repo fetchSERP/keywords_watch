@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end
 
   def set_default_credit
-    self.credit = 2500
+    self.credit = 250
   end
 
 end
