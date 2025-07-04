@@ -121,12 +121,12 @@ accessories:
   db:
     image: pgvector/pgvector:pg17
     host: keywords.watch
-    port: "127.0.0.1:5437:5437"
+    port: "127.0.0.1:5432:5432"
     env:
       clear:
         POSTGRES_USER: "keywords_watch"
         POSTGRES_DB: "keywords_watch_production"
-        PGPORT: 5437
+        PGPORT: 5432
       secret:
         - POSTGRES_PASSWORD
     files:
