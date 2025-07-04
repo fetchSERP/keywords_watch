@@ -12,12 +12,24 @@ class User < ApplicationRecord
   validates :email_address, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
   validates :password_digest, presence: true
   after_commit :create_welcome_chat_message, on: :create
-  before_create :set_default_credit
   normalizes :email_address, with: ->(e) { e.strip.downcase }
   scope :with_credit, -> { where("credit > 0") }
 
   def is_admin?
     role == "admin"
+  end
+
+  # Returns an initialized FetchSERP::Client using the user's personal API key
+  def fetchserp_client
+    @fetchserp_client ||= FetchSERP::Client.new(api_key: fetchserp_api_key)
+  end
+
+  # Fetch remaining credits from FetchSERP API (real-time)
+  def fetchserp_credits
+    resp = fetchserp_client.user
+    resp.data.dig("user", "api_credit")
+  rescue => _e
+    nil
   end
 
   private
@@ -29,9 +41,4 @@ class User < ApplicationRecord
       body: "Hello! I'm your SEO AI Agent. I have access to your domains, keywords, backlinks, and competitors data. I can help you with keyword research, backlink analysis, and content strategies. I have access to multiple tools to help you with your SEO tasks. How can I help you today?"
     )
   end
-
-  def set_default_credit
-    self.credit = 250
-  end
-
 end

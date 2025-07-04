@@ -1,10 +1,14 @@
 class App::ApplicationController < ApplicationController
-  before_action :check_user_credit
+  # Credit gating removed – we now rely on live FetchSERP credits
+  before_action :ensure_fetchserp_api_key
+
   private
 
-  def check_user_credit
-    if Current.user.credit <= 0
-      redirect_to root_path, alert: "You need to add credits to your account to continue."
+  def ensure_fetchserp_api_key
+    return if controller_name == "users" # allow editing key
+
+    unless Current.user&.fetchserp_api_key.present?
+      redirect_to edit_app_user_path, alert: "Please add your FetchSERP API key to continue."
     end
   end
 end

@@ -2,8 +2,10 @@ class CreateGoogleAdsKeywordsJob < ApplicationJob
   queue_as :default
 
   def perform(domain:)
-    keywords = FetchSerp::ClientService.new(user: domain.user).keywords_suggestions(url: "https://#{domain.name}")
-    keywords["data"]["keywords_suggestions"].each do |keyword|
+    client = domain.user.fetchserp_client
+    response = client.keywords_suggestions(url: "https://#{domain.name}")
+    suggestions = response["keywords_suggestions"] || response["data"]&.dig("keywords_suggestions") || []
+    suggestions.first(300).each do |keyword|
       next if Keyword.exists?(user: domain.user, name: keyword["keyword"])
       keyword = Keyword.create(
         user: domain.user,
@@ -38,6 +40,7 @@ class CreateGoogleAdsKeywordsJob < ApplicationJob
       locals: { domain: domain }
     )
     CreateWebPagesJob.perform_later(domain: domain, count: 5)
+    broadcast_credit(domain.user)
   end
 
 end

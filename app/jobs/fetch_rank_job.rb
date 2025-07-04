@@ -2,8 +2,9 @@ class FetchRankJob < ApplicationJob
   queue_as :default
 
   def perform(ranking:, pages_number: 20)
-    rankings = FetchSerp::ClientService.new(user: ranking.user).domain_ranking(ranking.keyword.name, ranking.domain.name, ranking.search_engine, ranking.country, pages_number)
-    rank = rankings["data"]["results"].first
+    response = ranking.user.fetchserp_client.ranking(keyword: ranking.keyword.name, domain: ranking.domain.name, search_engine: ranking.search_engine, country: ranking.country, pages_number: pages_number)
+    rank_data = response["results"] || response["data"]&.dig("results") || []
+    rank = rank_data.first
     if rank.present?
       ranking.update!(rank: rank&.dig("ranking"), url: rank&.dig("url"))
       ranking.keyword.update!(ranking: rank&.dig("ranking"), ranking_url: rank&.dig("url"))
@@ -31,6 +32,7 @@ class FetchRankJob < ApplicationJob
         partial: "app/domains/keywords_chart",
         locals: { domain: ranking.domain }
       )
+      broadcast_credit(ranking.user)
     end
   end
 end

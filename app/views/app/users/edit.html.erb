@@ -1,0 +1,41 @@
+<% content_for :title, "API Settings" %>
+
+<div class="py-16">
+  <div class="max-w-2xl mx-auto md:w-2/3 w-full px-4">
+    <div class="bg-gray-800 px-6 py-8 border border-gray-700 rounded-xl shadow-xl">
+      <h1 class="font-bold text-2xl text-gray-100">Update FetchSERP API Key</h1>
+      <p class="text-base text-gray-400 mt-2">
+        Enter your personal FetchSERP API key below. You can generate one instantly—no credit card required—and receive <span class="text-yellow-400 font-semibold">250 free credits</span> to start testing.
+        Visit
+        <%= link_to "fetchserp.com/app", "https://www.fetchserp.com/app", target: "_blank", rel: "noopener", class: "underline text-indigo-400 hover:text-indigo-300" %>
+        to create your key.
+      </p>
+
+      <% if flash[:notice] %>
+        <div class="mt-4 p-4 bg-green-900/20 border border-green-500/50 rounded-lg text-green-400">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+      <% if flash[:alert] %>
+        <div class="mt-4 p-4 bg-red-900/20 border border-red-500/50 rounded-lg text-red-400">
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
+
+      <%= form_with model: @user, url: app_user_path, method: :patch, class: "mt-8 space-y-6" do |form| %>
+        <div>
+          <%= form.label :fetchserp_api_key, "FetchSERP API Key", class: "block text-sm font-medium text-gray-300 mb-2" %>
+          <%= form.text_field :fetchserp_api_key, placeholder: "Enter your API key", class: "block w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" %>
+        </div>
+
+        <div class="flex items-center justify-between pt-4">
+          <%= form.submit "Save", class: "px-6 py-3 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" %>
+
+          <div class="flex items-center space-x-4">
+            <%= link_to "Back", app_root_path, class: "text-gray-400 hover:text-gray-300 transition-colors" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div> 

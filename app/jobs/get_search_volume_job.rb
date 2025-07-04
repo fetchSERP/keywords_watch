@@ -2,8 +2,10 @@ class GetSearchVolumeJob < ApplicationJob
   queue_as :default
 
   def perform(keyword:)
-    search_volume = FetchSerp::ClientService.new(user: keyword.user).keywords_search_volume([keyword.name], keyword.domain.country)
-    search_volume = search_volume["data"]["search_volume"].first
+    client = keyword.user.fetchserp_client
+    response = client.keywords_search_volume(keywords: [keyword.name], country: keyword.domain.country)
+    volume_data = response["search_volume"] || response["data"]&.dig("search_volume") || []
+    search_volume = volume_data.first
     if search_volume
       keyword.update(
         avg_monthly_searches: search_volume["avg_monthly_searches"],
@@ -13,5 +15,7 @@ class GetSearchVolumeJob < ApplicationJob
         high_top_of_page_bid_micros: search_volume["high_top_of_page_bid_micros"]
       )
     end
+
+    broadcast_credit(keyword.user)
   end
 end

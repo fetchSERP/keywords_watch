@@ -2,8 +2,10 @@ class CreateWebPagesJob < ApplicationJob
   queue_as :default
 
   def perform(domain:, count: 5)
-    web_pages = FetchSerp::ClientService.new(user: domain.user).scrape_domain(domain.name, count)
-    pages = web_pages.dig("data", "web_pages") || []
+    response = domain.user.fetchserp_client.scrape_domain(domain: domain.name, max_pages: count)
+    web_pages = response["results"] || response["web_pages"] || response["data"]&.dig("web_pages") || []
+
+    pages = web_pages
 
     pages.each do |web_page|
       begin
@@ -51,7 +53,8 @@ class CreateWebPagesJob < ApplicationJob
       locals: { domain: domain }
     )
 
-    KeywordsAiScoreJob.perform_later(domain: domain, count: 3)
+    KeywordsAiScoreJob.perform_later(domain: domain, count: 10)
     TechnicalSeoReportJob.perform_later(domain: domain)
+    broadcast_credit(domain.user)
   end
 end

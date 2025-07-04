@@ -2,8 +2,10 @@ class CreateDomainInfosJob < ApplicationJob
   queue_as :default
 
   def perform(domain)
-    infos = FetchSerp::ClientService.new(user: domain.user).domain_infos(domain.name)
-    domain.update(infos: infos["data"]["domain_info"])
+    client = domain.user.fetchserp_client
+    response = client.domain_infos(domain: domain.name)
+    info_data = response["domain_info"] || response["data"]&.dig("domain_info")
+    domain.update(infos: info_data)
     Turbo::StreamsChannel.broadcast_update_to(
       "streaming_channel_#{domain.user_id}",
       target: "domain_infos",
@@ -19,5 +21,6 @@ class CreateDomainInfosJob < ApplicationJob
       partial: "app/domains/domain_analysis_status",
       locals: { domain: domain }
     )
+    broadcast_credit(domain.user)
   end
 end

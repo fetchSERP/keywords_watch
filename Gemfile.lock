@@ -125,6 +125,7 @@ GEM
       multipart-post (~> 2.0)
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
+    fetchserp (0.1.2)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -421,6 +422,7 @@ DEPENDENCIES
   countries
   cssbundling-rails
   debug
+  fetchserp (~> 0.1)
   jbuilder
   jsbundling-rails
   kamal

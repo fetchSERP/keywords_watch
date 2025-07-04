@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :backlinks
     resources :search_engine_results
     resources :chat_messages, only: [ :index, :create ]
+    resource :user, only: [ :edit, :update ]
     root "domains#index"
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -2,8 +2,10 @@ class CreateSearchEngineResultsJob < ApplicationJob
   queue_as :default
 
   def perform(keyword:, search_engine: "google", pages_number: 10)
-    search_engine_results = FetchSerp::ClientService.new(user: keyword.user).search_engine_results(keyword.name, search_engine, keyword.domain.country, pages_number)
-    search_engine_results["data"]["results"].each do |search_engine_result|
+    client = keyword.user.fetchserp_client
+    response = client.serp(query: keyword.name, search_engine: search_engine, country: keyword.domain.country, pages_number: pages_number)
+    search_engine_results = response["results"] || response["data"]&.dig("results") || []
+    search_engine_results.each do |search_engine_result|
       if competitor = Competitor.find_by(user: keyword.user, domain: keyword.domain, domain_name: URI.parse(search_engine_result["url"]).host)
         competitor.increment(:serp_appearances_count).save!
         search_engine_result = create_search_engine_result(search_engine_result, competitor, keyword, search_engine)
@@ -47,6 +49,10 @@ class CreateSearchEngineResultsJob < ApplicationJob
         )
       end
     end
+
+    KeywordsAiScoreJob.perform_later(domain: keyword.domain, count: 10)
+
+    broadcast_credit(keyword.user)
   end
 
   def create_search_engine_result(search_engine_result, competitor, keyword, search_engine)

@@ -1,71 +1,45 @@
 class Ai::Openai::ToolCallingAgentService < BaseService
+  POLL_INTERVAL = 2
+
   def initialize(user_id, user_prompt)
-    @user_id = user_id
-    @user_prompt = user_prompt
+    @user   = User.find(user_id)
+    @prompt = user_prompt
   end
 
   def call
-    tools = Ai::Openai::Tools::FetchSerp.tools
+    resp = send_initial_prompt
+    Rails.logger.info "[TOOL_AGENT] Initial response: #{resp.inspect}"
 
-    response = client.chat(
-      parameters: {
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "system", content: system_prompt }] + knowledge_base + [{ role: "user", content: @user_prompt }],
-        tools: tools.map(&:schema)
-      }
-    )
-    
-    message = response.dig("choices", 0, "message")
-    tool_call = message.dig("tool_calls", 0)
+    loop do
+      if (approval = find_output(resp, "mcp_approval_request"))
+        Rails.logger.info "[TOOL_AGENT] Approval requested: #{approval["id"]}"
+        resp = approve_tool(approval["id"], resp["id"])
+        next
+      end
 
-    if tool_call
-      tool_name = tool_call.dig("function", "name")
-      args = JSON.parse(tool_call.dig("function", "arguments"))
+      if (call = completed_tool_call(resp))
+        Rails.logger.info "[TOOL_AGENT] Tool call complete, output: #{call["output"].truncate(100)}"
+        final_response = handle_tool_output_and_continue(call["output"], resp["id"])
+        stream_response_chunks(final_response)
+        break
+      end
 
-      tool = tools.find { |t| t.schema[:function][:name] == tool_name }
-      tool_result = tool.call(args.merge("user_id" => @user_id))
+      if (message = assistant_output(resp))
+        Rails.logger.info "[TOOL_AGENT] Assistant responded without tool call"
+        broadcast_message(message)
+        break
+      end
 
-      user = User.find(@user_id)
-      Turbo::StreamsChannel.broadcast_replace_to(
-        "streaming_channel_#{@user_id}",
-        target: "user_credit",
-        partial: "shared/user_credit",
-        locals: { user: user }
-      )
-
-      response = ""
-      client.chat(
-        parameters: {
-          model: "gpt-3.5-turbo",
-          messages: [{ role: "system", content: system_prompt }] + knowledge_base + [
-            { role: "user", content: @user_prompt },
-            { role: "assistant", tool_calls: [tool_call] },
-            {
-              role: "tool",
-              tool_call_id: tool_call["id"],
-              name: tool_name,
-              content: tool_result.to_json
-            }
-          ],
-          stream: proc do |chunk, _bytesize|
-            delta = chunk.dig("choices", 0, "delta", "content")
-            next unless delta
-            response += delta
-            broadcast_chunk(delta)
-            sleep 0.05
-          end
-        }
-      )
-      broadcast_message(response)
-    else
-      broadcast_message(message["content"])
+      Rails.logger.info "[TOOL_AGENT] No tool call, approval, or message. Polling again."
+      sleep POLL_INTERVAL
+      resp = client.responses.retrieve(response_id: resp["id"])
     end
   end
 
   def broadcast_message(message)
-    chat_message = ChatMessage.create!(user_id: @user_id, body: message, author: "assistant")
+    chat_message = ChatMessage.create!(user_id: @user.id, body: message, author: "assistant")
     Turbo::StreamsChannel.broadcast_replace_to(
-      "streaming_channel_#{@user_id}",
+      "streaming_channel_#{@user.id}",
       target: "temp_message",
       partial: "app/chat_messages/message",
       locals: { message: chat_message }
@@ -74,11 +48,20 @@ class Ai::Openai::ToolCallingAgentService < BaseService
 
   def broadcast_chunk(chunk)
     Turbo::StreamsChannel.broadcast_append_to(
-      "streaming_channel_#{@user_id}",
+      "streaming_channel_#{@user.id}",
       target: "chunks_container",
       partial: "app/chat_messages/chunk",
       locals: { chunk: chunk }
     )
+  end
+
+  def stream_response_chunks(response)
+    Rails.logger.info "[STREAM] Streaming chunks for response #{response["id"]}"
+    client.responses.stream(response_id: response["id"]) do |chunk|
+      next unless chunk["delta"]
+      content = chunk["delta"]["text"]
+      broadcast_chunk(content) if content.present?
+    end
   end
 
   def knowledge_base
@@ -86,93 +69,117 @@ class Ai::Openai::ToolCallingAgentService < BaseService
   end
 
   def chat_history
-    ChatMessage.where(user_id: @user_id).order(created_at: :asc).map do |msg|
-      {
-        role: msg.author,
-        content: msg.body
-      }
+    ChatMessage.where(user_id: @user.id).order(created_at: :asc).map do |msg|
+      { role: msg.author, content: msg.body }
     end
   end
 
   def backlinks
-    backlinks_data = Backlink.where(user_id: @user_id).order(created_at: :asc).take(50).each_with_index.map do |backlink, index|
-      "Backlink #{index + 1}: domain: #{backlink.domain.name}, source_url: #{backlink.source_url}, target_url: #{backlink.target_url}, anchor_text: #{backlink.anchor_text}, nofollow: #{backlink.nofollow}, rel_attributes: #{backlink.rel_attributes}, context_text: #{backlink.context_text}, source_domain: #{backlink.source_domain}, target_domain: #{backlink.target_domain}, page_title: #{backlink.page_title}, meta_description: #{backlink.meta_description}"
+    data = Backlink.where(user_id: @user.id).order(created_at: :asc).limit(50).each_with_index.map do |b, i|
+      "Backlink #{i + 1}: domain: #{b.domain.name}, source_url: #{b.source_url}, target_url: #{b.target_url}, anchor_text: #{b.anchor_text}, nofollow: #{b.nofollow}, rel_attributes: #{b.rel_attributes}, context_text: #{b.context_text}, source_domain: #{b.source_domain}, target_domain: #{b.target_domain}, page_title: #{b.page_title}, meta_description: #{b.meta_description}"
     end.join("\n")
-  
-    [
-      {
-        role: "user",
-        content: "Here are the backlinks for the user:\n#{backlinks_data}"
-      }
-    ]
+
+    [{ role: "user", content: "Here are the backlinks:\n#{data}" }]
   end
 
   def keywords
-    keywords_data = Keyword.where(user_id: @user_id, is_tracked: true).order(created_at: :asc).take(10).each_with_index.map do |keyword, index|
-      "Keyword #{index + 1}: #{keyword.name}, domain: #{keyword.domain.name}, rank: #{keyword.rankings.last&.rank}, indexed: #{keyword.indexed}, indexed_urls: #{keyword.urls.take(5).join(", ")}, avg_monthly_searches: #{keyword.avg_monthly_searches}, competition: #{keyword.competition}, competition_index: #{keyword.competition_index}, low_top_of_page_bid_micros: #{keyword.low_top_of_page_bid_micros}, high_top_of_page_bid_micros: #{keyword.high_top_of_page_bid_micros}"
+    data = Keyword.where(user_id: @user.id, is_tracked: true).order(created_at: :asc).limit(10).each_with_index.map do |k, i|
+      "Keyword #{i + 1}: #{k.name}, domain: #{k.domain.name}, rank: #{k.rankings.last&.rank}, indexed: #{k.indexed}, indexed_urls: #{k.urls.take(5).join(", ")}, avg_monthly_searches: #{k.avg_monthly_searches}, competition: #{k.competition}, competition_index: #{k.competition_index}, low_bid: #{k.low_top_of_page_bid_micros}, high_bid: #{k.high_top_of_page_bid_micros}"
     end.join("\n")
 
-    [
-      {
-        role: "user",
-        content: "Here are the keywords for the user:\n#{keywords_data}"
-      }
-    ]
+    [{ role: "user", content: "Here are the keywords:\n#{data}" }]
   end
 
   def competitors
-    competitors_data = Competitor.where(user_id: @user_id).order(serp_appearances_count: :desc).take(10).each_with_index.map do |competitor, index|
-      "Competitor #{index + 1}: domain: #{competitor.domain.name}, competitor_domain: #{competitor.domain_name}, serp_appearances_count: #{competitor.serp_appearances_count}"
+    data = Competitor.where(user_id: @user.id).order(serp_appearances_count: :desc).limit(10).each_with_index.map do |c, i|
+      "Competitor #{i + 1}: domain: #{c.domain.name}, competitor_domain: #{c.domain_name}, serp_appearances_count: #{c.serp_appearances_count}"
     end.join("\n")
-    
-    [
-      {
-        role: "user",
-        content: "Here are the competitors for the user:\n#{competitors_data}"
-      }
-    ]
+
+    [{ role: "user", content: "Here are the competitors:\n#{data}" }]
   end
 
   def system_prompt
     <<~PROMPT
-      You are an AI assistant helping the user with SEO tasks, keyword research, backlink analysis, and content strategies. You have already received extensive contextual data, including chat history, keyword metrics, backlink details, and competitors.
-  
-      Your role is to:
-      - First use the provided context (chat history, keywords, backlinks, competitors) to generate insightful, helpful, and actionable responses.
-      - Only call tools from the FetchSERP API **if the user request cannot be answered using the given data**.
-      - When using a tool, explain briefly why the tool was used and summarize its output clearly and concisely.
-      - If a tool is needed, select the most relevant one based on the user’s request and tool capabilities.
-      - If the user’s prompt is ambiguous, ask a clarifying question before calling a tool.
-  
-      **Available Tools (use only if necessary):**
-      1. **search_engine_results** – Structured SERP data. Params: query (required), search_engine, country, pages_number.
-      2. **search_engine_results_html** – Raw HTML of SERPs. Params: query (required), search_engine, country, pages_number.
-      3. **serp_text** – Extracted text from SERPs. Params: query (required), search_engine, country, pages_number.
-      4. **domain_ranking** – Domain rank for a keyword. Params: keyword (required), domain (required), search_engine, country, pages_number.
-      5. **scrape_web_page** – Scrape a single page (no JS). Params: url (required).
-      6. **scrape_domain** – Crawl multiple pages of a domain. Params: domain (required), max_pages.
-      7. **scrape_web_page_with_js** – Scrape page with JavaScript. Params: url (required), js_script (optional).
-      8. **keywords_search_volume** – Search volume for keywords. Params: keywords (required array), country.
-      9. **keywords_suggestions** – Generate keyword suggestions. Params: url or keywords (array), country.
-      10. **backlinks** – Retrieve backlinks. Params: domain (required), search_engine, country, pages_number.
-      11. **domain_emails** – Extract emails from a domain. Params: domain (required), search_engine, country, pages_number.
-      12. **web_page_ai_analysis** – AI analysis of a page. Params: url (required), prompt (required).
-      13. **web_page_seo_analysis** – SEO audit. Params: url (required).
-      14. **check_indexation** – Check if a page is indexed. Params: url (required).
-      15. **generate_long_tail_keywords** – Generate long tail keywords. Params: url (required).
-      16. **domain_infos** – Get domain infos (dns, ssl, whois, etc). Params: domain (required).
-
-  
-      **When responding:**
-      - Do not summarize the tools unless the user asks.
-      - Focus on interpreting data and helping the user make decisions or generate ideas.
-      - Use natural, helpful language and suggest specific next steps if applicable.
+      You are an AI assistant helping the user with SEO tasks. Use the provided context (chat, backlinks, keywords, competitors).
+      Use tools only when necessary and explain their outputs clearly.
     PROMPT
   end
 
   private
 
   def client
-    OpenAI::Client.new(access_token: Rails.application.credentials.openai_api_key, uri_base: "https://api.openai.com/v1")
+    OpenaiMcp.client
+  end
+
+  def build_input
+    history = knowledge_base.map { |m| "#{m[:role].capitalize}: #{m[:content]}" }.join("\n\n")
+    <<~TXT
+      #{system_prompt}
+
+      #{history}
+
+      User: #{@prompt}
+    TXT
+  end
+
+  def send_initial_prompt
+    client.responses.create(
+      parameters: {
+        model: "gpt-4.1",
+        tools: [OpenaiMcp.mcp_tool(@user.fetchserp_api_key)],
+        input: build_input.strip
+      }
+    )
+  end
+
+  def approve_tool(approval_id, previous_id)
+    client.responses.create(
+      parameters: {
+        model: "gpt-4.1",
+        tools: [OpenaiMcp.mcp_tool(@user.fetchserp_api_key)],
+        previous_response_id: previous_id,
+        input: [{ type: "mcp_approval_response", approval_request_id: approval_id, approve: true }]
+      }
+    )
+  end
+
+  def completed_tool_call(resp)
+    (resp["output"] || []).find { |o| o["type"] == "mcp_call" && o["output"].present? }
+  end
+
+  def find_output(resp, type)
+    (resp["output"] || []).find { |o| o["type"] == type }
+  end
+
+  def assistant_output(resp)
+    message = (resp["output"] || []).find { |o| o["type"] == "message" }
+    message&.dig("content", 0, "text")
+  end
+
+  def handle_tool_output_and_continue(output_json, previous_id)
+    data = JSON.parse(output_json) rescue output_json
+    body = data.is_a?(String) ? data : JSON.pretty_generate(data)
+
+    Rails.logger.info "[TOOL_CALL] Received tool output: #{body.inspect}"
+
+    broadcast_message(body)
+
+    client.responses.create(
+      parameters: {
+        model: "gpt-4.1",
+        tools: [],
+        previous_response_id: previous_id,
+        input: "Here is the result of the tool call:\n\n#{body}\n\nPlease summarize and explain this to the user."
+      }
+    )
+  end
+
+  def broadcast_credit(user)
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "streaming_channel_#{user.id}",
+      target: "user_credit",
+      partial: "shared/user_credit",
+      locals: { user: user }
+    )
   end
 end

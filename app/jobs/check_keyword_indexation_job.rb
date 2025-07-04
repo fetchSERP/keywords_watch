@@ -4,8 +4,8 @@ class CheckKeywordIndexationJob < ApplicationJob
   def perform(keyword)
     begin
       encoded_keyword = URI.encode_www_form_component(keyword.name)
-      response = FetchSerp::ClientService.new(user: keyword.user).check_indexation(domain: keyword.domain.name, keyword: encoded_keyword)
-      indexation = response["data"]["indexation"]
+      response = keyword.user.fetchserp_client.page_indexation(domain: keyword.domain.name, keyword: encoded_keyword)
+      indexation = response["indexation"] || response["data"]&.dig("indexation")
       if indexation["indexed"]
         keyword.update!(indexed: true, urls: indexation["urls"])
         Turbo::StreamsChannel.broadcast_replace_to(
@@ -21,6 +21,7 @@ class CheckKeywordIndexationJob < ApplicationJob
           locals: { domain: keyword.domain }
         )
         CreateRankingsJob.perform_later(keyword: keyword)
+        broadcast_credit(keyword.user)
       end
     rescue => e
       # binding.pry

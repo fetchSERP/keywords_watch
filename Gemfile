@@ -41,6 +41,8 @@ gem "thruster", require: false
 
 gem "ruby-openai"
 
+gem "fetchserp", "~> 0.1"
+
 gem "chartkick"
 
 gem "countries"

@@ -1,0 +1,10 @@
+<!-- Render FetchSERP / tool output as pretty-printed JSON -->
+<div class="flex items-start mb-4 border-b border-gray-700 pb-4">
+  <div class="flex-shrink-0">
+    <%= image_tag "https://ui-avatars.com/api/?name=Tool", class: "w-10 h-10 rounded-full" %>
+  </div>
+  <div class="ml-3 w-full pr-4">
+    <pre class="text-sm text-gray-300 whitespace-pre-wrap break-words"><%= (data.is_a?(String) ? data : JSON.pretty_generate(data)) rescue data.to_s %></pre>
+    <div class="text-xs text-gray-500"><%= Time.current.strftime("%Y-%m-%d %H:%M:%S") %></div>
+  </div>
+</div> 

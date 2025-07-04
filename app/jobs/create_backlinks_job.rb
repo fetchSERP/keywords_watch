@@ -2,8 +2,9 @@ class CreateBacklinksJob < ApplicationJob
   queue_as :default
 
   def perform(domain)
-    backlinks = FetchSerp::ClientService.new(user: domain.user).backlinks(domain.name, "google", domain.country, 20)
-    backlinks["data"]["backlinks"].each do |backlink|
+    backlinks_response = domain.user.fetchserp_client.backlinks(domain: domain.name, search_engine: "google", country: domain.country, pages_number: 20)
+    backlinks_response_data = backlinks_response["backlinks"] || backlinks_response["data"]&.dig("backlinks") || []
+    backlinks_response_data.each do |backlink|
       backlink = Backlink.create!(
         user: domain.user,
         domain: domain,
@@ -40,5 +41,6 @@ class CreateBacklinksJob < ApplicationJob
       partial: "app/domains/domain_analysis_status",
       locals: { domain: domain }
     )
+    broadcast_credit(domain.user)
   end
 end

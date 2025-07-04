@@ -4,6 +4,8 @@ class SeoTechnicalReportService < BaseService
   end
 
   def call
-    FetchSerp::ClientService.new(user: @web_page.user).web_page_seo_analysis(@web_page.url)
+    @web_page.user.fetchserp_client.web_page_seo_analysis(url: @web_page.url).tap do
+      ApplicationJob.new.broadcast_credit(@web_page.user)
+    end
   end
 end
