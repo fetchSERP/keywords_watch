@@ -53,7 +53,7 @@ class CreateWebPagesJob < ApplicationJob
       locals: { domain: domain }
     )
 
-    KeywordsAiScoreJob.perform_later(domain: domain, count: 10)
+    KeywordsAiScoreJob.perform_later(domain: domain)
     TechnicalSeoReportJob.perform_later(domain: domain)
     broadcast_credit(domain.user)
   end

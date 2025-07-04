@@ -1,7 +1,7 @@
 class KeywordsAiScoreJob < ApplicationJob
   queue_as :default
 
-  def perform(domain:, count:)
+  def perform(domain:)
     web_pages = domain.web_pages.sample(10).map do |web_page|
       <<~STR
         URL: #{web_page.url}
@@ -41,7 +41,7 @@ class KeywordsAiScoreJob < ApplicationJob
       partial: "app/domains/domain_analysis_status",
       locals: { domain: domain }
     )
-    KeywordsTrackerJob.perform_later(domain: domain, count: count)
+    KeywordsTrackerJob.perform_later(domain: domain)
   end
 
   def user_prompt(web_pages, allowed_keywords)

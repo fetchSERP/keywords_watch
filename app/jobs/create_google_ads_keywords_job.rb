@@ -5,7 +5,7 @@ class CreateGoogleAdsKeywordsJob < ApplicationJob
     client = domain.user.fetchserp_client
     response = client.keywords_suggestions(url: "https://#{domain.name}")
     suggestions = response["keywords_suggestions"] || response["data"]&.dig("keywords_suggestions") || []
-    suggestions.first(300).each do |keyword|
+    suggestions.first(30).each do |keyword|
       next if Keyword.exists?(user: domain.user, name: keyword["keyword"])
       keyword = Keyword.create(
         user: domain.user,

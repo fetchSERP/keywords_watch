@@ -1,8 +1,8 @@
 class KeywordsTrackerJob < ApplicationJob
   queue_as :default
 
-  def perform(domain:, count:)
-    domain.keywords.where(is_tracked: false).order(ai_score: :desc).first(count).each do |keyword|
+  def perform(domain:)
+    domain.keywords.where(is_tracked: false).order(ai_score: :desc).each do |keyword|
       keyword.update!(is_tracked: true)
       Turbo::StreamsChannel.broadcast_replace_to(
         "streaming_channel_#{domain.user_id}",
