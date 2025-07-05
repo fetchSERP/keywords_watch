@@ -5,7 +5,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :internal do
-      resources :users, only: [ :create ]
+      resources :users, only: [ :create ] do
+        collection do
+          patch :update_fetchserp_api_key
+        end
+      end
     end
   end
 

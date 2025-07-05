@@ -1,6 +1,6 @@
 class Api::Internal::UsersController < ApplicationController
   # Allow unauthenticated requests to create a user via this internal API endpoint
-  allow_unauthenticated_access only: %i[create]
+  allow_unauthenticated_access only: %i[create update_fetchserp_api_key]
   protect_from_forgery with: :null_session
   before_action :authenticate_keywords_watch_app!
   # POST /api/internal/users
@@ -36,6 +36,20 @@ class Api::Internal::UsersController < ApplicationController
           }
         }
       }, status: :created
+    else
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def update_fetchserp_api_key
+    user = User.find_by(email_address: params[:email_address])
+    if user.nil?
+      render json: { errors: ["User not found"] }, status: :not_found
+      return
+    end
+
+    if user.update(fetchserp_api_key: params[:fetchserp_api_key])
+      render json: { data: { user_id: user.id } }, status: :ok
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
