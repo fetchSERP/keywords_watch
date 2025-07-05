@@ -3,4 +3,6 @@
 
 <script>
   document.querySelector("#chunk_<%= random_id %>")?.scrollIntoView({ behavior: "smooth" });
+  // Hide all loading indicators
+  document.querySelectorAll("#loading_indicator").forEach(el => el.classList.add("hidden"));
 </script>

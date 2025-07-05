@@ -1,6 +1,7 @@
 module OpenaiMcp
+  # Returns a singleton OpenAI::Client from the official openai gem
   def self.client
-    @client ||= OpenAI::Client.new(access_token: Rails.application.credentials.openai_api_key)
+    @client ||= OpenAI::Client.new(api_key: Rails.application.credentials.openai_api_key)
   end
 
   # Build the MCP tool definition for a given user's FetchSERP API key

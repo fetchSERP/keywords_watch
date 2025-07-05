@@ -37,7 +37,8 @@ class User < ApplicationRecord
     ChatMessage.create!(
       user: self,
       author: "assistant",
-      body: "Hello! I'm your SEO AI Agent. I have access to your domains, keywords, backlinks, and competitors data. I can help you with keyword research, backlink analysis, and content strategies. I have access to multiple tools to help you with your SEO tasks. How can I help you today?"
+      body: "Hello! I'm your SEO AI Agent, powered by OpenAI's GPT-4.1 model and using the Fetchserp MCP server for live Google and competitor data. I have access to your domains, keywords, backlinks, and competitors information. I can help you with keyword research, backlink analysis, content strategies, and SERP tracking. I use multiple tools—including Fetchserp MCP—for up-to-date SEO insights and automation. How can I help you today ?"
     )
   end
 end
+
