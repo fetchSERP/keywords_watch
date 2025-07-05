@@ -164,12 +164,19 @@ class Ai::Openai::ToolCallingAgentService < BaseService
 
     broadcast_message(body)
 
+    follow_up_messages = [ { role: "system", content: system_prompt.strip } ] +
+                        knowledge_base +
+                        [
+                          { role: "user", content: "Tool result:\n#{body}" },
+                          { role: "user", content: @prompt.strip }
+                        ]
+
     client.responses.create(
       parameters: {
         model: "gpt-4.1",
         tools: [],
         previous_response_id: previous_id,
-        input: "Here is the result of the tool call:\n\n#{body}\n\nPlease summarize and explain this to the user."
+        input: follow_up_messages
       }
     )
   end
