@@ -26,7 +26,20 @@ module Authentication
     end
 
     def find_session_by_cookie
-      Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
+      session = Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
+      unless session
+        encrypted_email = cookies.permanent[:cross_app_email_enc]
+        if encrypted_email
+          shared_secret = Rails.application.credentials.cross_app_cookie_secret
+          key = ActiveSupport::KeyGenerator.new(shared_secret).generate_key("cross_app_cookie_salt", 32)
+          encryptor = ActiveSupport::MessageEncryptor.new(key, cipher: "aes-256-gcm")
+          email = encryptor.decrypt_and_verify(encrypted_email)
+          user = User.find_by(email_address: email)
+          session = user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip)
+          cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
+        end
+      end
+      session
     end
 
     def request_authentication
@@ -42,6 +55,25 @@ module Authentication
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         Current.session = session
         cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
+
+        shared_secret = Rails.application.credentials.cross_app_cookie_secret
+
+        # Generate a 32-byte key for AES-256-GCM
+        key = ActiveSupport::KeyGenerator.new(shared_secret).generate_key("cross_app_cookie_salt", 32)
+        encryptor = ActiveSupport::MessageEncryptor.new(key, cipher: "aes-256-gcm")
+
+        encrypted_email = encryptor.encrypt_and_sign(user.email_address)
+
+        cookies.permanent[:cross_app_email_enc] = {
+          value:  encrypted_email,
+          # domain: ".fetchserp.local",          # available to keywords.fetchserp.com
+          domain: ".fetchserp.com",          # available to keywords.fetchserp.com
+          secure: Rails.env.production?,     # only over HTTPS in production
+          httponly: true,                    # JS can’t read it
+          same_site: :lax
+        }
+      rescue => e
+        Rails.logger.error("Unable to set cross-app email cookie: #{e.message}")
       end
     end
 

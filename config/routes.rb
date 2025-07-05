@@ -3,6 +3,12 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resource :registrations, only: [ :new, :create ]
 
+  namespace :api do
+    namespace :internal do
+      resources :users, only: [ :create ]
+    end
+  end
+
   namespace :app do
     resources :domains
     resources :keywords
