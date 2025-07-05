@@ -4,35 +4,6 @@
   <div class="max-w-2xl mx-auto md:w-2/3 w-full px-4">
     <div class="bg-gray-800 px-6 py-8 border border-gray-700 rounded-xl shadow-xl">
       <h1 class="font-bold text-2xl text-gray-100">Update FetchSERP API Key</h1>
-      <!-- On-boarding steps -->
-      <div class="mt-6 space-y-4">
-        <div class="flex items-start space-x-4 p-4 bg-gray-700/40 rounded-lg border border-gray-600">
-          <div class="flex-shrink-0 h-9 w-9 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold">1</div>
-          <p class="text-gray-300 leading-relaxed">
-            Sign up for a free <span class="font-semibold text-yellow-300">fetchSERP</span> account
-            <%= link_to "here", "https://www.fetchserp.com/registrations/new", target: "_blank", rel: "noopener", class: "underline hover:text-yellow-200" %>.
-          </p>
-        </div>
-
-        <div class="flex items-start space-x-4 p-4 bg-gray-700/40 rounded-lg border border-gray-600">
-          <div class="flex-shrink-0 h-9 w-9 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold">2</div>
-          <p class="text-gray-300 leading-relaxed">Confirm your email address to activate your fetchSERP account.</p>
-        </div>
-
-        <div class="flex items-start space-x-4 p-4 bg-gray-700/40 rounded-lg border border-gray-600">
-          <div class="flex-shrink-0 h-9 w-9 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold">3</div>
-          <p class="text-gray-300 leading-relaxed">
-            Log in
-            <%= link_to "here", "https://www.fetchserp.com/session/new", target: "_blank", rel: "noopener", class: "underline hover:text-yellow-200" %>&nbsp;then open
-            <%= link_to "your dashboard", "https://www.fetchserp.com/app", target: "_blank", rel: "noopener", class: "underline hover:text-yellow-200" %> to copy your personal API key.
-          </p>
-        </div>
-
-        <div class="flex items-start space-x-4 p-4 bg-gray-700/40 rounded-lg border border-gray-600">
-          <div class="flex-shrink-0 h-9 w-9 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold">4</div>
-          <p class="text-gray-300 leading-relaxed">Paste the key below and hit <span class="font-semibold text-yellow-300">Save</span> to unlock all SEO super-powers inside Keywords.fetchserp.com!</p>
-        </div>
-      </div>
 
       <% if flash[:notice] %>
         <div class="mt-4 p-4 bg-green-900/20 border border-green-500/50 rounded-lg text-green-400">
