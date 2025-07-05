@@ -20,8 +20,6 @@ servers:
 proxy:
   ssl: true
   hosts:
-    - www.keywords.watch
-    - keywords.watch
     - keywords.fetchserp.com
 
 # Credentials for your image host.
