@@ -18,7 +18,7 @@ class Social::X::TweetGeneratorService < BaseService
     <<-TXT
       Generate an engaging tweet (max 280 characters) about this topic: "#{@topic}".
 
-      Focus on SEO tools and features from https://www.keywords.watch:
+      Focus on SEO tools and features from https://www.keywords.fetchserp.com:
       - Real-time keyword tracking
       - AI-powered SEO insights
       - Competitor analysis
@@ -33,7 +33,7 @@ class Social::X::TweetGeneratorService < BaseService
       Requirements:
       - Make it catchy and benefit-driven
       - Use 1–2 relevant emojis to highlight key points
-      - Include the URL https://www.keywords.watch
+      - Include the URL https://www.keywords.fetchserp.com
       - Suggest one relevant hashtag (e.g., #SEOtools, #KeywordTracking)
 
       Do NOT exceed the character limit. Ensure the call-to-action is clear.

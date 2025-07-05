@@ -5,7 +5,7 @@ class Social::Linkedin::OauthService
 
     client_id = ''
     client_secret = ''
-    redirect_uri = 'https://keywords.watch/auth/linkedin/callback'
+    redirect_uri = 'https://keywords.fetchserp.com/auth/linkedin/callback'
 
     client = OAuth2::Client.new(
       client_id,
