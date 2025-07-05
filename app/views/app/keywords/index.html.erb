@@ -10,6 +10,14 @@
             Monitor and analyze your keywords' performance and metrics.
           </p>
         </div>
+        <div class="flex items-center gap-4">
+          <%= link_to new_app_keyword_path, class: "inline-flex items-center px-4 py-2 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            New keyword
+          <% end %>
+        </div>
       </div>
 
       <% if notice %>
