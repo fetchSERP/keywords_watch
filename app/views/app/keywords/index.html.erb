@@ -29,15 +29,36 @@
         </div>
       <% end %>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="keywords">
-        <% @keywords.each do |keyword| %>
-          <div class="group relative">
-            <%= render keyword %>
-          </div>
-        <% end %>
-      </div>
-
-      <% if @keywords.empty? %>
+      <% if @keywords.any? %>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-700 text-sm" id="keywords">
+            <thead class="bg-gray-700/50 text-gray-300">
+              <tr>
+                <th class="px-4 py-3 text-left font-semibold">Keyword</th>
+                <th class="px-4 py-3 text-left font-semibold">Domain</th>
+                <th class="px-4 py-3 text-left font-semibold">Rank</th>
+                <th class="px-4 py-3 text-left font-semibold">Indexed</th>
+                <th class="px-4 py-3 text-left font-semibold">Tracked</th>
+                <th class="px-4 py-3 text-left font-semibold">Added</th>
+                <th class="px-4 py-3 text-left font-semibold">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-800">
+              <% @keywords.each do |keyword| %>
+                <tr class="hover:bg-gray-700/30">
+                  <td class="px-4 py-3 font-medium text-indigo-300"><%= link_to keyword.name, app_keyword_path(keyword), class: "hover:underline" %></td>
+                  <td class="px-4 py-3 text-gray-300"><%= keyword.domain.name %></td>
+                  <td class="px-4 py-3 text-gray-300"><%= keyword.ranking || "—" %></td>
+                  <td class="px-4 py-3 text-gray-300"><%= keyword.indexed ? "Yes" : "No" %></td>
+                  <td class="px-4 py-3 text-gray-300"><%= keyword.is_tracked ? "Yes" : "No" %></td>
+                  <td class="px-4 py-3 text-gray-400"><%= l(keyword.created_at.to_date, format: :long) %></td>
+                  <td class="px-4 py-3"><%= link_to "View", app_keyword_path(keyword), class: "text-yellow-400 hover:text-yellow-300 underline" %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
         <div class="text-center py-12">
           <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
