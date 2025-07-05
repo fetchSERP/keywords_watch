@@ -13,7 +13,6 @@ class User < ApplicationRecord
   validates :password_digest, presence: true
   after_commit :create_welcome_chat_message, on: :create
   normalizes :email_address, with: ->(e) { e.strip.downcase }
-  scope :with_credit, -> { where("credit > 0") }
 
   def is_admin?
     role == "admin"
