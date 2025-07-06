@@ -1,20 +1,72 @@
 <% content_for :title, "Edit Search Engine Result" %>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="md:flex md:items-center md:justify-between">
-    <div class="flex-1 min-w-0">
-      <h2 class="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">Edit Search Engine Result</h2>
-    </div>
-  </div>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+</style>
 
-  <div class="mt-8">
-    <%= render "form", search_engine_result: @search_engine_result %>
-  </div>
-</div>
+<div class="min-h-screen bg-[#0F172A]">
+  <main>
+    <!-- Edit Search Engine Result Section -->
+    <section class="py-16 sm:py-24 bg-[#0F172A] text-white relative overflow-hidden">
+      <div class="container mx-auto px-4 relative">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <div class="inline-block mb-6 px-4 py-2 bg-yellow-500/10 rounded-full border border-yellow-500/20">
+            <span class="text-yellow-400 font-semibold">Edit Result</span>
+          </div>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-100 to-white">
+            Edit Search Engine Result
+          </h1>
+          <p class="text-xl md:text-2xl mb-8 text-gray-300 max-w-xl mx-auto">
+            Update search engine result details and configuration.
+          </p>
+        </div>
 
-<br>
+        <!-- Main Content -->
+        <div class="max-w-2xl mx-auto">
+          <!-- Form Card -->
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-lg p-8 text-white border border-yellow-500/20 shadow-[0_0_30px_rgba(234,179,8,0.1)]">
+            <div class="mb-8">
+              <div class="flex items-center mb-4">
+                <div class="flex items-center text-yellow-500 mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                  <span class="font-semibold text-lg">Result Configuration</span>
+                </div>
+              </div>
+              <p class="text-gray-300">
+                Update the search engine result details and ranking information.
+              </p>
+            </div>
 
-<div>
-  <%= link_to "Show this search engine result", @search_engine_result %> |
-  <%= link_to "Back to search engine results", search_engine_results_path %>
+            <%= render "form", search_engine_result: @search_engine_result %>
+
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-yellow-500/20">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <%= link_to [:app, @search_engine_result], class: "group relative px-6 py-3 bg-transparent border border-yellow-500/30 text-white rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 inline-flex items-center" do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  View Result
+                <% end %>
+                <%= link_to [:app, :search_engine_results], class: "group relative px-6 py-3 bg-transparent border border-yellow-500/30 text-white rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 inline-flex items-center" do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                    <path d="m15 18-6-6 6-6"></path>
+                  </svg>
+                  Back to Results
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>

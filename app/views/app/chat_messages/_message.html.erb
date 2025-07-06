@@ -1,14 +1,19 @@
-<!-- create a nice chat message div with a user avatar and a message body and dislpay date and time of the message-->
-<div class="flex items-start mb-4 border-b border-gray-700 pb-4">
+<!-- create a nice chat message div with a user avatar and a message body and display date and time of the message-->
+<div class="flex items-start mb-4 border-b border-yellow-500/10 pb-4">
   <div class="flex-shrink-0">
-    <%= image_tag "https://ui-avatars.com/api/?name=#{message.author}", class: "w-10 h-10 rounded-full" %>
+    <%= image_tag "https://ui-avatars.com/api/?name=#{message.author}&background=eab308&color=0f172a", class: "w-10 h-10 rounded-full border-2 border-yellow-500/20" %>
   </div>
   <div class="ml-3 w-full pr-4">
-    <div class="text-sm font-medium text-gray-300 break-words whitespace-normal">
-      <%= message.body %>
-    </div>
-    <div class="text-xs text-gray-500">
-      <%= message.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+    <div class="bg-[#1E293B]/40 backdrop-blur-sm rounded-lg p-3 border border-yellow-500/10">
+      <div class="text-sm font-medium text-gray-200 break-words whitespace-normal leading-relaxed">
+        <%= message.body %>
+      </div>
+      <div class="text-xs text-yellow-400/70 mt-2 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <%= message.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+      </div>
     </div>
   </div>
 </div>

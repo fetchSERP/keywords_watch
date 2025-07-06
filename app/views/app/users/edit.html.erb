@@ -1,35 +1,125 @@
 <% content_for :title, "API Settings" %>
 
-<div class="py-16">
-  <div class="max-w-2xl mx-auto md:w-2/3 w-full px-4">
-    <div class="bg-gray-800 px-6 py-8 border border-gray-700 rounded-xl shadow-xl">
-      <h1 class="font-bold text-2xl text-gray-100">Update FetchSERP API Key</h1>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+</style>
 
-      <% if flash[:notice] %>
-        <div class="mt-4 p-4 bg-green-900/20 border border-green-500/50 rounded-lg text-green-400">
-          <%= flash[:notice] %>
+<div class="min-h-screen bg-[#0F172A]">
+  <main>
+    <!-- API Settings Section -->
+    <section class="py-16 sm:py-24 bg-[#0F172A] text-white relative overflow-hidden">
+      <div class="container mx-auto px-4 relative">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <div class="inline-block mb-6 px-4 py-2 bg-yellow-500/10 rounded-full border border-yellow-500/20">
+            <span class="text-yellow-400 font-semibold">API Configuration</span>
+          </div>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-yellow-100 to-white">
+            API Settings
+          </h1>
+          <p class="text-xl md:text-2xl mb-8 text-gray-300 max-w-xl mx-auto">
+            Configure your FetchSERP API key to unlock advanced features and data access.
+          </p>
         </div>
-      <% end %>
-      <% if flash[:alert] %>
-        <div class="mt-4 p-4 bg-red-900/20 border border-red-500/50 rounded-lg text-red-400">
-          <%= flash[:alert] %>
-        </div>
-      <% end %>
 
-      <%= form_with model: @user, url: app_user_path, method: :patch, class: "mt-8 space-y-6" do |form| %>
-        <div>
-          <%= form.label :fetchserp_api_key, "FetchSERP API Key", class: "block text-sm font-medium text-gray-300 mb-2" %>
-          <%= form.text_field :fetchserp_api_key, placeholder: "Enter your API key", class: "block w-full px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors" %>
-        </div>
+        <!-- Main Content -->
+        <div class="max-w-2xl mx-auto">
+          <!-- Flash Messages -->
+          <% if flash[:notice] %>
+            <div class="bg-green-900/20 backdrop-blur-sm rounded-lg p-6 text-white border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.1)] mb-8">
+              <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <p class="text-green-200"><%= flash[:notice] %></p>
+              </div>
+            </div>
+          <% end %>
 
-        <div class="flex items-center justify-between pt-4">
-          <%= form.submit "Save", class: "px-6 py-3 bg-transparent border-2 border-yellow-500/30 rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 text-white" %>
+          <% if flash[:alert] %>
+            <div class="bg-red-900/20 backdrop-blur-sm rounded-lg p-6 text-white border border-red-500/30 shadow-[0_0_30px_rgba(239,68,68,0.1)] mb-8">
+              <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" x2="9" y1="9" y2="15"></line>
+                  <line x1="9" x2="15" y1="9" y2="15"></line>
+                </svg>
+                <p class="text-red-200"><%= flash[:alert] %></p>
+              </div>
+            </div>
+          <% end %>
 
-          <div class="flex items-center space-x-4">
-            <%= link_to "Back", app_root_path, class: "text-gray-400 hover:text-gray-300 transition-colors" %>
+          <!-- API Settings Form Card -->
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-lg p-8 text-white border border-yellow-500/20 shadow-[0_0_30px_rgba(234,179,8,0.1)]">
+            <div class="mb-8">
+              <div class="flex items-center mb-4">
+                <div class="flex items-center text-yellow-500 mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3">
+                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                    <path d="m22 7-10 5L2 7"></path>
+                  </svg>
+                  <span class="font-semibold text-lg">FetchSERP API Configuration</span>
+                </div>
+              </div>
+              <p class="text-gray-300">
+                Enter your FetchSERP API key to enable advanced SEO data collection and analysis features.
+              </p>
+            </div>
+
+            <%= form_with model: @user, url: app_user_path, method: :patch, class: "space-y-6" do |form| %>
+              <div>
+                <%= form.label :fetchserp_api_key, "FetchSERP API Key", class: "block text-sm font-semibold text-yellow-400 mb-3" %>
+                <%= form.text_field :fetchserp_api_key, 
+                    placeholder: "Enter your API key", 
+                    class: "block w-full px-4 py-3 rounded-lg bg-[#0F172A]/60 border border-yellow-500/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/40 focus:border-yellow-500/40 transition-all duration-200" %>
+                <p class="mt-2 text-sm text-gray-400">
+                  Your API key is encrypted and stored securely. It's only used to authenticate requests to FetchSERP services.
+                </p>
+              </div>
+
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-yellow-500/20">
+                <div class="order-2 sm:order-1">
+                  <%= link_to app_root_path, class: "group relative px-6 py-3 bg-transparent border border-yellow-500/30 text-white rounded-md font-semibold transition-all duration-200 hover:border-yellow-500/60 hover:bg-yellow-500/10 inline-flex items-center" do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                      <path d="m15 18-6-6 6-6"></path>
+                    </svg>
+                    Back to Dashboard
+                  <% end %>
+                </div>
+
+                <div class="order-1 sm:order-2">
+                  <%= form.submit "Save API Key", class: "group relative px-8 py-3 bg-gradient-to-r from-yellow-500 to-red-500 text-white rounded-md font-semibold transition-all duration-200 hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] cursor-pointer inline-flex items-center" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Info Card -->
+          <div class="mt-8 bg-[#1E293B]/60 backdrop-blur-sm rounded-lg p-6 text-white border border-yellow-500/10">
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-8 h-8 bg-yellow-500/10 rounded-full flex items-center justify-center mr-3 mt-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white mb-2">Need an API Key?</h3>
+                <p class="text-sm text-gray-300 mb-3">
+                  Get your FetchSERP API key from your account dashboard to unlock advanced SEO analytics and data collection features.
+                </p>
+                <a href="https://fetchserp.com/app" target="_blank" class="text-yellow-400 hover:text-yellow-300 transition-colors font-medium text-sm">
+                  Get API Key →
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      <% end %>
-    </div>
-  </div>
+      </div>
+    </section>
+  </main>
 </div> 

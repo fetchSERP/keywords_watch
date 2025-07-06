@@ -1,10 +1,23 @@
 <!-- Render FetchSERP / tool output as pretty-printed JSON -->
-<div class="flex items-start mb-4 border-b border-gray-700 pb-4">
+<div class="flex items-start mb-4 border-b border-yellow-500/10 pb-4">
   <div class="flex-shrink-0">
-    <%= image_tag "https://ui-avatars.com/api/?name=Tool", class: "w-10 h-10 rounded-full" %>
+    <%= image_tag "https://ui-avatars.com/api/?name=Tool&background=059669&color=ffffff", class: "w-10 h-10 rounded-full border-2 border-green-500/20" %>
   </div>
   <div class="ml-3 w-full pr-4">
-    <pre class="text-sm text-gray-300 whitespace-pre-wrap break-words"><%= (data.is_a?(String) ? data : JSON.pretty_generate(data)) rescue data.to_s %></pre>
-    <div class="text-xs text-gray-500"><%= Time.current.strftime("%Y-%m-%d %H:%M:%S") %></div>
+    <div class="bg-[#1E293B]/40 backdrop-blur-sm rounded-lg p-3 border border-green-500/10">
+      <div class="flex items-center mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="text-xs text-green-400 font-semibold">Tool Output</span>
+      </div>
+      <pre class="text-sm text-gray-300 whitespace-pre-wrap break-words bg-[#0F172A]/60 rounded p-2 border border-green-500/10 overflow-x-auto"><%= (data.is_a?(String) ? data : JSON.pretty_generate(data)) rescue data.to_s %></pre>
+      <div class="text-xs text-green-400/70 mt-2 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <%= Time.current.strftime("%Y-%m-%d %H:%M:%S") %>
+      </div>
+    </div>
   </div>
 </div> 

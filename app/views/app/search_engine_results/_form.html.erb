@@ -1,73 +1,76 @@
-<%= form_with(model: [:app, search_engine_result], class: "space-y-8 divide-y divide-gray-200 dark:divide-gray-700") do |form| %>
+<%= form_with(model: [:app, search_engine_result], class: "space-y-6") do |form| %>
   <% if search_engine_result.errors.any? %>
-    <div class="rounded-md bg-red-50 p-4 mb-6">
-      <div class="flex">
-        <div class="flex-shrink-0">
-          <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-          </svg>
-        </div>
-        <div class="ml-3">
-          <h3 class="text-sm font-medium text-red-800">
-            <%= pluralize(search_engine_result.errors.count, "error") %> prohibited this search engine result from being saved:
-          </h3>
-          <div class="mt-2 text-sm text-red-700">
-            <ul class="list-disc pl-5 space-y-1">
-              <% search_engine_result.errors.each do |error| %>
-                <li><%= error.full_message %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
+    <div class="bg-red-900/20 backdrop-blur-sm rounded-lg p-6 text-white border border-red-500/30 shadow-[0_0_30px_rgba(239,68,68,0.1)]">
+      <div class="flex items-center mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        <h2 class="font-semibold text-red-200"><%= pluralize(search_engine_result.errors.count, "error") %> prohibited this search engine result from being saved:</h2>
       </div>
+      <ul class="list-disc list-inside text-red-200 space-y-1">
+        <% search_engine_result.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
     </div>
   <% end %>
 
-  <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
-    <div class="pt-8">
-      <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-        <div class="sm:col-span-3">
-          <%= form.label :site_name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-          <div class="mt-1">
-            <%= form.text_field :site_name, class: "block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm" %>
-          </div>
-        </div>
+  <%= form.hidden_field :keyword_id, value: params[:keyword_id] %>
 
-        <div class="sm:col-span-3">
-          <%= form.label :ranking, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-          <div class="mt-1">
-            <%= form.number_field :ranking, class: "block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm" %>
-          </div>
-        </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <%= form.label :site_name, "Site Name", class: "block text-sm font-semibold text-yellow-400 mb-3" %>
+      <%= form.text_field :site_name, 
+          placeholder: "Enter site name", 
+          class: "block w-full px-4 py-3 rounded-lg bg-[#0F172A]/60 border border-yellow-500/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/40 focus:border-yellow-500/40 transition-all duration-200" %>
+      <p class="mt-2 text-sm text-gray-400">
+        The name of the website that appears in search results.
+      </p>
+    </div>
 
-        <div class="sm:col-span-6">
-          <%= form.label :url, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-          <div class="mt-1">
-            <%= form.url_field :url, class: "block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm" %>
-          </div>
-        </div>
-
-        <div class="sm:col-span-6">
-          <%= form.label :title, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-          <div class="mt-1">
-            <%= form.text_field :title, class: "block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm" %>
-          </div>
-        </div>
-
-        <div class="sm:col-span-6">
-          <%= form.label :description, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-          <div class="mt-1">
-            <%= form.text_area :description, rows: 3, class: "block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm" %>
-          </div>
-        </div>
-      </div>
+    <div>
+      <%= form.label :ranking, "Search Ranking", class: "block text-sm font-semibold text-yellow-400 mb-3" %>
+      <%= form.number_field :ranking, 
+          placeholder: "Enter ranking position", 
+          class: "block w-full px-4 py-3 rounded-lg bg-[#0F172A]/60 border border-yellow-500/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/40 focus:border-yellow-500/40 transition-all duration-200" %>
+      <p class="mt-2 text-sm text-gray-400">
+        Position of this result in search rankings (e.g., 1, 2, 3...).
+      </p>
     </div>
   </div>
 
-  <div class="pt-5">
-    <div class="flex justify-end">
-      <%= link_to "Cancel", [:app, :search_engine_results], class: "rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 px-4 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
-      <%= form.submit class: "ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
-    </div>
+  <div>
+    <%= form.label :url, "URL", class: "block text-sm font-semibold text-yellow-400 mb-3" %>
+    <%= form.url_field :url, 
+        placeholder: "https://example.com/page", 
+        class: "block w-full px-4 py-3 rounded-lg bg-[#0F172A]/60 border border-yellow-500/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/40 focus:border-yellow-500/40 transition-all duration-200" %>
+    <p class="mt-2 text-sm text-gray-400">
+      The full URL of the page that appears in search results.
+    </p>
+  </div>
+
+  <div>
+    <%= form.label :title, "Page Title", class: "block text-sm font-semibold text-yellow-400 mb-3" %>
+    <%= form.text_field :title, 
+        placeholder: "Enter page title", 
+        class: "block w-full px-4 py-3 rounded-lg bg-[#0F172A]/60 border border-yellow-500/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/40 focus:border-yellow-500/40 transition-all duration-200" %>
+    <p class="mt-2 text-sm text-gray-400">
+      The title that appears as the main heading in search results.
+    </p>
+  </div>
+
+  <div>
+    <%= form.label :description, "Meta Description", class: "block text-sm font-semibold text-yellow-400 mb-3" %>
+    <%= form.text_area :description, 
+        rows: 4, 
+        placeholder: "Enter meta description", 
+        class: "block w-full px-4 py-3 rounded-lg bg-[#0F172A]/60 border border-yellow-500/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500/40 focus:border-yellow-500/40 transition-all duration-200 resize-none" %>
+    <p class="mt-2 text-sm text-gray-400">
+      The description snippet that appears below the title in search results.
+    </p>
+  </div>
+
+  <div class="pt-4">
+    <%= form.submit class: "group relative px-8 py-3 bg-gradient-to-r from-yellow-500 to-red-500 text-white rounded-md font-semibold transition-all duration-200 hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] cursor-pointer inline-flex items-center" %>
   </div>
 <% end %>

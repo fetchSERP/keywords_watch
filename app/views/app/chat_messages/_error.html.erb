@@ -1,10 +1,21 @@
 <!-- create a nice error message with a red background and a white text. this message must disappear after 3 seconds -->
-<div class="bg-red-500 text-white p-4 rounded-lg" id="error_message">
-  <%= error %>
+<div class="bg-red-900/20 backdrop-blur-sm rounded-lg p-4 text-white border border-red-500/30 shadow-[0_0_30px_rgba(239,68,68,0.1)] mb-4" id="error_message">
+  <div class="flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+    </svg>
+    <span class="text-red-200 font-medium"><%= error %></span>
+  </div>
 </div>
 
 <script>
   setTimeout(() => {
-    document.getElementById("error_message").remove();
+    const errorMessage = document.getElementById("error_message");
+    if (errorMessage) {
+      errorMessage.style.opacity = '0';
+      errorMessage.style.transform = 'translateY(-10px)';
+      errorMessage.style.transition = 'all 0.3s ease-out';
+      setTimeout(() => errorMessage.remove(), 300);
+    }
   }, 3000);
 </script>

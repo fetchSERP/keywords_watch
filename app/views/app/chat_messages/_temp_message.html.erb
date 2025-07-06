@@ -1,13 +1,21 @@
-<div id="temp_message" class="flex items-start mb-4 border-b border-gray-700 pb-4">
+<div id="temp_message" class="flex items-start mb-4 border-b border-yellow-500/10 pb-4">
   <div class="flex-shrink-0">
-    <%= image_tag "https://ui-avatars.com/api/?name=assistant", class: "w-10 h-10 rounded-full" %>
+    <%= image_tag "https://ui-avatars.com/api/?name=assistant&background=1e293b&color=eab308", class: "w-10 h-10 rounded-full border-2 border-yellow-500/20" %>
   </div>
   <div class="ml-3 w-full pr-4">
-    <div id="chunks_container" class="text-sm font-medium text-gray-300 break-words whitespace-normal">
-      <div id="loading_indicator" class="flex items-center h-10 space-x-1">
-        <span class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></span>
-        <span class="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:200ms]"></span>
-        <span class="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:400ms]"></span>
+    <div class="bg-[#1E293B]/40 backdrop-blur-sm rounded-lg p-3 border border-yellow-500/10">
+      <div id="chunks_container" class="text-sm font-medium text-gray-200 break-words whitespace-normal leading-relaxed">
+        <div id="loading_indicator" class="flex items-center h-10 space-x-1">
+          <span class="w-2 h-2 bg-yellow-400/60 rounded-full animate-pulse"></span>
+          <span class="w-2 h-2 bg-yellow-400/60 rounded-full animate-pulse [animation-delay:200ms]"></span>
+          <span class="w-2 h-2 bg-yellow-400/60 rounded-full animate-pulse [animation-delay:400ms]"></span>
+        </div>
+      </div>
+      <div class="text-xs text-yellow-400/70 mt-2 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        AI is thinking...
       </div>
     </div>
   </div>
