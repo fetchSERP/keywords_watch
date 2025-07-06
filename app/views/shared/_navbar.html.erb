@@ -3,14 +3,15 @@
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center space-x-8">
-        <div class="flex justify-end">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 mr-2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </svg>
-          <%= link_to Rails.env.production? ? "https://www.fetchserp.com" : "http://localhost:3009" do %>
-            <p class="text-xl font-bold">fetchSERP API</p>
-          <% end %>
+        <div class="flex items-center">
+          <div class="flex-shrink-0 flex items-center">
+            <i data-lucide="activity" class="h-8 w-8 text-red-500"></i>
+            <%= link_to root_path, class: "flex items-center space-x-2" do %>
+              <span class="ml-2 text-xl font-bold bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
+                keywords.fetchserp.com
+              </span>
+            <% end %>
+          </div>
         </div>
 
           <div class="hidden md:flex items-center space-x-4">
