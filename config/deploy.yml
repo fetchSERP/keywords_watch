@@ -20,7 +20,7 @@ servers:
 proxy:
   ssl: true
   hosts:
-    - keywords.fetchserp.com
+    - tracker.fetchserp.com
 
 # Credentials for your image host.
 registry:

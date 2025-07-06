@@ -21,7 +21,7 @@ class Social::Linkedin::PostGeneratorService < BaseService
 
       Requirements:
       - Make the post informative, compelling, and concise.
-      - Highlight key features of https://www.keywords.fetchserp.com:
+      - Highlight key features of https://tracker.fetchserp.com:
         * Keyword Rank Tracking
         * Keyword Intelligence
         * Google Ads Import
@@ -38,7 +38,7 @@ class Social::Linkedin::PostGeneratorService < BaseService
         * No credit card needed 
       - Include 1-2 relevant emojis per paragraph to improve readability.
       - Add a clear and actionable call to action (e.g. "Try it free", "See your rankings today", "Start your SEO journey").
-      - Include this link: https://www.keywords.fetchserp.com
+      - Include this link: https://tracker.fetchserp.com
       - Include one relevant hashtag (e.g., #SEO, #KeywordTracking, or #KeywordsWatch).
 
       Avoid sounding overly promotional or generic — instead, show how this tool solves real SEO tracking problems.
@@ -55,7 +55,7 @@ class Social::Linkedin::PostGeneratorService < BaseService
     {
       strict: true,
       name: "post_Generator",
-      description: "Generate a professional LinkedIn post for Keywords.fetchserp.com",
+      description: "Generate a professional LinkedIn post for tracker.fetchserp.com",
       schema: {
         type: "object",
         properties: {
