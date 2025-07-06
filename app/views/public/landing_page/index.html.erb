@@ -5,7 +5,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<section class="min-h-screen bg-gray-900 text-gray-100 font-[Inter]">
+<section class="min-h-screen bg-[#0F172A] text-gray-100 font-[Inter]">
   
 
   <main>
@@ -15,16 +15,16 @@
         <div class="flex flex-col md:flex-row items-center">
           <!-- Hero content -->
           <div class="w-full md:w-1/2 md:pr-8 mb-10 md:mb-0">
-            <div class="inline-block px-4 py-1 bg-gray-800 rounded-full mb-6">
+            <div class="inline-block px-4 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full mb-6">
               <p class="text-sm flex items-center">
-                <span class="mr-2 text-yellow-500 font-semibold">NEW</span> 
-                <span class="text-gray-400">Google Ads Keyword Import</span>
-                <i data-lucide="arrow-right" class="ml-2 h-4 w-4 text-gray-400"></i>
+                <span class="mr-2 text-yellow-400 font-semibold">NEW</span> 
+                <span class="text-gray-300">Google Ads Keyword Import</span>
+                <i data-lucide="arrow-right" class="ml-2 h-4 w-4 text-yellow-400"></i>
               </p>
             </div>
             
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              <span class="bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
+              <span class="bg-gradient-to-r from-white via-yellow-100 to-white bg-clip-text text-transparent">
                 Track Your Keywords,
               </span>
               <br /> Dominate Rankings
@@ -35,19 +35,16 @@
             </p>
             
             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <%= link_to "Start Free Trial", new_registrations_path, class: "px-8 py-3 text-center sm:text-left rounded-lg bg-gradient-to-r from-red-500 to-yellow-500 text-white font-medium hover:from-red-600 hover:to-yellow-600 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-red-500/20" %>
-              <button class="px-8 py-3 rounded-lg bg-gray-800 text-white font-medium hover:bg-gray-700 transition-all flex items-center justify-center">
-                <i data-lucide="search" class="mr-2 h-5 w-5"></i>
-                Live Demo
-              </button>
+              <%= link_to "Start Free Trial", new_registrations_path, class: "px-8 py-3 text-center sm:text-left rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-white font-medium hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] transition-all transform hover:scale-105" %>
+              <%= link_to "Live Demo", app_root_path, class: "px-8 py-3 text-center sm:text-left rounded-lg bg-[#1E293B] border border-yellow-500/20 text-white font-medium hover:bg-yellow-500/10 hover:border-yellow-500/40 transition-all flex items-center justify-center" %>
             </div>
             
             <div class="mt-8 flex items-center">
               <div class="flex -space-x-2">
-                <div class="w-8 h-8 rounded-full border-2 border-gray-900 bg-gray-500"></div>
-                <div class="w-8 h-8 rounded-full border-2 border-gray-900 bg-gray-600"></div>
-                <div class="w-8 h-8 rounded-full border-2 border-gray-900 bg-gray-700"></div>
-                <div class="w-8 h-8 rounded-full border-2 border-gray-900 bg-gray-800"></div>
+                <div class="w-8 h-8 rounded-full border-2 border-yellow-500/20 bg-yellow-400"></div>
+                <div class="w-8 h-8 rounded-full border-2 border-yellow-500/20 bg-yellow-500"></div>
+                <div class="w-8 h-8 rounded-full border-2 border-yellow-500/20 bg-yellow-600"></div>
+                <div class="w-8 h-8 rounded-full border-2 border-yellow-500/20 bg-yellow-700"></div>
               </div>
               <p class="ml-4 text-gray-400">
                 <span class="text-white font-medium">2,500+</span> marketers already tracking
@@ -64,11 +61,11 @@
     </section>
 
     <!-- Features section -->
-    <section id="features" class="py-20 px-4 bg-gray-850">
+    <section id="features" class="py-20 px-4 bg-[#1E293B]/60">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
-            <span class="bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
+            <span class="bg-gradient-to-r from-white via-yellow-100 to-white bg-clip-text text-transparent">
               Everything you need
             </span> to dominate search
           </h2>
@@ -79,65 +76,65 @@
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <!-- Feature cards -->
-          <div class="bg-gray-800 rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/10 border border-gray-700 hover:border-red-500/50">
-            <div class="mb-4 p-3 inline-block rounded-lg bg-gray-750">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/10 border border-yellow-500/20">
+            <div class="mb-4 p-3 inline-block rounded-lg bg-yellow-500/10">
               <i data-lucide="search" class="h-6 w-6 text-yellow-400"></i>
             </div>
             <h3 class="text-xl font-semibold mb-2">Keyword Discovery</h3>
             <p class="text-gray-400">Find the most valuable keywords for your domain with our integrated Google Ads Keyword Planner import.</p>
           </div>
 
-          <div class="bg-gray-800 rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/10 border border-gray-700 hover:border-red-500/50">
-            <div class="mb-4 p-3 inline-block rounded-lg bg-gray-750">
-              <i data-lucide="globe" class="h-6 w-6 text-red-400"></i>
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/10 border border-yellow-500/20">
+            <div class="mb-4 p-3 inline-block rounded-lg bg-yellow-500/10">
+              <i data-lucide="globe" class="h-6 w-6 text-yellow-400"></i>
             </div>
             <h3 class="text-xl font-semibold mb-2">Domain Analysis</h3>
             <p class="text-gray-400">Track how your domains rank for specific keywords across multiple search engines and locations.</p>
           </div>
 
-          <div class="bg-gray-800 rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/10 border border-gray-700 hover:border-red-500/50">
-            <div class="mb-4 p-3 inline-block rounded-lg bg-gray-750">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/10 border border-yellow-500/20">
+            <div class="mb-4 p-3 inline-block rounded-lg bg-yellow-500/10">
               <i data-lucide="trending-up" class="h-6 w-6 text-yellow-400"></i>
             </div>
             <h3 class="text-xl font-semibold mb-2">Rank Tracking</h3>
             <p class="text-gray-400">Monitor your ranking positions over time with detailed historical data and trend analysis.</p>
           </div>
 
-          <div class="bg-gray-800 rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/10 border border-gray-700 hover:border-red-500/50">
-            <div class="mb-4 p-3 inline-block rounded-lg bg-gray-750">
-              <i data-lucide="bar-chart-2" class="h-6 w-6 text-red-400"></i>
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/10 border border-yellow-500/20">
+            <div class="mb-4 p-3 inline-block rounded-lg bg-yellow-500/10">
+              <i data-lucide="bar-chart-2" class="h-6 w-6 text-yellow-400"></i>
             </div>
             <h3 class="text-xl font-semibold mb-2">Competitor Insights</h3>
             <p class="text-gray-400">Compare your rankings against competitors to identify opportunities and threats.</p>
           </div>
 
-          <div class="bg-gray-800 rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/10 border border-gray-700 hover:border-red-500/50">
-            <div class="mb-4 p-3 inline-block rounded-lg bg-gray-750">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/10 border border-yellow-500/20">
+            <div class="mb-4 p-3 inline-block rounded-lg bg-yellow-500/10">
               <i data-lucide="refresh-cw" class="h-6 w-6 text-yellow-400"></i>
             </div>
             <h3 class="text-xl font-semibold mb-2">Daily Updates</h3>
             <p class="text-gray-400">Get fresh ranking data updated daily with accurate position changes and movement alerts.</p>
           </div>
 
-          <div class="bg-gray-800 rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/10 border border-gray-700 hover:border-red-500/50">
-            <div class="mb-4 p-3 inline-block rounded-lg bg-gray-750">
-              <i data-lucide="bar-chart-3" class="h-6 w-6 text-red-400"></i>
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/10 border border-yellow-500/20">
+            <div class="mb-4 p-3 inline-block rounded-lg bg-yellow-500/10">
+              <i data-lucide="bar-chart-3" class="h-6 w-6 text-yellow-400"></i>
             </div>
             <h3 class="text-xl font-semibold mb-2">Custom Reports</h3>
             <p class="text-gray-400">Generate beautiful, custom reports that showcase your SEO progress to clients and stakeholders.</p>
           </div>
 
-          <div class="bg-gray-800 rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/10 border border-gray-700 hover:border-red-500/50">
-            <div class="mb-4 p-3 inline-block rounded-lg bg-gray-750">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/10 border border-yellow-500/20">
+            <div class="mb-4 p-3 inline-block rounded-lg bg-yellow-500/10">
               <i data-lucide="share-2" class="h-6 w-6 text-yellow-400"></i>
             </div>
             <h3 class="text-xl font-semibold mb-2">API Access</h3>
             <p class="text-gray-400">Integrate our ranking data directly into your tools and dashboards with our powerful API.</p>
           </div>
 
-          <div class="bg-gray-800 rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-red-500/10 border border-gray-700 hover:border-red-500/50">
-            <div class="mb-4 p-3 inline-block rounded-lg bg-gray-750">
-              <i data-lucide="bell" class="h-6 w-6 text-red-400"></i>
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 transition-all hover:transform hover:scale-105 hover:shadow-xl hover:shadow-yellow-500/10 border border-yellow-500/20">
+            <div class="mb-4 p-3 inline-block rounded-lg bg-yellow-500/10">
+              <i data-lucide="bell" class="h-6 w-6 text-yellow-400"></i>
             </div>
             <h3 class="text-xl font-semibold mb-2">Ranking Alerts</h3>
             <p class="text-gray-400">Receive instant notifications when your rankings change significantly or reach target positions.</p>
@@ -151,7 +148,7 @@
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
-            <span class="bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
+            <span class="bg-gradient-to-r from-white via-yellow-100 to-white bg-clip-text text-transparent">
               Your journey to SEO success
             </span>
           </h2>
@@ -162,20 +159,20 @@
         
         <div class="relative">
           <!-- Connection line -->
-          <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500 via-yellow-500 to-red-500 hidden md:block" style="transform: translateX(-50%)"></div>
+          <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-yellow-400 via-yellow-500 to-yellow-400 hidden md:block" style="transform: translateX(-50%)"></div>
           
           <div class="space-y-12 md:space-y-0">
             <!-- Step 1: Connect your domain -->
             <div class="relative">
               <div class="md:flex items-center">
-                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-gray-900 rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
-                  <span class="text-yellow-500 font-bold">1</span>
+                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-[#0F172A] rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
+                  <span class="text-yellow-400 font-bold">1</span>
                 </div>
                 <div class="md:w-1/2 md:pr-16 lg:pr-24">
-                  <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all">
+                  <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all">
                     <div class="flex items-center mb-4">
-                      <div class="p-2 rounded-lg bg-gray-750 mr-3">
-                        <i data-lucide="globe" class="h-8 w-8 text-yellow-500"></i>
+                      <div class="p-2 rounded-lg bg-yellow-500/10 mr-3">
+                        <i data-lucide="globe" class="h-8 w-8 text-yellow-400"></i>
                       </div>
                       <h3 class="text-xl font-semibold">Connect your domain</h3>
                     </div>
@@ -189,14 +186,14 @@
             <!-- Step 2: Discover your backlink profile -->
             <div class="relative">
               <div class="md:flex items-center flex-row-reverse">
-                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-gray-900 rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
-                  <span class="text-yellow-500 font-bold">2</span>
+                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-[#0F172A] rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
+                  <span class="text-yellow-400 font-bold">2</span>
                 </div>
                 <div class="md:w-1/2 md:pl-16 lg:pl-24">
-                  <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all">
+                  <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all">
                     <div class="flex items-center mb-4">
-                      <div class="p-2 rounded-lg bg-gray-750 mr-3">
-                        <i data-lucide="link" class="h-8 w-8 text-red-500"></i>
+                      <div class="p-2 rounded-lg bg-yellow-500/10 mr-3">
+                        <i data-lucide="link" class="h-8 w-8 text-yellow-400"></i>
                       </div>
                       <h3 class="text-xl font-semibold">Discover your backlink profile</h3>
                     </div>
@@ -210,14 +207,14 @@
             <!-- Step 3: Smart SEO analysis -->
             <div class="relative">
               <div class="md:flex items-center">
-                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-gray-900 rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
-                  <span class="text-yellow-500 font-bold">3</span>
+                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-[#0F172A] rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
+                  <span class="text-yellow-400 font-bold">3</span>
                 </div>
                 <div class="md:w-1/2 md:pr-16 lg: pr-24">
-                  <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all">
+                  <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all">
                     <div class="flex items-center mb-4">
-                      <div class="p-2 rounded-lg bg-gray-750 mr-3">
-                        <i data-lucide="bar-chart-2" class="h-8 w-8 text-yellow-500"></i>
+                      <div class="p-2 rounded-lg bg-yellow-500/10 mr-3">
+                        <i data-lucide="bar-chart-2" class="h-8 w-8 text-yellow-400"></i>
                       </div>
                       <h3 class="text-xl font-semibold">Smart SEO analysis</h3>
                     </div>
@@ -231,14 +228,14 @@
             <!-- Step 4: Keyword opportunities -->
             <div class="relative">
               <div class="md:flex items-center flex-row-reverse">
-                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-gray-900 rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
-                  <span class="text-yellow-500 font-bold">4</span>
+                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-[#0F172A] rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
+                  <span class="text-yellow-400 font-bold">4</span>
                 </div>
                 <div class="md:w-1/2 md:pl-16 lg:pl-24">
-                  <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all">
+                  <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all">
                     <div class="flex items-center mb-4">
-                      <div class="p-2 rounded-lg bg-gray-750 mr-3">
-                        <i data-lucide="file-text" class="h-8 w-8 text-red-500"></i>
+                      <div class="p-2 rounded-lg bg-yellow-500/10 mr-3">
+                        <i data-lucide="file-text" class="h-8 w-8 text-yellow-400"></i>
                       </div>
                       <h3 class="text-xl font-semibold">Keyword opportunities</h3>
                     </div>
@@ -252,14 +249,14 @@
             <!-- Step 5: Index coverage check -->
             <div class="relative">
               <div class="md:flex items-center">
-                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-gray-900 rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
-                  <span class="text-yellow-500 font-bold">5</span>
+                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-[#0F172A] rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
+                  <span class="text-yellow-400 font-bold">5</span>
                 </div>
                 <div class="md:w-1/2 md:pr-16 lg:pr-24">
-                  <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all">
+                  <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all">
                     <div class="flex items-center mb-4">
-                      <div class="p-2 rounded-lg bg-gray-750 mr-3">
-                        <i data-lucide="search" class="h-8 w-8 text-yellow-500"></i>
+                      <div class="p-2 rounded-lg bg-yellow-500/10 mr-3">
+                        <i data-lucide="search" class="h-8 w-8 text-yellow-400"></i>
                       </div>
                       <h3 class="text-xl font-semibold">Index coverage check</h3>
                     </div>
@@ -273,14 +270,14 @@
             <!-- Step 6: Ranking insights -->
             <div class="relative">
               <div class="md:flex items-center flex-row-reverse">
-                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-gray-900 rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
-                  <span class="text-yellow-500 font-bold">6</span>
+                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-[#0F172A] rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
+                  <span class="text-yellow-400 font-bold">6</span>
                 </div>
                 <div class="md:w-1/2 md:pl-16 lg:pl-24">
-                  <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all">
+                  <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all">
                     <div class="flex items-center mb-4">
-                      <div class="p-2 rounded-lg bg-gray-750 mr-3">
-                        <i data-lucide="trending-up" class="h-8 w-8 text-red-500"></i>
+                      <div class="p-2 rounded-lg bg-yellow-500/10 mr-3">
+                        <i data-lucide="trending-up" class="h-8 w-8 text-yellow-400"></i>
                       </div>
                       <h3 class="text-xl font-semibold">Ranking insights</h3>
                     </div>
@@ -294,14 +291,14 @@
             <!-- Step 7: Daily monitoring -->
             <div class="relative">
               <div class="md:flex items-center">
-                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-gray-900 rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
-                  <span class="text-yellow-500 font-bold">7</span>
+                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-[#0F172A] rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
+                  <span class="text-yellow-400 font-bold">7</span>
                 </div>
                 <div class="md:w-1/2 md:pr-16 lg:pr-24">
-                  <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all">
+                  <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all">
                     <div class="flex items-center mb-4">
-                      <div class="p-2 rounded-lg bg-gray-750 mr-3">
-                        <i data-lucide="message-square-text" class="h-8 w-8 text-yellow-500"></i>
+                      <div class="p-2 rounded-lg bg-yellow-500/10 mr-3">
+                        <i data-lucide="message-square-text" class="h-8 w-8 text-yellow-400"></i>
                       </div>
                       <h3 class="text-xl font-semibold">Daily monitoring</h3>
                     </div>
@@ -315,14 +312,14 @@
             <!-- Step 8: AI-powered recommendations -->
             <div class="relative">
               <div class="md:flex items-center flex-row-reverse">
-                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-gray-900 rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
-                  <span class="text-yellow-500 font-bold">8</span>
+                <div class="hidden md:flex absolute left-1/2 w-10 h-10 bg-[#0F172A] rounded-full items-center justify-center border-2 border-yellow-500" style="transform: translateX(-50%)">
+                  <span class="text-yellow-400 font-bold">8</span>
                 </div>
                 <div class="md:w-1/2 md:pl-16 lg:pl-24">
-                  <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500/50 transition-all">
+                  <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all">
                     <div class="flex items-center mb-4">
-                      <div class="p-2 rounded-lg bg-gray-750 mr-3">
-                        <i data-lucide="brain" class="h-8 w-8 text-red-500"></i>
+                      <div class="p-2 rounded-lg bg-yellow-500/10 mr-3">
+                        <i data-lucide="brain" class="h-8 w-8 text-yellow-400"></i>
                       </div>
                       <h3 class="text-xl font-semibold">AI-powered recommendations</h3>
                     </div>
@@ -336,7 +333,7 @@
         </div>
         
         <div class="mt-16 text-center">
-          <%= link_to "Start Your SEO Journey", new_registrations_path, class: "px-8 py-3 rounded-lg bg-gradient-to-r from-red-500 to-yellow-500 text-white font-medium hover:from-red-600 hover:to-yellow-600 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-red-500/20" %>
+          <%= link_to "Start Your SEO Journey", new_registrations_path, class: "px-8 py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-red-500 text-white font-medium hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] transition-all transform hover:scale-105" %>
         </div>
       </div>
     </section>
@@ -344,11 +341,11 @@
     <%= render "public/landing_page/pricing" %>
 
     <!-- FAQ section -->
-    <section id="faq" class="py-20 px-4 bg-gray-850">
+    <section id="faq" class="py-20 px-4 bg-[#1E293B]/60">
       <div class="max-w-3xl mx-auto">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4">
-            <span class="bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-transparent">
+            <span class="bg-gradient-to-r from-white via-yellow-100 to-white bg-clip-text text-transparent">
               Frequently Asked Questions
             </span>
           </h2>
@@ -359,12 +356,12 @@
         
         <div class="space-y-4">
           <!-- FAQ Item 1 -->
-          <div class="bg-gray-800 rounded-xl border border-gray-700 transition-all overflow-hidden">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl border border-yellow-500/20 transition-all overflow-hidden">
             <button 
-              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer"
+              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer hover:bg-yellow-500/5"
             >
               <span class="font-medium text-lg">How accurate is the keyword ranking data?</span>
-              <i data-lucide="chevron-down" class="h-5 w-5 text-gray-400 transform transition-transform"></i>
+              <i data-lucide="chevron-down" class="h-5 w-5 text-yellow-400 transform transition-transform"></i>
             </button>
             <div class="px-6 pb-4 hidden">
               <p class="text-gray-300">Our ranking data is highly accurate as we use real-time SERP scraping technology that mimics actual user searches. We update rankings daily and support multiple locations, devices, and search engines to ensure you get the most precise data possible.</p>
@@ -372,12 +369,12 @@
           </div>
 
           <!-- FAQ Item 2 -->
-          <div class="bg-gray-800 rounded-xl border border-gray-700 transition-all overflow-hidden">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl border border-yellow-500/20 transition-all overflow-hidden">
             <button 
-              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer"
+              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer hover:bg-yellow-500/5"
             >
               <span class="font-medium text-lg">Can I import keywords from Google Ads?</span>
-              <i data-lucide="chevron-down" class="h-5 w-5 text-gray-400 transform transition-transform"></i>
+              <i data-lucide="chevron-down" class="h-5 w-5 text-yellow-400 transform transition-transform"></i>
             </button>
             <div class="px-6 pb-4 hidden">
               <p class="text-gray-300">Yes! We offer seamless integration with Google Ads Keyword Planner. You can import keywords directly, along with their search volume data, to quickly set up tracking for the terms that matter most to your business.</p>
@@ -385,12 +382,12 @@
           </div>
 
           <!-- FAQ Item 3 -->
-          <div class="bg-gray-800 rounded-xl border border-gray-700 transition-all overflow-hidden">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl border border-yellow-500/20 transition-all overflow-hidden">
             <button 
-              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer"
+              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer hover:bg-yellow-500/5"
             >
               <span class="font-medium text-lg">How many keywords can I track?</span>
-              <i data-lucide="chevron-down" class="h-5 w-5 text-gray-400 transform transition-transform"></i>
+              <i data-lucide="chevron-down" class="h-5 w-5 text-yellow-400 transform transition-transform"></i>
             </button>
             <div class="px-6 pb-4 hidden">
               <p class="text-gray-300">The number of keywords you can track depends on your subscription plan. Our Starter plan includes 50 keywords, Professional plan includes 250 keywords, and our Enterprise plan offers unlimited keyword tracking. You can upgrade or downgrade your plan at any time.</p>
@@ -398,12 +395,12 @@
           </div>
 
           <!-- FAQ Item 4 -->
-          <div class="bg-gray-800 rounded-xl border border-gray-700 transition-all overflow-hidden">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl border border-yellow-500/20 transition-all overflow-hidden">
             <button 
-              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer"
+              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer hover:bg-yellow-500/5"
             >
               <span class="font-medium text-lg">Do you support international search engines?</span>
-              <i data-lucide="chevron-down" class="h-5 w-5 text-gray-400 transform transition-transform"></i>
+              <i data-lucide="chevron-down" class="h-5 w-5 text-yellow-400 transform transition-transform"></i>
             </button>
             <div class="px-6 pb-4 hidden">
               <p class="text-gray-300">Yes, we support tracking across all major international search engines, including Google, Bing, Yahoo, Yandex, and Baidu. We also support country-specific versions of these search engines (e.g., google.co.uk, google.de, etc.).</p>
@@ -411,12 +408,12 @@
           </div>
 
           <!-- FAQ Item 5 -->
-          <div class="bg-gray-800 rounded-xl border border-gray-700 transition-all overflow-hidden">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl border border-yellow-500/20 transition-all overflow-hidden">
             <button 
-              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer"
+              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer hover:bg-yellow-500/5"
             >
               <span class="font-medium text-lg">How often is ranking data updated?</span>
-              <i data-lucide="chevron-down" class="h-5 w-5 text-gray-400 transform transition-transform"></i>
+              <i data-lucide="chevron-down" class="h-5 w-5 text-yellow-400 transform transition-transform"></i>
             </button>
             <div class="px-6 pb-4 hidden">
               <p class="text-gray-300">All plans include daily ranking updates. This ensures you always have the most current data to make informed SEO decisions. For Enterprise customers, we also offer real-time alerts for significant ranking changes.</p>
@@ -424,12 +421,12 @@
           </div>
 
           <!-- FAQ Item 6 -->
-          <div class="bg-gray-800 rounded-xl border border-gray-700 transition-all overflow-hidden">
+          <div class="bg-[#1E293B]/80 backdrop-blur-sm rounded-xl border border-yellow-500/20 transition-all overflow-hidden">
             <button 
-              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer"
+              class="w-full px-6 py-4 text-left flex justify-between items-center toggle-faq hover:cursor-pointer hover:bg-yellow-500/5"
             >
               <span class="font-medium text-lg">Can I white-label reports for my clients?</span>
-              <i data-lucide="chevron-down" class="h-5 w-5 text-gray-400 transform transition-transform"></i>
+              <i data-lucide="chevron-down" class="h-5 w-5 text-yellow-400 transform transition-transform"></i>
             </button>
             <div class="px-6 pb-4 hidden">
               <p class="text-gray-300">Yes, our Enterprise plan includes white-labeling capabilities. You can create custom-branded reports with your logo, colors, and domain for sharing with clients or stakeholders.</p>
@@ -441,7 +438,7 @@
           <p class="text-gray-400 mb-4">Still have questions?</p>
           <a 
             href="mailto:support@fetchserp.com" 
-            class="inline-flex items-center text-yellow-500 hover:text-yellow-400 transition-colors font-medium"
+            class="inline-flex items-center text-yellow-400 hover:text-yellow-300 transition-colors font-medium"
           >
             Contact our support team
             <i data-lucide="chevron-right" class="h-4 w-4 ml-1"></i>
