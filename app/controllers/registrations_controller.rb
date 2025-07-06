@@ -13,7 +13,7 @@ class RegistrationsController < ApplicationController
     @user = User.new(user_params)
     
     if verify_recaptcha(model: @user) && @user.save
-      create_fetchserp_user
+      create_fetchserp_user if Rails.env.production?
       start_new_session_for @user
       redirect_to app_root_path, notice: "You've successfully signed up. Welcome!"
     else
