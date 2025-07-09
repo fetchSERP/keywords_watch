@@ -80,5 +80,6 @@ module Authentication
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_id)
+      cookies.delete(:cross_app_email_enc)
     end
 end
