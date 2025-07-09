@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :users, only: [ :create ] do
         collection do
           patch :update_fetchserp_api_key
+          patch :update_password
         end
       end
     end

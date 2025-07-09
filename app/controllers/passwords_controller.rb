@@ -8,6 +8,8 @@ class PasswordsController < ApplicationController
   def create
     if user = User.find_by(email_address: params[:email_address])
       PasswordsMailer.reset(user).deliver_later
+      cookies.delete(:cross_app_email_enc)
+      cookies.delete(:session_id)
     end
 
     redirect_to new_session_path, notice: "Password reset instructions sent (if user with that email address exists)."
@@ -18,6 +20,7 @@ class PasswordsController < ApplicationController
 
   def update
     if @user.update(params.permit(:password, :password_confirmation))
+      UpdateFetchserpPasswordJob.perform_later(email_address: @user.email_address, password: params[:password], password_confirmation: params[:password_confirmation])
       redirect_to new_session_path, notice: "Password has been reset."
     else
       redirect_to edit_password_path(params[:token]), alert: "Passwords did not match."
