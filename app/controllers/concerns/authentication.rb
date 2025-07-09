@@ -80,6 +80,12 @@ module Authentication
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_id)
-      cookies.delete(:cross_app_email_enc)
+      cookies.delete(
+        :cross_app_email_enc,
+        domain: ".fetchserp.com",
+        secure: Rails.env.production?,
+        httponly: true,
+        same_site: :lax
+      )
     end
 end
