@@ -14,6 +14,7 @@ class RegistrationsController < ApplicationController
     
     if verify_recaptcha(model: @user) && @user.save
       create_fetchserp_user if Rails.env.production?
+      CreateContentUserJob.perform_later(email_address: user_params[:email_address], password: user_params[:password], password_confirmation: user_params[:password_confirmation], fetchserp_api_key: @user.api_token) if Rails.env.production?
       start_new_session_for @user
       redirect_to app_root_path, notice: "You've successfully signed up. Welcome!"
     else

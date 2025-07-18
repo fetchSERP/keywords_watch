@@ -20,6 +20,7 @@ class PasswordsController < ApplicationController
   def update
     if @user.update(params.permit(:password, :password_confirmation))
       UpdateFetchserpPasswordJob.perform_later(email_address: @user.email_address, password: params[:password], password_confirmation: params[:password_confirmation])
+      UpdateContentPasswordJob.perform_later(email_address: @user.email_address, password: params[:password], password_confirmation: params[:password_confirmation])
       redirect_to new_session_path, notice: "Password has been reset."
     else
       redirect_to edit_password_path(params[:token]), alert: "Passwords did not match."
