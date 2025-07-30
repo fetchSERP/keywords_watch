@@ -2,7 +2,7 @@ class KeywordsAiScoreJob < ApplicationJob
   queue_as :default
 
   def perform(domain:)
-    web_pages = domain.web_pages.sample(10).map do |web_page|
+    web_pages = domain.web_pages.sample(5).map do |web_page|
       <<~STR
         URL: #{web_page.url}
         Title: #{web_page.title}
@@ -10,28 +10,38 @@ class KeywordsAiScoreJob < ApplicationJob
       STR
     end.join("\n")
 
-    allowed_keywords = domain.keywords.map(&:name)
+    all_keywords = domain.keywords.map(&:name)
+    binding.pry
+    
+    Async do
+      tasks = all_keywords.each_slice(50).map do |keyword_batch|
+        Async do
+          ai_response = Ai::Openai::ChatGptService.new(model: "gpt-4-turbo").call(
+            user_prompt: user_prompt(web_pages, keyword_batch),
+            system_prompt: system_prompt(keyword_batch),
+            response_schema: response_schema(keyword_batch)
+          )
 
-    ai_response = Ai::Openai::ChatGptService.new(model: "gpt-4o").call(
-      user_prompt: user_prompt(web_pages, allowed_keywords),
-      system_prompt: system_prompt(allowed_keywords),
-      response_schema: response_schema(allowed_keywords)
-    )
+          ai_response["keywords"].each do |keyword_data|
+            keyword = domain.keywords.find_by(name: keyword_data["name"])
+            next unless keyword
 
-    ai_response["keywords"].each do |keyword_data|
-      keyword = domain.keywords.find_by(name: keyword_data["name"])
-      next unless keyword
-
-      ActiveRecord::Base.transaction do
-        keyword.update!(ai_score: keyword_data["score"])
+            ActiveRecord::Base.transaction do
+              keyword.update!(ai_score: keyword_data["score"])
+            end
+            Turbo::StreamsChannel.broadcast_replace_to(
+              "streaming_channel_#{domain.user_id}",
+              target: "keyword_#{keyword.id}",
+              partial: "app/keywords/keyword",
+              locals: { keyword: keyword }
+            )
+          end
+        end
       end
-      Turbo::StreamsChannel.broadcast_replace_to(
-        "streaming_channel_#{domain.user_id}",
-        target: "keyword_#{keyword.id}",
-        partial: "app/keywords/keyword",
-        locals: { keyword: keyword }
-      )
+      
+      tasks.each(&:wait)
     end
+    
     domain.with_lock do
       domain.update!(analysis_status: domain.analysis_status.merge("fetch_ai_score" => true))
     end

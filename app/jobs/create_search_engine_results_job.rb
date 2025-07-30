@@ -50,8 +50,6 @@ class CreateSearchEngineResultsJob < ApplicationJob
       end
     end
 
-    KeywordsAiScoreJob.perform_later(domain: keyword.domain)
-
     broadcast_credit(keyword.user)
   end
 

@@ -1,5 +1,5 @@
 class Domain < ApplicationRecord
-  after_commit :create_google_ads_keywords, :create_main_keywords, :create_backlinks, :create_domain_infos, on: :create
+  after_commit :create_google_ads_keywords, :create_main_keywords, :create_backlinks, :create_domain_infos, :create_web_pages, on: :create
   before_create :set_analysis_status
   belongs_to :user
   has_many :rankings, dependent: :destroy
@@ -29,6 +29,10 @@ class Domain < ApplicationRecord
     CreateDomainInfosJob.perform_later(self)
   end
 
+  def create_web_pages
+    CreateWebPagesJob.perform_later(domain: self, count: 5)
+  end
+
   def set_analysis_status
     self.analysis_status = {
       "default_keywords" => false,
@@ -36,9 +40,7 @@ class Domain < ApplicationRecord
       "fetch_backlinks" => false,
       "domain_infos" => false,
       "scrape_domain" => false,
-      "fetch_ai_score" => false,
       "technical_seo_report" => false,
-      "track_keywords" => false
     }
   end
 end
