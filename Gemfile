@@ -49,7 +49,7 @@ gem "countries"
 
 gem "mailgun-ruby"
 
-gem "oauth2", "~> 1.4.0"
+gem "oauth2", "~> 2.0.12"
 
 gem "x"
 
